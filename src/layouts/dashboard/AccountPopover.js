@@ -6,31 +6,12 @@ import settings2Fill from '@iconify/icons-eva/settings-2-fill';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import { alpha } from '@mui/material/styles';
+import { green } from '@mui/material/colors';
 import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '@mui/material';
 // components
 import MenuPopover from '../../components/MenuPopover';
 //
 import account from '../../_mocks_/account';
-
-// ----------------------------------------------------------------------
-
-const MENU_OPTIONS = [
-  {
-    label: 'Home',
-    icon: homeFill,
-    linkTo: '/'
-  },
-  {
-    label: 'Profile',
-    icon: personFill,
-    linkTo: '#'
-  },
-  {
-    label: 'Settings',
-    icon: settings2Fill,
-    linkTo: '#'
-  }
-];
 
 // ----------------------------------------------------------------------
 
@@ -67,7 +48,7 @@ export default function AccountPopover() {
           })
         }}
       >
-        <Avatar src={account.photoURL} alt="photoURL" />
+        <Avatar sx={{ bgcolor: green[400] }}>N</Avatar>
       </IconButton>
 
       <MenuPopover
@@ -86,28 +67,6 @@ export default function AccountPopover() {
         </Box>
 
         <Divider sx={{ my: 1 }} />
-
-        {MENU_OPTIONS.map((option) => (
-          <MenuItem
-            key={option.label}
-            to={option.linkTo}
-            component={RouterLink}
-            onClick={handleClose}
-            sx={{ typography: 'body2', py: 1, px: 2.5 }}
-          >
-            <Box
-              component={Icon}
-              icon={option.icon}
-              sx={{
-                mr: 2,
-                width: 24,
-                height: 24
-              }}
-            />
-
-            {option.label}
-          </MenuItem>
-        ))}
 
         <Box sx={{ p: 2, pt: 1.5 }}>
           <Button fullWidth color="inherit" variant="outlined">
