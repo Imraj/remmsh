@@ -28,53 +28,62 @@ const LoadingButtonStyled = styled(LoadingButton)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function AppNewUsers() {
-  const CheckCodeSchema = Yup.object().shape({
-    code: Yup.string().required('Code is required')
-  });
-
-  const formik = useFormik({
-    initialValues: {
-      code: ''
-    },
-    validationSchema: CheckCodeSchema,
-    onSubmit: () => {
-      // navigate('/dashboard', { replace: true });
-    }
-  });
-
-  const { errors, touched, isSubmitting, handleSubmit, getFieldProps } = formik;
-
+export default function AppNewUsers({ code }) {
   return (
     <RootStyle>
-      <Typography variant="h6" sx={{ opacity: 0.72, mb: '20px' }}>
-        Check code
+      <Typography variant="h6" sx={{ opacity: 0.72, mb: '41px' }}>
+        Code
       </Typography>
-      <FormikProvider value={formik}>
-        <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-          <Stack spacing={3} height="74px">
-            <TextField
-              sx={{ width: '80%', mx: 'auto' }}
-              size="small"
-              type="text"
-              label="Code"
-              {...getFieldProps('code')}
-              error={Boolean(touched.code && errors.code)}
-              helperText={touched.code && errors.code}
-              color="info"
-            />
-          </Stack>
-
-          <LoadingButtonStyled
-            size="medium"
-            type="submit"
-            variant="contained"
-            loading={isSubmitting}
-          >
-            Check
-          </LoadingButtonStyled>
-        </Form>
-      </FormikProvider>
+      <Typography variant="h3" sx={{ opacity: 1, mb: '40.5px' }}>
+        {code || 'No code'}
+      </Typography>
     </RootStyle>
   );
 }
+// const CheckCodeSchema = Yup.object().shape({
+//   code: Yup.string().required('Code is required')
+// });
+
+// const formik = useFormik({
+//   initialValues: {
+//     code: ''
+//   },
+//   validationSchema: CheckCodeSchema,
+//   onSubmit: () => {
+//     // navigate('/dashboard', { replace: true });
+//   }
+// });
+
+// const { errors, touched, isSubmitting, handleSubmit, getFieldProps } = formik;
+// return (
+//   <RootStyle>
+//     <Typography variant="h6" sx={{ opacity: 0.72, mb: '20px' }}>
+//       Check code
+//     </Typography>
+//     <FormikProvider value={formik}>
+//       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+//         <Stack spacing={3} height="74px">
+//           <TextField
+//             sx={{ width: '80%', mx: 'auto' }}
+//             size="small"
+//             type="text"
+//             label="Code"
+//             {...getFieldProps('code')}
+//             error={Boolean(touched.code && errors.code)}
+//             helperText={touched.code && errors.code}
+//             color="info"
+//           />
+//         </Stack>
+
+//         <LoadingButtonStyled
+//           size="medium"
+//           type="submit"
+//           variant="contained"
+//           loading={isSubmitting}
+//         >
+//           Check
+//         </LoadingButtonStyled>
+//       </Form>
+//     </FormikProvider>
+//   </RootStyle>
+// );

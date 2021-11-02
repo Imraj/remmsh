@@ -29,7 +29,7 @@ const LoadingButtonStyled = styled(LoadingButton)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function AppDiscount() {
+export default function AppDiscount({ discount }) {
   const discountPercentageSchema = Yup.object().shape({
     discountPercentage: Yup.number()
       .min(0)
@@ -40,7 +40,7 @@ export default function AppDiscount() {
 
   const formik = useFormik({
     initialValues: {
-      discountPercentage: ''
+      discountPercentage: discount || ''
     },
     validationSchema: discountPercentageSchema,
     onSubmit: () => {

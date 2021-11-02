@@ -13,31 +13,28 @@ const RootStyle = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.error.lighter
 }));
 
-const IconWrapperStyle = styled('div')(({ theme }) => ({
-  cursor: 'pointer',
-  margin: 'auto',
-  display: 'flex',
-  borderRadius: '50%',
-  alignItems: 'center',
-  width: theme.spacing(8),
-  height: theme.spacing(8),
-  justifyContent: 'center',
-  marginBottom: theme.spacing(3),
-  // color: theme.palette.error.dark,
-  color: '#161C24',
-  // backgroundImage: `linear-gradient(135deg, ${alpha(theme.palette.error.dark, 0)} 0%, ${alpha(
-  //   theme.palette.error.dark,
-  //   0.24
-  // )} 100%)`,
-  backgroundImage: `linear-gradient(135deg, ${alpha('#161C24', 0)} 0%, ${alpha(
-    '#161C24',
-    0.24
-  )} 100%)`
-}));
-
 // ----------------------------------------------------------------------
 
-export default function AppActivateDiscount() {
+export default function AppActivateDiscount({ isActive }) {
+  const IconWrapperStyle = styled('div')(({ theme }) => ({
+    cursor: 'pointer',
+    margin: 'auto',
+    display: 'flex',
+    borderRadius: '50%',
+    alignItems: 'center',
+    width: theme.spacing(8),
+    height: theme.spacing(8),
+    justifyContent: 'center',
+    marginBottom: theme.spacing(3),
+    color: isActive ? theme.palette.error.dark : '#161C24',
+    backgroundImage: isActive
+      ? `linear-gradient(135deg, ${alpha(theme.palette.error.dark, 0)} 0%, ${alpha(
+          theme.palette.error.dark,
+          0.24
+        )} 100%)`
+      : `linear-gradient(135deg, ${alpha('#161C24', 0)} 0%, ${alpha('#161C24', 0.24)} 100%)`
+  }));
+
   return (
     <RootStyle>
       <Typography variant="h6" sx={{ opacity: 0.72, mb: '42px' }}>
