@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { alpha } from '@mui/material/styles';
 import { green } from '@mui/material/colors';
-import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '@mui/material';
+import { Button, Box, Divider, Typography, Avatar, IconButton } from '@mui/material';
 import MenuPopover from '../../components/MenuPopover';
 import { logout } from '../../actions/userActions';
 // ----------------------------------------------------------------------

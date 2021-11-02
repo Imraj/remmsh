@@ -3,7 +3,7 @@ import { Box, Grid, Container, Typography } from '@mui/material';
 // components
 import Page from '../components/Page';
 import {
-  AppCreditBalance,
+  // AppCreditBalance,
   AppCheckCode,
   AppDiscount,
   AppActivateDiscount

@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';
-import { useTheme, styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
 // material
 import { Stack, TextField, Card, Typography } from '@mui/material';
@@ -30,7 +30,6 @@ const LoadingButtonStyled = styled(LoadingButton)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function AppDiscount() {
-  const theme = useTheme();
   const discountPercentageSchema = Yup.object().shape({
     discountPercentage: Yup.number()
       .min(0)
@@ -49,7 +48,7 @@ export default function AppDiscount() {
     }
   });
 
-  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+  const { errors, touched, isSubmitting, handleSubmit, getFieldProps } = formik;
 
   return (
     <RootStyle>
