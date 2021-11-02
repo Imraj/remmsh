@@ -1,29 +1,28 @@
-import { Icon } from '@iconify/react';
 import { useRef, useState } from 'react';
-import homeFill from '@iconify/icons-eva/home-fill';
-import personFill from '@iconify/icons-eva/person-fill';
-import settings2Fill from '@iconify/icons-eva/settings-2-fill';
-import { Link as RouterLink } from 'react-router-dom';
-// material
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { alpha } from '@mui/material/styles';
 import { green } from '@mui/material/colors';
 import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '@mui/material';
-// components
 import MenuPopover from '../../components/MenuPopover';
-//
-import account from '../../_mocks_/account';
-
+import { logout } from '../../actions/userActions';
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userInfo = useSelector((state) => state.userLogin.userInfo);
 
   const handleOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
+  };
+  const handleLogout = () => {
+    dispatch(logout(navigate));
   };
 
   return (
@@ -48,7 +47,7 @@ export default function AccountPopover() {
           })
         }}
       >
-        <Avatar sx={{ bgcolor: green[400] }}>N</Avatar>
+        <Avatar sx={{ bgcolor: green[400] }}>{userInfo.name.charAt(0)}</Avatar>
       </IconButton>
 
       <MenuPopover
@@ -59,17 +58,17 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle1" noWrap>
-            {account.displayName}
+            {userInfo.name}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {userInfo.email}
           </Typography>
         </Box>
 
         <Divider sx={{ my: 1 }} />
 
         <Box sx={{ p: 2, pt: 1.5 }}>
-          <Button fullWidth color="inherit" variant="outlined">
+          <Button fullWidth color="inherit" onClick={handleLogout} variant="outlined">
             Logout
           </Button>
         </Box>

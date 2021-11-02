@@ -1,13 +1,27 @@
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import { useFormik, Form, FormikProvider } from 'formik';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
-import { useNavigate } from 'react-router-dom';
 // material
-import { Stack, TextField, IconButton, InputAdornment } from '@mui/material';
+import {
+  Stack,
+  TextField,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
+  FormHelperText,
+  Grid,
+  Alert
+} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import { register } from '../../../actions/userActions';
 
 // ----------------------------------------------------------------------
 
@@ -15,50 +29,62 @@ export default function RegisterForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
+  const dispatch = useDispatch();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { loading, error, userInfo } = userLogin;
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [userInfo, navigate]);
+
   const RegisterSchema = Yup.object().shape({
-    firstName: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('First name required'),
-    lastName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Last name required'),
+    name: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Name is required'),
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    password: Yup.string().required('Password is required')
+    password: Yup.string().required('Password is required'),
+    type: Yup.string().required('Type is required')
   });
 
   const formik = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
+      name: '',
+      type: '',
       email: '',
       password: ''
     },
     validationSchema: RegisterSchema,
-    onSubmit: () => {
-      navigate('/dashboard', { replace: true });
+    onSubmit: ({ name, email, password, type }) => {
+      dispatch(register(name, email, password, type));
     }
   });
 
-  const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
+  const { errors, touched, handleSubmit, getFieldProps } = formik;
+  let { isSubmitting } = formik;
+
+  if (error) {
+    isSubmitting = false;
+  }
 
   return (
     <FormikProvider value={formik}>
+      {error && (
+        <Grid item xs={12} style={{ marginBottom: '16px' }}>
+          <Alert variant="outlined" severity="error">
+            {error}
+          </Alert>
+        </Grid>
+      )}
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <TextField
               fullWidth
-              label="First name"
-              {...getFieldProps('firstName')}
-              error={Boolean(touched.firstName && errors.firstName)}
-              helperText={touched.firstName && errors.firstName}
-            />
-
-            <TextField
-              fullWidth
-              label="Last name"
-              {...getFieldProps('lastName')}
-              error={Boolean(touched.lastName && errors.lastName)}
-              helperText={touched.lastName && errors.lastName}
+              label="Name"
+              {...getFieldProps('name')}
+              error={Boolean(touched.name && errors.name)}
+              helperText={touched.name && errors.name}
             />
           </Stack>
 
@@ -90,7 +116,14 @@ export default function RegisterForm() {
             error={Boolean(touched.password && errors.password)}
             helperText={touched.password && errors.password}
           />
-
+          <FormControl fullWidth error={Boolean(touched.type && errors.type)}>
+            <InputLabel>Type</InputLabel>
+            <Select label="Type" {...getFieldProps('type')}>
+              <MenuItem value="resturant">Resturant</MenuItem>
+              <MenuItem value="coffee">Coffee</MenuItem>
+            </Select>
+            <FormHelperText>{touched.type && errors.type}</FormHelperText>
+          </FormControl>
           <LoadingButton
             fullWidth
             size="large"

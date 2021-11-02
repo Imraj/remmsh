@@ -6,37 +6,33 @@ import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import DashboardApp from './pages/DashboardApp';
-import Products from './pages/Products';
-import Blog from './pages/Blog';
-import User from './pages/User';
+
 import NotFound from './pages/Page404';
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
+  const isLoggedIn = localStorage.getItem('userInfo');
+
   return useRoutes([
     {
       path: '/dashboard',
-      element: <DashboardLayout />,
+      element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
       children: [
         // { element: <Navigate to="/dashboard/app" replace /> },
-        { path: '', element: <DashboardApp /> },
-        { path: 'user', element: <User /> },
-        { path: 'products', element: <Products /> },
-        { path: 'blog', element: <Blog /> }
+        { path: '', element: <DashboardApp /> }
       ]
     },
     {
       path: '/',
-      element: <LogoOnlyLayout />,
+      element: !isLoggedIn ? <LogoOnlyLayout /> : <Navigate to="/dashboard" />,
       children: [
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
-        { path: '404', element: <NotFound /> },
-        { path: '/', element: <Navigate to="/dashboard" /> },
-        { path: '*', element: <Navigate to="/404" /> }
+        { path: '', element: <Navigate to="/login" replace /> }
       ]
     },
+    { path: '404', element: <NotFound /> },
     { path: '*', element: <Navigate to="/404" replace /> }
   ]);
 }
