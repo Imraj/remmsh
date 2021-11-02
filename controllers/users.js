@@ -67,6 +67,25 @@ const registerUser = async (req, res) => {
   }
 };
 
+// @desc    Get user
+// @route   get /api/users/:id
+// @access  Private
+const getUser = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await User.findById(id).select(
+      "-password -tokens -createdAt -updatedAt"
+    );
+
+    if (!user) return res.status(400).json({ error: "User does not exists" });
+
+    res.status(201).json(user);
+  } catch (error) {
+    res.status(500).json({ error: "Something went wrong" });
+  }
+};
+
 // @desc    Logout user
 // @route   POST /api/logout
 // @access  Public
@@ -88,4 +107,5 @@ module.exports = {
   registerUser,
   authUser,
   logout,
+  getUser,
 };

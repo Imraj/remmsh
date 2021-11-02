@@ -21,11 +21,14 @@ const userSchema = mongoose.Schema(
       required: true,
     },
     isActive: {
-      type: String,
+      type: Boolean,
       default: false,
     },
     code: {
       type: String,
+    },
+    discount: {
+      type: Number,
     },
     tokens: [
       {
