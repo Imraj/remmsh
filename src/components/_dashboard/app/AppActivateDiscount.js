@@ -1,7 +1,9 @@
+import { useDispatch } from 'react-redux';
 import { Icon } from '@iconify/react';
 import poweroffOutlined from '@iconify/icons-ant-design/poweroff-outlined';
 import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography } from '@mui/material';
+import { updateUserActive } from '../../../actions/userActions';
 
 // ----------------------------------------------------------------------
 
@@ -15,7 +17,9 @@ const RootStyle = styled(Card)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function AppActivateDiscount({ isActive }) {
+export default function AppActivateDiscount({ isActive, userInfo }) {
+  const dispatch = useDispatch();
+
   const IconWrapperStyle = styled('div')(({ theme }) => ({
     cursor: 'pointer',
     margin: 'auto',
@@ -34,13 +38,15 @@ export default function AppActivateDiscount({ isActive }) {
         )} 100%)`
       : `linear-gradient(135deg, ${alpha('#161C24', 0)} 0%, ${alpha('#161C24', 0.24)} 100%)`
   }));
-
+  const handleActicate = () => {
+    dispatch(updateUserActive(userInfo._id));
+  };
   return (
     <RootStyle>
       <Typography variant="h6" sx={{ opacity: 0.72, mb: '42px' }}>
-        Activate discount
+        {isActive ? 'Deactivate' : 'Activate'} discount
       </Typography>
-      <IconWrapperStyle onClick={() => {}}>
+      <IconWrapperStyle onClick={handleActicate}>
         <Icon icon={poweroffOutlined} width={24} height={24} />
       </IconWrapperStyle>
     </RootStyle>

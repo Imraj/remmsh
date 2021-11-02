@@ -1,11 +1,12 @@
 import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { styled } from '@mui/material/styles';
 
 // material
 import { Stack, TextField, Card, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-
+import { updateUserDisccount } from '../../../actions/userActions';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Card)(({ theme }) => ({
@@ -29,10 +30,12 @@ const LoadingButtonStyled = styled(LoadingButton)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function AppDiscount({ discount }) {
+export default function AppDiscount({ discount, userInfo, userDisccountError }) {
+  const dispatch = useDispatch();
+
   const discountPercentageSchema = Yup.object().shape({
     discountPercentage: Yup.number()
-      .min(0)
+      .min(1)
       .max(100)
       .required('Discount percentage is required')
       .typeError('Discount percentage must be a number')
@@ -43,12 +46,17 @@ export default function AppDiscount({ discount }) {
       discountPercentage: discount || ''
     },
     validationSchema: discountPercentageSchema,
-    onSubmit: () => {
-      // navigate('/dashboard', { replace: true });
+    onSubmit: ({ discountPercentage: discount }) => {
+      dispatch(updateUserDisccount(userInfo._id, { discount }));
     }
   });
 
-  const { errors, touched, isSubmitting, handleSubmit, getFieldProps } = formik;
+  const { errors, touched, handleSubmit, getFieldProps } = formik;
+  let { isSubmitting } = formik;
+
+  if (userDisccountError) {
+    isSubmitting = false;
+  }
 
   return (
     <RootStyle>

@@ -10,7 +10,13 @@ import {
   USER_LOGOUT,
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
-  USER_DETAILS_FAIL
+  USER_DETAILS_FAIL,
+  USER_UPDATE_DISCOUNT_REQUEST,
+  USER_UPDATE_DISCOUNT_SUCCESS,
+  USER_UPDATE_DISCOUNT_FAIL,
+  USER_UPDATE_ACTIVE_REQUEST,
+  USER_UPDATE_ACTIVE_SUCCESS,
+  USER_UPDATE_ACTIVE_FAIL
 } from '../constants/userConstants';
 
 export const register = (name, email, password, type) => async (dispatch) => {
@@ -101,6 +107,48 @@ export const getUserDetails = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: USER_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.error ? error.response.data.error : error.message
+    });
+  }
+};
+
+export const updateUserDisccount = (id, userData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER_UPDATE_DISCOUNT_REQUEST
+    });
+
+    const { data } = await api.updateUserDisccount(id, userData);
+
+    dispatch({
+      type: USER_UPDATE_DISCOUNT_SUCCESS,
+      payload: data
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_UPDATE_DISCOUNT_FAIL,
+      payload:
+        error.response && error.response.data.error ? error.response.data.error : error.message
+    });
+  }
+};
+
+export const updateUserActive = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER_UPDATE_ACTIVE_REQUEST
+    });
+
+    const { data } = await api.updateUserActive(id);
+
+    dispatch({
+      type: USER_UPDATE_ACTIVE_SUCCESS,
+      payload: data
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_UPDATE_ACTIVE_FAIL,
       payload:
         error.response && error.response.data.error ? error.response.data.error : error.message
     });

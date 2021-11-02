@@ -8,7 +8,13 @@ import {
   USER_LOGIN_SUCCESS,
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
-  USER_DETAILS_FAIL
+  USER_DETAILS_FAIL,
+  USER_UPDATE_DISCOUNT_REQUEST,
+  USER_UPDATE_DISCOUNT_SUCCESS,
+  USER_UPDATE_DISCOUNT_FAIL,
+  USER_UPDATE_ACTIVE_REQUEST,
+  USER_UPDATE_ACTIVE_SUCCESS,
+  USER_UPDATE_ACTIVE_FAIL
 } from '../constants/userConstants';
 
 export const userRegisterReducer = (state = {}, action) => {
@@ -49,6 +55,32 @@ export const userLoginReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
     case USER_LOGOUT:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const updateUserDisccountReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_UPDATE_DISCOUNT_REQUEST:
+      return { loading: true };
+    case USER_UPDATE_DISCOUNT_SUCCESS:
+      return { loading: false, success: true };
+    case USER_UPDATE_DISCOUNT_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const updateUserActiveReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_UPDATE_ACTIVE_REQUEST:
+      return { loading: true };
+    case USER_UPDATE_ACTIVE_SUCCESS:
+      return { loading: false, success: true };
+    case USER_UPDATE_ACTIVE_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }

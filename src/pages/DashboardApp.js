@@ -17,12 +17,18 @@ export default function DashboardApp() {
   const userInfo = useSelector((state) => state.userLogin.userInfo);
 
   const userDetailsStore = useSelector((state) => state.userDetails);
-
   const { loading, error, userDetails } = userDetailsStore;
+
+  const updateUserDisccountStore = useSelector((state) => state.updateUserDisccount);
+  const { error: userDisccountError, success: userDisccountSuccess } = updateUserDisccountStore;
+
+  const updateUserActiveStore = useSelector((state) => state.updateUserActive);
+  const { error: updateUserActiveError, success: updateUserActiveSuccess } = updateUserActiveStore;
 
   useEffect(() => {
     dispatch(getUserDetails(userInfo._id));
-  }, [dispatch]);
+  }, [dispatch, userInfo, userDisccountSuccess, updateUserActiveSuccess]);
+
   return (
     <Page title="Zoro | Dashboard">
       <Container maxWidth="xl">
@@ -30,6 +36,20 @@ export default function DashboardApp() {
           <Grid item xs={12} sx={{ my: '16px' }}>
             <Alert variant="outlined" severity="error">
               {error}
+            </Alert>
+          </Grid>
+        )}
+        {userDisccountError && (
+          <Grid item xs={12} sx={{ my: '16px' }}>
+            <Alert variant="outlined" severity="error">
+              {userDisccountError}
+            </Alert>
+          </Grid>
+        )}
+        {updateUserActiveError && (
+          <Grid item xs={12} sx={{ my: '16px' }}>
+            <Alert variant="outlined" severity="error">
+              {updateUserActiveError}
             </Alert>
           </Grid>
         )}
@@ -83,10 +103,14 @@ export default function DashboardApp() {
                 <AppCheckCode code={userDetails.code} />
               </Grid>
               <Grid item xs={12} md={4}>
-                <AppDiscount discount={userDetails.discount} />
+                <AppDiscount
+                  discount={userDetails.discount}
+                  userInfo={userInfo}
+                  userDisccountError={userDisccountError}
+                />
               </Grid>
               <Grid item xs={12} md={4}>
-                <AppActivateDiscount isActive={userDetails.isActive} />
+                <AppActivateDiscount isActive={userDetails.isActive} userInfo={userInfo} />
               </Grid>
             </>
           )}

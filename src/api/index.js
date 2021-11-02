@@ -14,3 +14,6 @@ API.interceptors.request.use((req) => {
 export const regiserUser = (userInfo) => API.post('/users/register', userInfo);
 export const loginUser = (userInfo) => API.post('/users/login', userInfo);
 export const userDetails = (id) => API.get(`/users/${id}`);
+export const updateUser = (id, data) => API.patch(`/users/${id}`, data);
+export const updateUserDisccount = (id, data) => API.patch(`/users/${id}/discount`, data);
+export const updateUserActive = (id) => API.patch(`/users/${id}/activate`);
