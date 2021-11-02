@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const generateToken = require("../utils/generateToken");
+const voucherCodes = require("voucher-code-generator");
 
 // @desc    Auth User
 // @route   POST /api/users/admin/login
@@ -103,9 +104,122 @@ const logout = async (req, res) => {
   }
 };
 
+// @desc    Update a user
+// @route   PATCH /api/users/:id
+// @access  Private/Admin
+const updateUser = async (req, res) => {
+  try {
+    if (req.params.id.toString() !== req.user._id.toString())
+      return res.status(401).json({ error: "Not authorized" });
+
+    const user = await User.findById(req.params.id);
+
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    user.phone = req.body.phone || user.phone;
+    user.type = req.body.type || user.type;
+    user.isActive = req.body.isActive || user.isActive;
+    user.discount = req.body.discount || user.discount;
+    if (req.body.password) {
+      user.password = req.body.password;
+    }
+
+    const updatedUser = await user.save();
+
+    res.status(200).json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      type: updatedUser.type,
+      phone: updatedUser.phone,
+      email: updatedUser.email,
+      isActive: updatedUser.isActive,
+      discount: updatedUser.discount,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Something went wrong" });
+  }
+};
+
+// @desc    Update user discount
+// @route   PATCH /api/users/:id/discount
+// @access  Private
+const updateUserDiscount = async (req, res) => {
+  try {
+    if (req.params.id.toString() !== req.user._id.toString())
+      return res.status(401).json({ error: "Not authorized" });
+
+    if (!req.body.discount)
+      return res.status(400).json({ error: "Bad Request" });
+
+    if (parseInt(req.body.discount) <= 0 || parseInt(req.body.discount) > 100)
+      return res.status(400).json({ error: "Incorrect discount value" });
+
+    const user = await User.findById(req.params.id);
+
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    user.discount = req.body.discount;
+    user.code = voucherCodes.generate({
+      length: 8,
+    })[0];
+
+    const updatedUser = await user.save();
+
+    res.status(200).json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      type: updatedUser.type,
+      phone: updatedUser.phone,
+      email: updatedUser.email,
+      isActive: updatedUser.isActive,
+      discount: updatedUser.discount,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Something went wrong" });
+  }
+};
+
+// @desc    Update user active
+// @route   PATCH /api/users/:id/activate
+// @access  Private
+const updateUserActive = async (req, res) => {
+  try {
+    if (req.params.id.toString() !== req.user._id.toString())
+      return res.status(401).json({ error: "Not authorized" });
+
+    const user = await User.findById(req.params.id);
+
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    if (!user.code || !user.discount)
+      return res.status(400).json({ error: "Create discount to be activated" });
+
+    user.isActive = !user.isActive;
+
+    const updatedUser = await user.save();
+
+    res.status(200).json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      type: updatedUser.type,
+      phone: updatedUser.phone,
+      email: updatedUser.email,
+      isActive: updatedUser.isActive,
+      discount: updatedUser.discount,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Something went wrong" });
+  }
+};
+
 module.exports = {
   registerUser,
   authUser,
   logout,
   getUser,
+  updateUser,
+  updateUserDiscount,
+  updateUserActive,
 };
