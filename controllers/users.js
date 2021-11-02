@@ -37,7 +37,7 @@ const authUser = async (req, res) => {
 // @route   POST /api/users
 // @access  Public
 const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, type } = req.body;
 
   try {
     const userExists = await User.findOne({ email });
@@ -49,6 +49,7 @@ const registerUser = async (req, res) => {
       name,
       email,
       password,
+      type,
     });
 
     const token = generateToken(user._id);
@@ -59,7 +60,6 @@ const registerUser = async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      isAdmin: user.isAdmin,
       token,
     });
   } catch (error) {
