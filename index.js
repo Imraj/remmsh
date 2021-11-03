@@ -9,7 +9,7 @@ const app = express();
 const User = require("./models/User");
 
 // Create Redis Client
-let RedisClient = Redis.createClient();
+let RedisClient = Redis.createClient(process.env.REDIS_URL);
 
 app.set("RedisClient", RedisClient);
 
