@@ -17,3 +17,4 @@ export const userDetails = (id) => API.get(`/users/${id}`);
 export const updateUser = (id, data) => API.patch(`/users/${id}`, data);
 export const updateUserDisccount = (id, data) => API.patch(`/users/${id}/discount`, data);
 export const updateUserActive = (id) => API.patch(`/users/${id}/activate`);
+export const userCheckcode = (codeData) => API.post(`/users/checkcode`, codeData);

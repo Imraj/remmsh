@@ -25,6 +25,9 @@ export default function DashboardApp() {
   const updateUserActiveStore = useSelector((state) => state.updateUserActive);
   const { error: updateUserActiveError, success: updateUserActiveSuccess } = updateUserActiveStore;
 
+  const userCheckCode = useSelector((state) => state.userCheckCode);
+  const { error: userCheckCodeError, success: userCheckCodeSuccess } = userCheckCode;
+
   useEffect(() => {
     dispatch(getUserDetails(userInfo._id));
   }, [dispatch, userInfo, userDisccountSuccess, updateUserActiveSuccess]);
@@ -53,25 +56,35 @@ export default function DashboardApp() {
             </Alert>
           </Grid>
         )}
+        {userCheckCodeError && (
+          <Grid item xs={12} sx={{ my: '16px' }}>
+            <Alert variant="outlined" severity="error">
+              {userCheckCodeError}
+            </Alert>
+          </Grid>
+        )}
+        {userCheckCodeSuccess && (
+          <Grid item xs={12} sx={{ my: '16px' }}>
+            <Alert variant="outlined" severity="success">
+              Code is vaild
+            </Alert>
+          </Grid>
+        )}
+
         <Box sx={{ pb: 5 }}>
           <Typography variant="h4">
             Hi <strong style={{ color: green[400] }}>{userInfo.name}</strong>, Welcome back
           </Typography>
         </Box>
         <Grid container spacing={3}>
+          <Grid item xs={12} md={4}>
+            <AppCheckCode
+              userCheckCodeError={userCheckCodeError}
+              userCheckCodeSuccess={userCheckCodeSuccess}
+            />
+          </Grid>
           {loading && (
             <>
-              <Grid
-                item
-                xs={12}
-                md={4}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                height="262px"
-              >
-                <CircularProgress size={50} color="info" />
-              </Grid>
               <Grid
                 item
                 xs={12}
@@ -99,9 +112,6 @@ export default function DashboardApp() {
 
           {userDetails && (
             <>
-              <Grid item xs={12} md={4}>
-                <AppCheckCode code={userDetails.code} />
-              </Grid>
               <Grid item xs={12} md={4}>
                 <AppDiscount
                   discount={userDetails.discount}

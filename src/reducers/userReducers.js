@@ -14,7 +14,10 @@ import {
   USER_UPDATE_DISCOUNT_FAIL,
   USER_UPDATE_ACTIVE_REQUEST,
   USER_UPDATE_ACTIVE_SUCCESS,
-  USER_UPDATE_ACTIVE_FAIL
+  USER_UPDATE_ACTIVE_FAIL,
+  USER_CHECK_CODE_REQUEST,
+  USER_CHECK_CODE_SUCCESS,
+  USER_CHECK_CODE_FAIL
 } from '../constants/userConstants';
 
 export const userRegisterReducer = (state = {}, action) => {
@@ -80,6 +83,19 @@ export const updateUserActiveReducer = (state = {}, action) => {
     case USER_UPDATE_ACTIVE_SUCCESS:
       return { loading: false, success: true };
     case USER_UPDATE_ACTIVE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const userCheckCodeReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_CHECK_CODE_REQUEST:
+      return { loading: true };
+    case USER_CHECK_CODE_SUCCESS:
+      return { loading: false, success: true };
+    case USER_CHECK_CODE_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

@@ -16,7 +16,10 @@ import {
   USER_UPDATE_DISCOUNT_FAIL,
   USER_UPDATE_ACTIVE_REQUEST,
   USER_UPDATE_ACTIVE_SUCCESS,
-  USER_UPDATE_ACTIVE_FAIL
+  USER_UPDATE_ACTIVE_FAIL,
+  USER_CHECK_CODE_REQUEST,
+  USER_CHECK_CODE_SUCCESS,
+  USER_CHECK_CODE_FAIL
 } from '../constants/userConstants';
 
 export const register = (name, email, password, type) => async (dispatch) => {
@@ -149,6 +152,27 @@ export const updateUserActive = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: USER_UPDATE_ACTIVE_FAIL,
+      payload:
+        error.response && error.response.data.error ? error.response.data.error : error.message
+    });
+  }
+};
+
+export const userCheckcode = (codeData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER_CHECK_CODE_REQUEST
+    });
+
+    const { data } = await api.userCheckcode(codeData);
+
+    dispatch({
+      type: USER_CHECK_CODE_SUCCESS,
+      payload: data
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_CHECK_CODE_FAIL,
       payload:
         error.response && error.response.data.error ? error.response.data.error : error.message
     });
