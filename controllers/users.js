@@ -1,6 +1,6 @@
 const User = require("../models/User");
+const Code = require("../models/Code");
 const generateToken = require("../utils/generateToken");
-const voucherCodes = require("voucher-code-generator");
 
 // @desc    Auth User
 // @route   POST /api/users/admin/login
@@ -161,9 +161,6 @@ const updateUserDiscount = async (req, res) => {
     if (!user) return res.status(404).json({ error: "User not found" });
 
     user.discount = req.body.discount;
-    user.code = voucherCodes.generate({
-      length: 8,
-    })[0];
 
     const updatedUser = await user.save();
 
@@ -193,7 +190,7 @@ const updateUserActive = async (req, res) => {
 
     if (!user) return res.status(404).json({ error: "User not found" });
 
-    if (!user.code || !user.discount)
+    if (!user.discount)
       return res.status(400).json({ error: "Create discount to be activated" });
 
     user.isActive = !user.isActive;
@@ -214,6 +211,26 @@ const updateUserActive = async (req, res) => {
   }
 };
 
+// @desc    Update user active
+// @route   PATCH /api/users/checkcode
+// @access  Private
+const userCheckCode = async (req, res) => {
+  try {
+    const code = await Code.findOne({
+      user: req.user._id,
+      code: req.body.code,
+    });
+
+    if (!code) return res.status(404).json({ error: "Code is invalid" });
+
+    await code.remove();
+
+    res.status(200).json(code);
+  } catch (error) {
+    res.status(500).json({ error: "Something went wrong" });
+  }
+};
+
 module.exports = {
   registerUser,
   authUser,
@@ -222,4 +239,5 @@ module.exports = {
   updateUser,
   updateUserDiscount,
   updateUserActive,
+  userCheckCode,
 };

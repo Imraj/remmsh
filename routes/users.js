@@ -7,6 +7,7 @@ const {
   updateUser,
   updateUserDiscount,
   updateUserActive,
+  userCheckCode,
 } = require("../controllers/users.js");
 const { auth } = require("../middleware/authMiddleware");
 
@@ -19,5 +20,6 @@ router.get("/:id", auth, getUser);
 router.patch("/:id", auth, updateUser);
 router.patch("/:id/discount", auth, updateUserDiscount);
 router.patch("/:id/activate", auth, updateUserActive);
+router.post("/checkcode", auth, userCheckCode);
 
 module.exports = router;

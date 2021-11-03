@@ -1,8 +1,10 @@
 const User = require("../models/User");
+const Code = require("../models/Code");
 const promisify = require("util").promisify;
 const { sendMessage } = require("../utils/whatsappApi");
+const voucherCodes = require("voucher-code-generator");
 
-// @desc    Bot webhok
+// @desc    Bot webhook
 // @route   POST /api/bot/webhook
 // @access  Public
 const botWebhook = async (req, res) => {
@@ -59,7 +61,6 @@ const botWebhook = async (req, res) => {
                 type: user.type,
                 name: user.name,
                 discount: user.discount,
-                code: user.code,
               };
             });
 
@@ -122,14 +123,20 @@ const botWebhook = async (req, res) => {
                 parseInt(textMessage) > 0 &&
                 parseInt(textMessage) <= restaurants.length
               ) {
+                const code = voucherCodes.generate({
+                  length: 8,
+                })[0];
                 text = `الخصم: *${
                   restaurants[parseInt(textMessage) - 1].discount
                 }%*\n`;
-                text += `كود الخصم: *${
-                  restaurants[parseInt(textMessage) - 1].code
-                }*\n\n`;
+                text += `كود الخصم: *${code}*\n\n`;
                 text += `فخورين لمساعدتك\n`;
                 text += `مدعوم من remmsh.com`;
+
+                await Code.create({
+                  user: restaurants[parseInt(textMessage) - 1].id,
+                  code,
+                });
 
                 await redisdel(redisChatId);
               } else {
@@ -159,14 +166,21 @@ const botWebhook = async (req, res) => {
                 parseInt(textMessage) > 0 &&
                 parseInt(textMessage) <= coffees.length
               ) {
+                const code = voucherCodes.generate({
+                  length: 8,
+                })[0];
+
                 text = `الخصم: *${
                   coffees[parseInt(textMessage) - 1].discount
                 }%*\n`;
-                text += `كود الخصم: *${
-                  coffees[parseInt(textMessage) - 1].code
-                }*\n\n`;
+                text += `كود الخصم: *${code}*\n\n`;
                 text += `فخورين لمساعدتك\n`;
                 text += `مدعوم من remmsh.com`;
+
+                await Code.create({
+                  user: coffees[parseInt(textMessage) - 1].id,
+                  code,
+                });
 
                 await redisdel(redisChatId);
               } else {
@@ -215,7 +229,6 @@ const botWebhook = async (req, res) => {
                 type: user.type,
                 name: user.name,
                 discount: user.discount,
-                code: user.code,
               };
             });
 
@@ -276,14 +289,20 @@ const botWebhook = async (req, res) => {
                 parseInt(textMessage) > 0 &&
                 parseInt(textMessage) <= restaurants.length
               ) {
+                const code = voucherCodes.generate({
+                  length: 8,
+                })[0];
                 text = `Discount: *${
                   restaurants[parseInt(textMessage) - 1].discount
                 }%*\n`;
-                text += `Discount code: *${
-                  restaurants[parseInt(textMessage) - 1].code
-                }*\n\n`;
+                text += `Discount code: *${code}*\n\n`;
                 text += `Happy to assist you\n`;
                 text += `Powered by remmsh.com`;
+
+                await Code.create({
+                  user: restaurants[parseInt(textMessage) - 1].id,
+                  code,
+                });
 
                 await redisdel(redisChatId);
               } else {
@@ -313,14 +332,21 @@ const botWebhook = async (req, res) => {
                 parseInt(textMessage) > 0 &&
                 parseInt(textMessage) <= coffees.length
               ) {
+                const code = voucherCodes.generate({
+                  length: 8,
+                })[0];
+
                 text = `Discount: *${
                   coffees[parseInt(textMessage) - 1].discount
                 }%*\n`;
-                text += `Discount code: *${
-                  coffees[parseInt(textMessage) - 1].code
-                }*\n\n`;
+                text += `Discount code: *${code}*\n\n`;
                 text += `Happy to assist you\n`;
                 text += `Powered by remmsh.com`;
+
+                await Code.create({
+                  user: coffees[parseInt(textMessage) - 1].id,
+                  code,
+                });
 
                 await redisdel(redisChatId);
               } else {
