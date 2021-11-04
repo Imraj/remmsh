@@ -44,7 +44,8 @@ export default function RegisterForm() {
     name: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Name is required'),
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
     password: Yup.string().required('Password is required'),
-    type: Yup.string().required('Type is required')
+    type: Yup.string().required('Type is required'),
+    location: Yup.string().required('Location is required')
   });
 
   const formik = useFormik({
@@ -52,11 +53,12 @@ export default function RegisterForm() {
       name: '',
       type: '',
       email: '',
-      password: ''
+      password: '',
+      location: ''
     },
     validationSchema: RegisterSchema,
-    onSubmit: ({ name, email, password, type }) => {
-      dispatch(register(name, email, password, type));
+    onSubmit: ({ name, email, password, type, location }) => {
+      dispatch(register(name, email, password, type, location));
     }
   });
 
@@ -115,6 +117,13 @@ export default function RegisterForm() {
             }}
             error={Boolean(touched.password && errors.password)}
             helperText={touched.password && errors.password}
+          />
+          <TextField
+            fullWidth
+            label="Location URL"
+            {...getFieldProps('location')}
+            error={Boolean(touched.location && errors.location)}
+            helperText={touched.location && errors.location}
           />
           <FormControl fullWidth error={Boolean(touched.type && errors.type)}>
             <InputLabel>Type</InputLabel>

@@ -26,7 +26,11 @@ export default function DashboardApp() {
   const { error: updateUserActiveError, success: updateUserActiveSuccess } = updateUserActiveStore;
 
   const userCheckCode = useSelector((state) => state.userCheckCode);
-  const { error: userCheckCodeError, success: userCheckCodeSuccess } = userCheckCode;
+  const {
+    loading: userCheckCodeLoading,
+    error: userCheckCodeError,
+    success: userCheckCodeSuccess
+  } = userCheckCode;
 
   useEffect(() => {
     dispatch(getUserDetails(userInfo._id));
@@ -77,12 +81,28 @@ export default function DashboardApp() {
           </Typography>
         </Box>
         <Grid container spacing={3}>
-          <Grid item xs={12} md={4}>
-            <AppCheckCode
-              userCheckCodeError={userCheckCodeError}
-              userCheckCodeSuccess={userCheckCodeSuccess}
-            />
-          </Grid>
+          {!userCheckCodeLoading && (
+            <Grid item xs={12} md={4}>
+              <AppCheckCode
+                userCheckCodeError={userCheckCodeError}
+                userCheckCodeSuccess={userCheckCodeSuccess}
+              />
+            </Grid>
+          )}
+
+          {userCheckCodeLoading && (
+            <Grid
+              item
+              xs={12}
+              md={4}
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              height="262px"
+            >
+              <CircularProgress size={50} color="info" />
+            </Grid>
+          )}
           {loading && (
             <>
               <Grid
