@@ -139,7 +139,8 @@ const botWebhook = async (req, res) => {
                   restaurants[parseInt(textMessage) - 1].discount
                 }%*\n`;
                 text += `كود الخصم: *${code}*\n\n`;
-                text += `📍 الموقع: ${
+                text += `📍 الموقع:\n`;
+                text += `${
                   restaurants[parseInt(textMessage) - 1].location
                 }\n\n`;
                 text += `فخورين لمساعدتك\n`;
@@ -196,9 +197,8 @@ const botWebhook = async (req, res) => {
                   coffees[parseInt(textMessage) - 1].discount
                 }%*\n`;
                 text += `كود الخصم: *${code}*\n\n`;
-                text += `📍 الموقع: ${
-                  coffees[parseInt(textMessage) - 1].location
-                }\n\n`;
+                text += `📍 الموقع:\n`;
+                text += `${coffees[parseInt(textMessage) - 1].location}\n\n`;
                 text += `فخورين لمساعدتك\n`;
                 text += `Zoro`;
 
@@ -328,7 +328,7 @@ const botWebhook = async (req, res) => {
                   restaurants[parseInt(textMessage) - 1].discount
                 }%*\n`;
                 text += `Discount code: *${code}*\n\n`;
-                text += `📍 Location: ${
+                text += `📍 Location:\n${
                   restaurants[parseInt(textMessage) - 1].location
                 }\n\n`;
                 text += `Happy to assist you\n`;
@@ -383,7 +383,7 @@ const botWebhook = async (req, res) => {
                   coffees[parseInt(textMessage) - 1].discount
                 }%*\n`;
                 text += `Discount code: *${code}*\n\n`;
-                text += `📍 Location: ${
+                text += `📍 Location:\n${
                   coffees[parseInt(textMessage) - 1].location
                 }\n\n`;
                 text += `Happy to assist you\n`;
