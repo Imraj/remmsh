@@ -45,7 +45,6 @@ const botWebhook = async (req, res) => {
             text = `Welcome 🔊\n\n`;
             text += `1️⃣ Restaurants 🥗\n`;
             text += `2️⃣ Coffees ☕\n\n`;
-            text += `For cancellation send 🅰️\n`;
             text += `للعربية ارسل علامة #️⃣`;
 
             await sendMessage(text, chatId, null, instanceId, instanceToken);
@@ -61,6 +60,7 @@ const botWebhook = async (req, res) => {
                 type: user.type,
                 name: user.name,
                 discount: user.discount,
+                location: user.location,
               };
             });
 
@@ -103,7 +103,6 @@ const botWebhook = async (req, res) => {
                 text += `مرحباً بك 🔊\n\n`;
                 text += `1️⃣ مطاعم 🥗\n`;
                 text += `2️⃣ كافيهات ☕\n\n`;
-                text += `للإلغاء ارسل 🅰️ \n`;
                 text += `\u202C`;
                 text += `For English send #️⃣`;
                 await redisHmset(redisChatId, "serviceQSend", true);
@@ -124,7 +123,6 @@ const botWebhook = async (req, res) => {
                 text += `مرحباً بك 🔊\n\n`;
                 text += `1️⃣ مطاعم 🥗\n`;
                 text += `2️⃣ كافيهات ☕\n\n`;
-                text += `للإلغاء ارسل 🅰️ \n`;
                 text += `\u202C`;
                 text += `For English send #️⃣`;
                 await redisHmset(redisChatId, "serviceQSend", true);
@@ -141,8 +139,11 @@ const botWebhook = async (req, res) => {
                   restaurants[parseInt(textMessage) - 1].discount
                 }%*\n`;
                 text += `كود الخصم: *${code}*\n\n`;
+                text += `📍 الموقع: ${
+                  restaurants[parseInt(textMessage) - 1].location
+                }\n\n`;
                 text += `فخورين لمساعدتك\n`;
-                text += `مدعوم من remmsh.com`;
+                text += `Zoro`;
 
                 await Code.create({
                   user: restaurants[parseInt(textMessage) - 1].id,
@@ -178,7 +179,6 @@ const botWebhook = async (req, res) => {
                 text += `مرحباً بك 🔊\n\n`;
                 text += `1️⃣ مطاعم 🥗\n`;
                 text += `2️⃣ كافيهات ☕\n\n`;
-                text += `للإلغاء ارسل 🅰️ \n`;
                 text += `\u202C`;
                 text += `For English send #️⃣`;
                 await redisHmset(redisChatId, "serviceQSend", true);
@@ -196,8 +196,11 @@ const botWebhook = async (req, res) => {
                   coffees[parseInt(textMessage) - 1].discount
                 }%*\n`;
                 text += `كود الخصم: *${code}*\n\n`;
+                text += `📍 الموقع: ${
+                  coffees[parseInt(textMessage) - 1].location
+                }\n\n`;
                 text += `فخورين لمساعدتك\n`;
-                text += `مدعوم من remmsh.com`;
+                text += `Zoro`;
 
                 await Code.create({
                   user: coffees[parseInt(textMessage) - 1].id,
@@ -224,7 +227,7 @@ const botWebhook = async (req, res) => {
           if (textMessage === "A" || textMessage === "a") {
             let text = "We are sorry to see you go 😔\n\n";
             text += "You have been removed from the waiting list\n\n";
-            text += "remmsh.com";
+            text += `Zoro`;
 
             await sendMessage(text, chatId, null, instanceId, instanceToken);
             await redisdel(redisChatId);
@@ -234,7 +237,6 @@ const botWebhook = async (req, res) => {
             text += `مرحباً بك 🔊\n\n`;
             text += `1️⃣ مطاعم 🥗\n`;
             text += `2️⃣ كافيهات ☕\n\n`;
-            text += `للإلغاء ارسل 🅰️ \n`;
             text += `\u202C`;
             text += `For English send #️⃣`;
 
@@ -251,6 +253,7 @@ const botWebhook = async (req, res) => {
                 type: user.type,
                 name: user.name,
                 discount: user.discount,
+                location: user.location,
               };
             });
 
@@ -292,7 +295,6 @@ const botWebhook = async (req, res) => {
                 text = `Welcome 🔊\n\n`;
                 text += `1️⃣ Restaurants 🥗\n`;
                 text += `2️⃣ Coffees ☕\n\n`;
-                text += `For cancellation send 🅰️\n`;
                 text += `للعربية ارسل علامة #️⃣`;
                 await redisHmset(redisChatId, "serviceQSend", true);
                 await redisHmset(redisChatId, "choiseQSend", false);
@@ -311,7 +313,6 @@ const botWebhook = async (req, res) => {
                 text = `Welcome 🔊\n\n`;
                 text += `1️⃣ Restaurants 🥗\n`;
                 text += `2️⃣ Coffees ☕\n\n`;
-                text += `For cancellation send 🅰️\n`;
                 text += `للعربية ارسل علامة #️⃣`;
                 await redisHmset(redisChatId, "serviceQSend", true);
                 await redisHmset(redisChatId, "choiseQSend", false);
@@ -327,8 +328,11 @@ const botWebhook = async (req, res) => {
                   restaurants[parseInt(textMessage) - 1].discount
                 }%*\n`;
                 text += `Discount code: *${code}*\n\n`;
+                text += `📍 Location: ${
+                  restaurants[parseInt(textMessage) - 1].location
+                }\n\n`;
                 text += `Happy to assist you\n`;
-                text += `Powered by remmsh.com`;
+                text += `Zoro`;
 
                 await Code.create({
                   user: restaurants[parseInt(textMessage) - 1].id,
@@ -363,7 +367,6 @@ const botWebhook = async (req, res) => {
                 text = `Welcome 🔊\n\n`;
                 text += `1️⃣ Restaurants 🥗\n`;
                 text += `2️⃣ Coffees ☕\n\n`;
-                text += `For cancellation send 🅰️\n`;
                 text += `للعربية ارسل علامة #️⃣`;
                 await redisHmset(redisChatId, "serviceQSend", true);
                 await redisHmset(redisChatId, "choiseQSend", false);
@@ -380,8 +383,11 @@ const botWebhook = async (req, res) => {
                   coffees[parseInt(textMessage) - 1].discount
                 }%*\n`;
                 text += `Discount code: *${code}*\n\n`;
+                text += `📍 Location: ${
+                  coffees[parseInt(textMessage) - 1].location
+                }\n\n`;
                 text += `Happy to assist you\n`;
-                text += `Powered by remmsh.com`;
+                text += `Zoro`;
 
                 await Code.create({
                   user: coffees[parseInt(textMessage) - 1].id,
@@ -413,7 +419,6 @@ const botWebhook = async (req, res) => {
           text = `Welcome 🔊\n\n`;
           text += `1️⃣ Restaurants 🥗\n`;
           text += `2️⃣ Coffees ☕\n\n`;
-          text += `For cancellation send 🅰️\n`;
           text += `للعربية ارسل علامة #️⃣`;
           await redisHmset(redisChatId, "lang", "2");
         } else if (textMessage.match(/^[\u0600-\u06FF]/)) {
@@ -421,7 +426,6 @@ const botWebhook = async (req, res) => {
           text += `مرحباً بك 🔊\n\n`;
           text += `1️⃣ مطاعم 🥗\n`;
           text += `2️⃣ كافيهات ☕\n\n`;
-          text += `للإلغاء ارسل 🅰️ \n`;
           text += `\u202C`;
           text += `For English send #️⃣`;
           await redisHmset(redisChatId, "lang", "1");
@@ -430,7 +434,6 @@ const botWebhook = async (req, res) => {
           text += `مرحباً بك 🔊\n\n`;
           text += `1️⃣ مطاعم 🥗\n`;
           text += `2️⃣ كافيهات ☕\n\n`;
-          text += `للإلغاء ارسل 🅰️ \n`;
           text += `\u202C`;
           text += `For English send #️⃣`;
           await redisHmset(redisChatId, "lang", "1");

@@ -38,7 +38,7 @@ const authUser = async (req, res) => {
 // @route   POST /api/users
 // @access  Public
 const registerUser = async (req, res) => {
-  const { name, email, password, type } = req.body;
+  const { name, email, password, type, location } = req.body;
 
   try {
     const userExists = await User.findOne({ email });
@@ -51,6 +51,7 @@ const registerUser = async (req, res) => {
       email,
       password,
       type,
+      location,
     });
 
     const token = generateToken(user._id);
@@ -121,6 +122,7 @@ const updateUser = async (req, res) => {
     user.phone = req.body.phone || user.phone;
     user.type = req.body.type || user.type;
     user.isActive = req.body.isActive || user.isActive;
+    user.location = req.body.location || user.location;
     user.discount = req.body.discount || user.discount;
     if (req.body.password) {
       user.password = req.body.password;
@@ -136,6 +138,7 @@ const updateUser = async (req, res) => {
       email: updatedUser.email,
       isActive: updatedUser.isActive,
       discount: updatedUser.discount,
+      location: updatedUser.location,
     });
   } catch (error) {
     res.status(500).json({ error: "Something went wrong" });
@@ -172,6 +175,7 @@ const updateUserDiscount = async (req, res) => {
       email: updatedUser.email,
       isActive: updatedUser.isActive,
       discount: updatedUser.discount,
+      location: updatedUser.location,
     });
   } catch (error) {
     res.status(500).json({ error: "Something went wrong" });
@@ -205,6 +209,7 @@ const updateUserActive = async (req, res) => {
       email: updatedUser.email,
       isActive: updatedUser.isActive,
       discount: updatedUser.discount,
+      location: updatedUser.location,
     });
   } catch (error) {
     res.status(500).json({ error: "Something went wrong" });
