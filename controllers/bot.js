@@ -85,7 +85,7 @@ const botWebhook = async (req, res) => {
                   }%*\n`;
                 });
                 text += "\n";
-                text += `للإلغاء ارسل 🅰️ \n`;
+                text += `للقائمة السابقة ارسل 0️⃣ \n`;
                 await redisHmset(redisChatId, "choiseQSend", true);
               } else if (textMessage === "2" || textMessage === "٢") {
                 await redisHmset(redisChatId, "service", "2");
@@ -95,7 +95,7 @@ const botWebhook = async (req, res) => {
                   text += `${i + 1}- ${coffee.name} *${coffee.discount}%*\n`;
                 });
                 text += "\n";
-                text += `للإلغاء ارسل 🅰️ \n`;
+                text += `للقائمة السابقة ارسل 0️⃣ \n`;
 
                 await redisHmset(redisChatId, "choiseQSend", true);
               } else {
@@ -119,7 +119,18 @@ const botWebhook = async (req, res) => {
                 pendingReservation.codeSent === "")
             ) {
               let text;
-              if (
+              if (textMessage === "0") {
+                text = `\u202B`;
+                text += `مرحباً بك 🔊\n\n`;
+                text += `1️⃣ مطاعم 🥗\n`;
+                text += `2️⃣ كافيهات ☕\n\n`;
+                text += `للإلغاء ارسل 🅰️ \n`;
+                text += `\u202C`;
+                text += `For English send #️⃣`;
+                await redisHmset(redisChatId, "serviceQSend", true);
+                await redisHmset(redisChatId, "choiseQSend", false);
+                await redisHmset(redisChatId, "service", "");
+              } else if (
                 parseInt(textMessage) > 0 &&
                 parseInt(textMessage) <= restaurants.length
               ) {
@@ -162,7 +173,18 @@ const botWebhook = async (req, res) => {
                 pendingReservation.codeSent === "")
             ) {
               let text;
-              if (
+              if (textMessage === "0") {
+                text = `\u202B`;
+                text += `مرحباً بك 🔊\n\n`;
+                text += `1️⃣ مطاعم 🥗\n`;
+                text += `2️⃣ كافيهات ☕\n\n`;
+                text += `للإلغاء ارسل 🅰️ \n`;
+                text += `\u202C`;
+                text += `For English send #️⃣`;
+                await redisHmset(redisChatId, "serviceQSend", true);
+                await redisHmset(redisChatId, "choiseQSend", false);
+                await redisHmset(redisChatId, "service", "");
+              } else if (
                 parseInt(textMessage) > 0 &&
                 parseInt(textMessage) <= coffees.length
               ) {
@@ -253,7 +275,7 @@ const botWebhook = async (req, res) => {
                   }%*\n`;
                 });
                 text += "\n";
-                text += `For cancelation 🅰️ \n`;
+                text += `For previos menu send 0️⃣ \n`;
                 await redisHmset(redisChatId, "choiseQSend", true);
               } else if (textMessage === "2" || textMessage === "٢") {
                 await redisHmset(redisChatId, "service", "2");
@@ -263,7 +285,7 @@ const botWebhook = async (req, res) => {
                   text += `${i + 1}- ${coffee.name} *${coffee.discount}%*\n`;
                 });
                 text += "\n";
-                text += `For cancelation 🅰️ \n`;
+                text += `For previos menu send 0️⃣ \n`;
 
                 await redisHmset(redisChatId, "choiseQSend", true);
               } else {
@@ -285,7 +307,16 @@ const botWebhook = async (req, res) => {
                 pendingReservation.codeSent === "")
             ) {
               let text;
-              if (
+              if (textMessage === "0") {
+                text = `Welcome 🔊\n\n`;
+                text += `1️⃣ Restaurants 🥗\n`;
+                text += `2️⃣ Coffees ☕\n\n`;
+                text += `For cancellation send 🅰️\n`;
+                text += `للعربية ارسل علامة #️⃣`;
+                await redisHmset(redisChatId, "serviceQSend", true);
+                await redisHmset(redisChatId, "choiseQSend", false);
+                await redisHmset(redisChatId, "service", "");
+              } else if (
                 parseInt(textMessage) > 0 &&
                 parseInt(textMessage) <= restaurants.length
               ) {
@@ -328,7 +359,16 @@ const botWebhook = async (req, res) => {
                 pendingReservation.codeSent === "")
             ) {
               let text;
-              if (
+              if (textMessage === "0") {
+                text = `Welcome 🔊\n\n`;
+                text += `1️⃣ Restaurants 🥗\n`;
+                text += `2️⃣ Coffees ☕\n\n`;
+                text += `For cancellation send 🅰️\n`;
+                text += `للعربية ارسل علامة #️⃣`;
+                await redisHmset(redisChatId, "serviceQSend", true);
+                await redisHmset(redisChatId, "choiseQSend", false);
+                await redisHmset(redisChatId, "service", "");
+              } else if (
                 parseInt(textMessage) > 0 &&
                 parseInt(textMessage) <= coffees.length
               ) {
