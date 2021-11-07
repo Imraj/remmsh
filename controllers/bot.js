@@ -36,7 +36,7 @@ const botWebhook = async (req, res) => {
         if (pendingReservation.lang === "1") {
           if (textMessage === "A" || textMessage === "a") {
             let text = "تم ازالتك من قائمة الانتظار 😞\n\n";
-            text += "remmsh.com";
+            text += "Zoro";
 
             await sendMessage(text, chatId, null, instanceId, instanceToken);
             await redisdel(redisChatId);
