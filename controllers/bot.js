@@ -614,6 +614,7 @@ const botWebhook = async (req, res) => {
           text += "Zoro";
 
           await redisHmset(redisChatId, "chatId", chatId);
+          await redisHmset(redisChatId, "lang", "2");
           await redisExpire(redisChatId, 86400);
           await redisHmset(redisChatId, "customerService", true);
           //Make the instance to mark thr incoming messages as unreaded
@@ -627,6 +628,7 @@ const botWebhook = async (req, res) => {
           text += "Zoro";
 
           await redisHmset(redisChatId, "chatId", chatId);
+          await redisHmset(redisChatId, "lang", "1");
           await redisExpire(redisChatId, 86400);
           await redisHmset(redisChatId, "customerService", true);
           //Make the instance to mark thr incoming messages as unreaded
