@@ -10,6 +10,7 @@ import {
   AppActivateDiscount
 } from '../components/_dashboard/app';
 import { getUserDetails } from '../actions/userActions';
+import { USER_DETAILS_RESET } from '../constants/userConstants';
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
@@ -34,6 +35,7 @@ export default function DashboardApp() {
 
   useEffect(() => {
     dispatch(getUserDetails(userInfo._id));
+    dispatch({ type: USER_DETAILS_RESET });
   }, [dispatch, userInfo, userDisccountSuccess, updateUserActiveSuccess]);
 
   return (

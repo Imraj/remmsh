@@ -9,15 +9,19 @@ import {
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
   USER_DETAILS_FAIL,
+  USER_DETAILS_RESET,
   USER_UPDATE_DISCOUNT_REQUEST,
   USER_UPDATE_DISCOUNT_SUCCESS,
   USER_UPDATE_DISCOUNT_FAIL,
+  USER_UPDATE_DISCOUNT_RESET,
   USER_UPDATE_ACTIVE_REQUEST,
   USER_UPDATE_ACTIVE_SUCCESS,
   USER_UPDATE_ACTIVE_FAIL,
+  USER_UPDATE_ACTIVE_RESET,
   USER_CHECK_CODE_REQUEST,
   USER_CHECK_CODE_SUCCESS,
-  USER_CHECK_CODE_FAIL
+  USER_CHECK_CODE_FAIL,
+  USER_CHECK_CODE_RESET
 } from '../constants/userConstants';
 
 export const userRegisterReducer = (state = {}, action) => {
@@ -43,6 +47,8 @@ export const userDetailsReducer = (state = { userDetails: {} }, action) => {
       return { loading: false, userDetails: action.payload };
     case USER_DETAILS_FAIL:
       return { loading: false, error: action.payload };
+    case USER_DETAILS_RESET:
+      return {};
     default:
       return state;
   }
@@ -71,6 +77,8 @@ export const updateUserDisccountReducer = (state = {}, action) => {
       return { loading: false, success: true };
     case USER_UPDATE_DISCOUNT_FAIL:
       return { loading: false, error: action.payload };
+    case USER_UPDATE_DISCOUNT_RESET:
+      return {};
     default:
       return state;
   }
@@ -84,6 +92,8 @@ export const updateUserActiveReducer = (state = {}, action) => {
       return { loading: false, success: true };
     case USER_UPDATE_ACTIVE_FAIL:
       return { loading: false, error: action.payload };
+    case USER_UPDATE_ACTIVE_RESET:
+      return {};
     default:
       return state;
   }
@@ -97,6 +107,8 @@ export const userCheckCodeReducer = (state = {}, action) => {
       return { loading: false, success: true };
     case USER_CHECK_CODE_FAIL:
       return { loading: false, error: action.payload };
+    case USER_CHECK_CODE_RESET:
+      return {};
     default:
       return state;
   }

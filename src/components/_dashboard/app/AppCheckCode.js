@@ -5,6 +5,8 @@ import { styled } from '@mui/material/styles';
 import { Stack, TextField, Card, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { userCheckcode } from '../../../actions/userActions';
+import { USER_CHECK_CODE_RESET } from '../../../constants/userConstants';
+
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Card)(({ theme }) => ({
