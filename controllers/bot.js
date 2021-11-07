@@ -162,7 +162,7 @@ const botWebhook = async (req, res) => {
                 });
 
                 await redisHmset(redisChatId, "serviceQSend", true);
-                await redisHmset(redisChatId, "choiseQSend", false);
+                await redisHmset(redisChatId, "choiseQSend", true);
                 await redisHmset(redisChatId, "codeSent", false);
               }
               await sendMessage(text, chatId, null, instanceId, instanceToken);
@@ -215,7 +215,7 @@ const botWebhook = async (req, res) => {
                 });
 
                 await redisHmset(redisChatId, "serviceQSend", true);
-                await redisHmset(redisChatId, "choiseQSend", false);
+                await redisHmset(redisChatId, "choiseQSend", true);
                 await redisHmset(redisChatId, "codeSent", false);
               }
               await sendMessage(text, chatId, null, instanceId, instanceToken);
@@ -348,7 +348,7 @@ const botWebhook = async (req, res) => {
                 });
 
                 await redisHmset(redisChatId, "serviceQSend", true);
-                await redisHmset(redisChatId, "choiseQSend", false);
+                await redisHmset(redisChatId, "choiseQSend", true);
                 await redisHmset(redisChatId, "codeSent", false);
               }
               await sendMessage(text, chatId, null, instanceId, instanceToken);
@@ -400,7 +400,7 @@ const botWebhook = async (req, res) => {
                 });
 
                 await redisHmset(redisChatId, "serviceQSend", true);
-                await redisHmset(redisChatId, "choiseQSend", false);
+                await redisHmset(redisChatId, "choiseQSend", true);
                 await redisHmset(redisChatId, "codeSent", false);
               }
               await sendMessage(text, chatId, null, instanceId, instanceToken);
