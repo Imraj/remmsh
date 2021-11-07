@@ -42,18 +42,7 @@ const botWebhook = async (req, res) => {
       ) {
         if (isPending) {
           if (pendingReservation.lang === "1") {
-            if (textMessage === "A" || textMessage === "a") {
-              let text = "شكرا لك على التواصل مع خدمة العملاء\n\n";
-              text += "*الرجاء ارسال استفسارك*\n";
-              text += "وسيتم الرد عليك خلال ٢٤ ساعة\n\n";
-              text += "Zoro";
-              await redisHmset(redisChatId, "customerService", true);
-              // await redisdel(redisChatId);
-              //Make the instance to mark thr incoming messages as unreaded
-              await setUnreaded(instanceId, instanceToken);
-
-              await sendMessage(text, chatId, null, instanceId, instanceToken);
-            } else if (textMessage === "#") {
+            if (textMessage === "#") {
               await redisHmset(redisChatId, "lang", "2");
               let text = `Welcome 🔊\n\n`;
               text += `1️⃣ Restaurants 🥗\n`;
@@ -338,19 +327,7 @@ const botWebhook = async (req, res) => {
               }
             }
           } else if (pendingReservation.lang === "2") {
-            if (textMessage === "A" || textMessage === "a") {
-              let text = "Thank you for reaching out\n\n";
-              text += "*Could you please send your inquiry* ";
-              text +=
-                "and you will be hearing from us in the next 24 hours\n\n";
-              text += "Zoro";
-
-              await redisHmset(redisChatId, "customerService", true);
-              //Make the instance to mark thr incoming messages as unreaded
-              await setUnreaded(instanceId, instanceToken);
-
-              await sendMessage(text, chatId, null, instanceId, instanceToken);
-            } else if (textMessage === "#") {
+            if (textMessage === "#") {
               await redisHmset(redisChatId, "lang", "1");
               let text = `\u202B`;
               text += `مرحباً بك 🔊\n\n`;
@@ -477,7 +454,7 @@ const botWebhook = async (req, res) => {
                   text += `📍 Location:\n${
                     restaurants[parseInt(textMessage) - 1].location
                   }\n\n`;
-                  text += `For suggestions or complaints send 🅰️\n\n`;
+                  text += `For suggestions or complaints send 🅰️🅰️\n\n`;
                   text += `Happy to assist you\n`;
                   text += `Zoro`;
 
@@ -539,7 +516,7 @@ const botWebhook = async (req, res) => {
                   text += `📍 Location:\n${
                     coffees[parseInt(textMessage) - 1].location
                   }\n\n`;
-                  text += `For suggestions or complaints send 🅰️\n\n`;
+                  text += `For suggestions or complaints send 🅰️🅰️\n\n`;
                   text += `Happy to assist you\n`;
                   text += `Zoro`;
 
@@ -599,7 +576,7 @@ const botWebhook = async (req, res) => {
                   text += `📍 Location:\n${
                     lounges[parseInt(textMessage) - 1].location
                   }\n\n`;
-                  text += `For suggestions or complaints send 🅰️\n\n`;
+                  text += `For suggestions or complaints send 🅰️🅰️\n\n`;
                   text += `Happy to assist you\n`;
                   text += `Zoro`;
 
@@ -630,6 +607,32 @@ const botWebhook = async (req, res) => {
               }
             }
           }
+        } else if (textMessage === "AA" || textMessage === "aa") {
+          let text = "Thank you for reaching out\n\n";
+          text += "*Could you please send your inquiry* ";
+          text += "and you will be hearing from us in the next 24 hours\n\n";
+          text += "Zoro";
+
+          await redisHmset(redisChatId, "chatId", chatId);
+          await redisExpire(redisChatId, 86400);
+          await redisHmset(redisChatId, "customerService", true);
+          //Make the instance to mark thr incoming messages as unreaded
+          await setUnreaded(instanceId, instanceToken);
+
+          await sendMessage(text, chatId, null, instanceId, instanceToken);
+        } else if (textMessage === "A" || textMessage === "a") {
+          let text = "شكرا لك على التواصل مع خدمة العملاء\n\n";
+          text += "*الرجاء ارسال استفسارك*\n";
+          text += "وسيتم الرد عليك خلال ٢٤ ساعة\n\n";
+          text += "Zoro";
+
+          await redisHmset(redisChatId, "chatId", chatId);
+          await redisExpire(redisChatId, 86400);
+          await redisHmset(redisChatId, "customerService", true);
+          //Make the instance to mark thr incoming messages as unreaded
+          await setUnreaded(instanceId, instanceToken);
+
+          await sendMessage(text, chatId, null, instanceId, instanceToken);
         } else {
           //Make the instance to mark the incoming messages as readed
           await setReaded(instanceId, instanceToken);
