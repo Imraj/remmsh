@@ -7,18 +7,18 @@ import { updateUserActive } from '../../../actions/userActions';
 
 // ----------------------------------------------------------------------
 
-const RootStyle = styled(Card)(({ theme }) => ({
-  boxShadow: 'none',
-  textAlign: 'center',
-  padding: theme.spacing(5, 0),
-  color: theme.palette.error.darker,
-  backgroundColor: theme.palette.error.lighter
-}));
-
 // ----------------------------------------------------------------------
 
 export default function AppActivateDiscount({ isActive, userInfo }) {
   const dispatch = useDispatch();
+
+  const RootStyle = styled(Card)(({ theme }) => ({
+    boxShadow: 'none',
+    textAlign: 'center',
+    padding: theme.spacing(5, 0),
+    color: isActive ? theme.palette.success.darker : theme.palette.error.darker,
+    backgroundColor: isActive ? theme.palette.success.lighter : theme.palette.error.lighter
+  }));
 
   const IconWrapperStyle = styled('div')(({ theme }) => ({
     cursor: 'pointer',
@@ -30,24 +30,24 @@ export default function AppActivateDiscount({ isActive, userInfo }) {
     height: theme.spacing(8),
     justifyContent: 'center',
     marginBottom: theme.spacing(3),
-    color: isActive ? theme.palette.error.dark : '#161C24',
+    color: isActive ? theme.palette.success.dark : theme.palette.error.dark,
     backgroundImage: isActive
-      ? `linear-gradient(135deg, ${alpha(theme.palette.error.dark, 0)} 0%, ${alpha(
+      ? `linear-gradient(135deg, ${alpha(theme.palette.success.dark, 0)} 0%, ${alpha(
+          theme.palette.success.dark,
+          0.24
+        )} 100%)`
+      : `linear-gradient(135deg, ${alpha(theme.palette.error.dark, 0)} 0%, ${alpha(
           theme.palette.error.dark,
           0.24
         )} 100%)`
-      : `linear-gradient(135deg, ${alpha('#161C24', 0)} 0%, ${alpha('#161C24', 0.24)} 100%)`
   }));
   const handleActicate = () => {
     dispatch(updateUserActive(userInfo._id));
   };
   return (
     <RootStyle>
-      <Typography variant="h6" sx={{ opacity: 0.72, mb: '42px' }}>
-        {isActive ? 'Deactivate' : 'Activate'} discount
-      </Typography>
-      <IconWrapperStyle onClick={handleActicate}>
-        <Icon icon={poweroffOutlined} width={24} height={24} />
+      <IconWrapperStyle sx={{ my: '47px' }} onClick={handleActicate}>
+        {isActive ? 'On' : 'Off'}
       </IconWrapperStyle>
     </RootStyle>
   );
