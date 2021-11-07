@@ -22,13 +22,13 @@ import {
   USER_CHECK_CODE_FAIL
 } from '../constants/userConstants';
 
-export const register = (name, email, password, type, location) => async (dispatch) => {
+export const register = (name, nameAr, email, password, type, location) => async (dispatch) => {
   try {
     dispatch({
       type: USER_REGISTER_REQUEST
     });
 
-    const { data } = await api.regiserUser({ name, email, password, type, location });
+    const { data } = await api.regiserUser({ name, nameAr, email, password, type, location });
 
     dispatch({
       type: USER_REGISTER_SUCCESS,

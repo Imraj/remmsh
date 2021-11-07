@@ -42,6 +42,10 @@ export default function RegisterForm() {
 
   const RegisterSchema = Yup.object().shape({
     name: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Name is required'),
+    nameAr: Yup.string()
+      .min(2, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('Arabic name is required'),
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
     password: Yup.string().required('Password is required'),
     type: Yup.string().required('Type is required'),
@@ -51,14 +55,15 @@ export default function RegisterForm() {
   const formik = useFormik({
     initialValues: {
       name: '',
+      nameAr: '',
       type: '',
       email: '',
       password: '',
       location: ''
     },
     validationSchema: RegisterSchema,
-    onSubmit: ({ name, email, password, type, location }) => {
-      dispatch(register(name, email, password, type, location));
+    onSubmit: ({ name, nameAr, email, password, type, location }) => {
+      dispatch(register(name, nameAr, email, password, type, location));
     }
   });
 
@@ -87,6 +92,14 @@ export default function RegisterForm() {
               {...getFieldProps('name')}
               error={Boolean(touched.name && errors.name)}
               helperText={touched.name && errors.name}
+            />
+            <TextField
+              dir="rtl"
+              fullWidth
+              label="Arabic name"
+              {...getFieldProps('nameAr')}
+              error={Boolean(touched.nameAr && errors.nameAr)}
+              helperText={touched.nameAr && errors.nameAr}
             />
           </Stack>
 
