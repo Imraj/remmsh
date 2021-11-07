@@ -44,7 +44,8 @@ const botWebhook = async (req, res) => {
             await redisHmset(redisChatId, "lang", "2");
             text = `Welcome 🔊\n\n`;
             text += `1️⃣ Restaurants 🥗\n`;
-            text += `2️⃣ Coffees ☕\n\n`;
+            text += `2️⃣ Coffees ☕\n`;
+            text += `3️⃣ Lounge 🛋️\n\n`;
             text += `للعربية ارسل علامة #️⃣`;
 
             await sendMessage(text, chatId, null, instanceId, instanceToken);
@@ -69,6 +70,8 @@ const botWebhook = async (req, res) => {
             const restaurants = usersArray.filter(
               (user) => user.type === "resturant"
             );
+
+            const lounges = usersArray.filter((user) => user.type === "lounge");
 
             if (
               pendingReservation.serviceQSend &&
@@ -98,11 +101,23 @@ const botWebhook = async (req, res) => {
                 text += `للقائمة السابقة ارسل 0️⃣ \n`;
 
                 await redisHmset(redisChatId, "choiseQSend", true);
+              } else if (textMessage === "3" || textMessage === "٣") {
+                await redisHmset(redisChatId, "service", "3");
+
+                text = "الرجاء اختيار اللاونج:\n\n";
+                lounges.forEach((lounge, i) => {
+                  text += `${i + 1}- ${lounge.name} *${lounge.discount}%*\n`;
+                });
+                text += "\n";
+                text += `للقائمة السابقة ارسل 0️⃣ \n`;
+
+                await redisHmset(redisChatId, "choiseQSend", true);
               } else {
                 text = `\u202B`;
                 text += `مرحباً بك 🔊\n\n`;
                 text += `1️⃣ مطاعم 🥗\n`;
-                text += `2️⃣ كافيهات ☕\n\n`;
+                text += `2️⃣ كافيهات ☕\n`;
+                text += `3️⃣ لاونج 🛋️\n\n`;
                 text += `\u202C`;
                 text += `For English send #️⃣`;
                 await redisHmset(redisChatId, "serviceQSend", true);
@@ -122,7 +137,8 @@ const botWebhook = async (req, res) => {
                 text = `\u202B`;
                 text += `مرحباً بك 🔊\n\n`;
                 text += `1️⃣ مطاعم 🥗\n`;
-                text += `2️⃣ كافيهات ☕\n\n`;
+                text += `2️⃣ كافيهات ☕\n`;
+                text += `3️⃣ لاونج 🛋️\n\n`;
                 text += `\u202C`;
                 text += `For English send #️⃣`;
                 await redisHmset(redisChatId, "serviceQSend", true);
@@ -178,7 +194,8 @@ const botWebhook = async (req, res) => {
                 text = `\u202B`;
                 text += `مرحباً بك 🔊\n\n`;
                 text += `1️⃣ مطاعم 🥗\n`;
-                text += `2️⃣ كافيهات ☕\n\n`;
+                text += `2️⃣ كافيهات ☕\n`;
+                text += `3️⃣ لاونج 🛋️\n\n`;
                 text += `\u202C`;
                 text += `For English send #️⃣`;
                 await redisHmset(redisChatId, "serviceQSend", true);
@@ -219,6 +236,60 @@ const botWebhook = async (req, res) => {
                 await redisHmset(redisChatId, "codeSent", false);
               }
               await sendMessage(text, chatId, null, instanceId, instanceToken);
+            } else if (
+              pendingReservation.serviceQSend &&
+              pendingReservation.service === "3" &&
+              pendingReservation.choiseQSend &&
+              (!pendingReservation.codeSent ||
+                pendingReservation.codeSent === "")
+            ) {
+              let text;
+              if (textMessage === "0") {
+                text = `\u202B`;
+                text += `مرحباً بك 🔊\n\n`;
+                text += `1️⃣ مطاعم 🥗\n`;
+                text += `2️⃣ كافيهات ☕\n`;
+                text += `3️⃣ لاونج 🛋️\n\n`;
+                text += `\u202C`;
+                text += `For English send #️⃣`;
+                await redisHmset(redisChatId, "serviceQSend", true);
+                await redisHmset(redisChatId, "choiseQSend", false);
+                await redisHmset(redisChatId, "service", "");
+              } else if (
+                parseInt(textMessage) > 0 &&
+                parseInt(textMessage) <= lounges.length
+              ) {
+                const code = voucherCodes.generate({
+                  length: 8,
+                })[0];
+
+                text = `الخصم: *${
+                  lounges[parseInt(textMessage) - 1].discount
+                }%*\n`;
+                text += `كود الخصم: *${code}*\n\n`;
+                text += `📍 الموقع:\n`;
+                text += `${lounges[parseInt(textMessage) - 1].location}\n\n`;
+                text += `فخورين لمساعدتك\n`;
+                text += `Zoro`;
+
+                await Code.create({
+                  user: lounges[parseInt(textMessage) - 1].id,
+                  code,
+                });
+
+                await redisdel(redisChatId);
+              } else {
+                text = `الاختيار المدخل غير صحيح\n`;
+                text += "الرجاء اختيار اللاونج:\n\n";
+                lounges.forEach((lounge, i) => {
+                  text += `${i + 1}- ${lounge.name} ${lounge.discount}%\n`;
+                });
+
+                await redisHmset(redisChatId, "serviceQSend", true);
+                await redisHmset(redisChatId, "choiseQSend", true);
+                await redisHmset(redisChatId, "codeSent", false);
+              }
+              await sendMessage(text, chatId, null, instanceId, instanceToken);
             }
           }
         } else if (pendingReservation.lang === "2") {
@@ -234,7 +305,8 @@ const botWebhook = async (req, res) => {
             text = `\u202B`;
             text += `مرحباً بك 🔊\n\n`;
             text += `1️⃣ مطاعم 🥗\n`;
-            text += `2️⃣ كافيهات ☕\n\n`;
+            text += `2️⃣ كافيهات ☕\n`;
+            text += `3️⃣ لاونج 🛋️\n\n`;
             text += `\u202C`;
             text += `For English send #️⃣`;
 
@@ -260,6 +332,8 @@ const botWebhook = async (req, res) => {
             const restaurants = usersArray.filter(
               (user) => user.type === "resturant"
             );
+
+            const lounges = usersArray.filter((user) => user.type === "lounge");
 
             if (
               pendingReservation.serviceQSend &&
@@ -289,10 +363,22 @@ const botWebhook = async (req, res) => {
                 text += `For previos menu send 0️⃣ \n`;
 
                 await redisHmset(redisChatId, "choiseQSend", true);
+              } else if (textMessage === "3" || textMessage === "٣") {
+                await redisHmset(redisChatId, "service", "3");
+
+                text = "Please choose a Lounge:\n\n";
+                lounges.forEach((lounge, i) => {
+                  text += `${i + 1}- ${lounge.name} *${lounge.discount}%*\n`;
+                });
+                text += "\n";
+                text += `For previos menu send 0️⃣`;
+
+                await redisHmset(redisChatId, "choiseQSend", true);
               } else {
                 text = `Welcome 🔊\n\n`;
                 text += `1️⃣ Restaurants 🥗\n`;
-                text += `2️⃣ Coffees ☕\n\n`;
+                text += `2️⃣ Coffees ☕\n`;
+                text += `3️⃣ Lounge 🛋️\n\n`;
                 text += `للعربية ارسل علامة #️⃣`;
                 await redisHmset(redisChatId, "serviceQSend", true);
                 await redisHmset(redisChatId, "choiseQSend", false);
@@ -310,7 +396,8 @@ const botWebhook = async (req, res) => {
               if (textMessage === "0") {
                 text = `Welcome 🔊\n\n`;
                 text += `1️⃣ Restaurants 🥗\n`;
-                text += `2️⃣ Coffees ☕\n\n`;
+                text += `2️⃣ Coffees ☕\n`;
+                text += `3️⃣ Lounge 🛋️\n\n`;
                 text += `للعربية ارسل علامة #️⃣`;
                 await redisHmset(redisChatId, "serviceQSend", true);
                 await redisHmset(redisChatId, "choiseQSend", false);
@@ -363,7 +450,8 @@ const botWebhook = async (req, res) => {
               if (textMessage === "0") {
                 text = `Welcome 🔊\n\n`;
                 text += `1️⃣ Restaurants 🥗\n`;
-                text += `2️⃣ Coffees ☕\n\n`;
+                text += `2️⃣ Coffees ☕\n`;
+                text += `3️⃣ Lounge 🛋️\n\n`;
                 text += `للعربية ارسل علامة #️⃣`;
                 await redisHmset(redisChatId, "serviceQSend", true);
                 await redisHmset(redisChatId, "choiseQSend", false);
@@ -404,6 +492,59 @@ const botWebhook = async (req, res) => {
                 await redisHmset(redisChatId, "codeSent", false);
               }
               await sendMessage(text, chatId, null, instanceId, instanceToken);
+            } else if (
+              pendingReservation.serviceQSend &&
+              pendingReservation.service === "3" &&
+              pendingReservation.choiseQSend &&
+              (!pendingReservation.codeSent ||
+                pendingReservation.codeSent === "")
+            ) {
+              let text;
+              if (textMessage === "0") {
+                text = `Welcome 🔊\n\n`;
+                text += `1️⃣ Restaurants 🥗\n`;
+                text += `2️⃣ Coffees ☕\n`;
+                text += `3️⃣ Lounge 🛋️\n\n`;
+                text += `للعربية ارسل علامة #️⃣`;
+                await redisHmset(redisChatId, "serviceQSend", true);
+                await redisHmset(redisChatId, "choiseQSend", false);
+                await redisHmset(redisChatId, "service", "");
+              } else if (
+                parseInt(textMessage) > 0 &&
+                parseInt(textMessage) <= coffees.length
+              ) {
+                const code = voucherCodes.generate({
+                  length: 8,
+                })[0];
+
+                text = `Discount: *${
+                  lounges[parseInt(textMessage) - 1].discount
+                }%*\n`;
+                text += `Discount code: *${code}*\n\n`;
+                text += `📍 Location:\n${
+                  lounges[parseInt(textMessage) - 1].location
+                }\n\n`;
+                text += `Happy to assist you\n`;
+                text += `Zoro`;
+
+                await Code.create({
+                  user: lounges[parseInt(textMessage) - 1].id,
+                  code,
+                });
+
+                await redisdel(redisChatId);
+              } else {
+                text = `Incorrect choice\n`;
+                text += "Please choose a Lounge:\n\n";
+                lounges.forEach((lounge, i) => {
+                  text += `${i + 1}- ${lounge.name} ${lounge.discount}%\n`;
+                });
+
+                await redisHmset(redisChatId, "serviceQSend", true);
+                await redisHmset(redisChatId, "choiseQSend", true);
+                await redisHmset(redisChatId, "codeSent", false);
+              }
+              await sendMessage(text, chatId, null, instanceId, instanceToken);
             }
           }
         }
@@ -413,14 +554,16 @@ const botWebhook = async (req, res) => {
         if (textMessage.match(/^[a-zA-Z0-9]/)) {
           text = `Welcome 🔊\n\n`;
           text += `1️⃣ Restaurants 🥗\n`;
-          text += `2️⃣ Coffees ☕\n\n`;
+          text += `2️⃣ Coffees ☕\n`;
+          text += `3️⃣ Lounge 🛋️\n\n`;
           text += `للعربية ارسل علامة #️⃣`;
           await redisHmset(redisChatId, "lang", "2");
         } else if (textMessage.match(/^[\u0600-\u06FF]/)) {
           text = `\u202B`;
           text += `مرحباً بك 🔊\n\n`;
           text += `1️⃣ مطاعم 🥗\n`;
-          text += `2️⃣ كافيهات ☕\n\n`;
+          text += `2️⃣ كافيهات ☕\n`;
+          text += `3️⃣ لاونج 🛋️\n\n`;
           text += `\u202C`;
           text += `For English send #️⃣`;
           await redisHmset(redisChatId, "lang", "1");
@@ -428,7 +571,8 @@ const botWebhook = async (req, res) => {
           text = `\u202B`;
           text += `مرحباً بك 🔊\n\n`;
           text += `1️⃣ مطاعم 🥗\n`;
-          text += `2️⃣ كافيهات ☕\n\n`;
+          text += `2️⃣ كافيهات ☕\n`;
+          text += `3️⃣ لاونج 🛋️\n\n`;
           text += `\u202C`;
           text += `For English send #️⃣`;
           await redisHmset(redisChatId, "lang", "1");
