@@ -143,6 +143,7 @@ export default function RegisterForm() {
             <Select label="Type" {...getFieldProps('type')}>
               <MenuItem value="resturant">Resturant</MenuItem>
               <MenuItem value="coffee">Coffee</MenuItem>
+              <MenuItem value="lounge">Lounge</MenuItem>
             </Select>
             <FormHelperText>{touched.type && errors.type}</FormHelperText>
           </FormControl>
