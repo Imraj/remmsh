@@ -58,7 +58,7 @@ const botWebhook = async (req, res) => {
               return {
                 id: user._id,
                 type: user.type,
-                name: user.name,
+                name: user.nameAr,
                 discount: user.discount,
                 location: user.location,
               };

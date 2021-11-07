@@ -38,7 +38,7 @@ const authUser = async (req, res) => {
 // @route   POST /api/users
 // @access  Public
 const registerUser = async (req, res) => {
-  const { name, email, password, type, location } = req.body;
+  const { name, nameAr, email, password, type, location } = req.body;
 
   try {
     const userExists = await User.findOne({ email });
@@ -48,6 +48,7 @@ const registerUser = async (req, res) => {
 
     const user = await User.create({
       name,
+      nameAr,
       email,
       password,
       type,
@@ -118,6 +119,7 @@ const updateUser = async (req, res) => {
     if (!user) return res.status(404).json({ error: "User not found" });
 
     user.name = req.body.name || user.name;
+    user.nameAr = req.body.nameAr || user.nameAr;
     user.email = req.body.email || user.email;
     user.phone = req.body.phone || user.phone;
     user.type = req.body.type || user.type;
@@ -133,6 +135,7 @@ const updateUser = async (req, res) => {
     res.status(200).json({
       _id: updatedUser._id,
       name: updatedUser.name,
+      nameAr: updatedUser.nameAr,
       type: updatedUser.type,
       phone: updatedUser.phone,
       email: updatedUser.email,
@@ -170,6 +173,7 @@ const updateUserDiscount = async (req, res) => {
     res.status(200).json({
       _id: updatedUser._id,
       name: updatedUser.name,
+      nameAr: updatedUser.nameAr,
       type: updatedUser.type,
       phone: updatedUser.phone,
       email: updatedUser.email,
@@ -204,6 +208,7 @@ const updateUserActive = async (req, res) => {
     res.status(200).json({
       _id: updatedUser._id,
       name: updatedUser.name,
+      nameAr: updatedUser.nameAr,
       type: updatedUser.type,
       phone: updatedUser.phone,
       email: updatedUser.email,
