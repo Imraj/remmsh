@@ -153,7 +153,6 @@ const botWebhook = async (req, res) => {
 
                 await redisdel(redisChatId);
               } else {
-                await redisHmset(redisChatId, "service", "");
                 text = `الاختيار المدخل غير صحيح\n`;
                 text += "الرجاء اختيار المطعم:\n\n";
                 restaurants.forEach((restaurant, i) => {
@@ -209,7 +208,6 @@ const botWebhook = async (req, res) => {
 
                 await redisdel(redisChatId);
               } else {
-                await redisHmset(redisChatId, "service", "");
                 text = `الاختيار المدخل غير صحيح\n`;
                 text += "الرجاء اختيار الكافي:\n\n";
                 coffees.forEach((coffee, i) => {
@@ -341,7 +339,6 @@ const botWebhook = async (req, res) => {
 
                 await redisdel(redisChatId);
               } else {
-                await redisHmset(redisChatId, "service", "");
                 text = `Incorrect choice\n`;
                 text += "Please choose a restaurant:\n\n";
                 restaurants.forEach((restaurant, i) => {
@@ -396,8 +393,6 @@ const botWebhook = async (req, res) => {
 
                 await redisdel(redisChatId);
               } else {
-                await redisHmset(redisChatId, "service", "");
-
                 text = `Incorrect choice\n`;
                 text += "Please choose a coffee:\n\n";
                 coffees.forEach((coffee, i) => {
