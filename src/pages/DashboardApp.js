@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Box, Grid, Container, Typography, Alert, CircularProgress, Card } from '@mui/material';
 import { green } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
+import { toast } from 'material-react-toastify';
 import Page from '../components/Page';
 import {
   // AppCreditBalance,
@@ -11,7 +12,13 @@ import {
   AppActivateDiscount
 } from '../components/_dashboard/app';
 import { getUserDetails } from '../actions/userActions';
-import { USER_DETAILS_RESET } from '../constants/userConstants';
+import {
+  USER_DETAILS_RESET,
+  USER_CHECK_CODE_RESET,
+  USER_UPDATE_DISCOUNT_RESET,
+  USER_UPDATE_ACTIVE_RESET
+} from '../constants/userConstants';
+
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Card)(({ theme }) => ({
@@ -47,6 +54,38 @@ export default function DashboardApp() {
     dispatch({ type: USER_DETAILS_RESET });
   }, [dispatch, userInfo, userDisccountSuccess, updateUserActiveSuccess]);
 
+  const showToast = (text, severity) => {
+    toast[severity](text, {
+      position: 'top-left',
+      autoClose: false,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true
+    });
+  };
+
+  if (error) showToast(error, 'error');
+  if (userCheckCodeError) {
+    showToast(userCheckCodeError, 'error');
+    dispatch({ type: USER_CHECK_CODE_RESET });
+  }
+  if (userDisccountError) {
+    showToast(userDisccountError, 'error');
+    dispatch({ type: USER_UPDATE_DISCOUNT_RESET });
+  }
+  if (updateUserActiveError) {
+    showToast(updateUserActiveError, 'error');
+    dispatch({ type: USER_UPDATE_ACTIVE_RESET });
+  }
+  if (userCheckCodeSuccess) {
+    showToast('Code is vaild', 'success');
+    dispatch({ type: USER_CHECK_CODE_RESET });
+  }
+  if (updateUserActiveSuccess) {
+    showToast('User status changed', 'info');
+    dispatch({ type: USER_UPDATE_ACTIVE_RESET });
+  }
   return (
     <Page title="Zoro | Dashboard">
       <Container maxWidth="xl">
@@ -55,42 +94,6 @@ export default function DashboardApp() {
             Hi <strong style={{ color: green[400] }}>{userInfo.name}</strong>, Welcome back
           </Typography>
         </Box>
-
-        {error && (
-          <Grid item xs={12} sx={{ my: '16px' }}>
-            <Alert variant="outlined" severity="error">
-              {error}
-            </Alert>
-          </Grid>
-        )}
-        {userDisccountError && (
-          <Grid item xs={12} sx={{ my: '16px' }}>
-            <Alert variant="outlined" severity="error">
-              {userDisccountError}
-            </Alert>
-          </Grid>
-        )}
-        {updateUserActiveError && (
-          <Grid item xs={12} sx={{ my: '16px' }}>
-            <Alert variant="outlined" severity="error">
-              {updateUserActiveError}
-            </Alert>
-          </Grid>
-        )}
-        {userCheckCodeError && (
-          <Grid item xs={12} sx={{ my: '16px' }}>
-            <Alert variant="outlined" severity="error">
-              {userCheckCodeError}
-            </Alert>
-          </Grid>
-        )}
-        {userCheckCodeSuccess && (
-          <Grid item xs={12} sx={{ my: '16px' }}>
-            <Alert variant="outlined" severity="success">
-              Code is vaild
-            </Alert>
-          </Grid>
-        )}
 
         <RootStyle>
           <Grid container spacing={3}>
