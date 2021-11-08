@@ -16,8 +16,8 @@ export default function AppActivateDiscount({ isActive, userInfo }) {
     boxShadow: 'none',
     textAlign: 'center',
     padding: theme.spacing(5, 0),
-    color: isActive ? theme.palette.success.darker : theme.palette.error.darker,
-    backgroundColor: isActive ? theme.palette.success.lighter : theme.palette.error.lighter
+    color: theme.palette.info.darker,
+    backgroundColor: theme.palette.info.lighter
   }));
 
   const IconWrapperStyle = styled('div')(({ theme }) => ({
@@ -30,16 +30,17 @@ export default function AppActivateDiscount({ isActive, userInfo }) {
     height: theme.spacing(8),
     justifyContent: 'center',
     marginBottom: theme.spacing(3),
-    color: isActive ? theme.palette.success.dark : theme.palette.error.dark,
-    backgroundImage: isActive
-      ? `linear-gradient(135deg, ${alpha(theme.palette.success.dark, 0)} 0%, ${alpha(
-          theme.palette.success.dark,
-          0.24
-        )} 100%)`
-      : `linear-gradient(135deg, ${alpha(theme.palette.error.dark, 0)} 0%, ${alpha(
-          theme.palette.error.dark,
-          0.24
-        )} 100%)`
+    color: '#ffffff',
+    background: isActive ? theme.palette.success.dark : theme.palette.error.main
+    // backgroundImage: isActive
+    //   ? `linear-gradient(135deg, ${alpha(theme.palette.success.dark, 0)} 0%, ${alpha(
+    //       theme.palette.success.dark,
+    //       0.24
+    //     )} 100%)`
+    //   : `linear-gradient(135deg, ${alpha(theme.palette.error.dark, 0)} 0%, ${alpha(
+    //       theme.palette.error.dark,
+    //       0.24
+    //     )} 100%)`
   }));
   const handleActicate = () => {
     dispatch(updateUserActive(userInfo._id));

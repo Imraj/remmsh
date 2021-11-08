@@ -13,18 +13,18 @@ const RootStyle = styled(Card)(({ theme }) => ({
   boxShadow: 'none',
   textAlign: 'center',
   padding: theme.spacing(5, 0),
-  color: theme.palette.warning.darker,
-  backgroundColor: theme.palette.warning.lighter
+  color: theme.palette.info.darker,
+  backgroundColor: theme.palette.info.lighter
 }));
 
 const LoadingButtonStyled = styled(LoadingButton)(({ theme }) => ({
-  color: theme.palette.warning.lighter,
-  backgroundColor: theme.palette.warning.darker,
+  color: theme.palette.info.lighter,
+  backgroundColor: theme.palette.info.darker,
   'box-shadow': 'none',
   '&:hover': {
     opacity: 0.9,
-    color: theme.palette.warning.lighter,
-    backgroundColor: theme.palette.warning.darker
+    color: theme.palette.info.lighter,
+    backgroundColor: theme.palette.info.darker
   }
 }));
 
@@ -74,10 +74,9 @@ export default function AppDiscount({ discount, userInfo, userDisccountError }) 
               {...getFieldProps('discountPercentage')}
               error={Boolean(touched.discountPercentage && errors.discountPercentage)}
               helperText={touched.discountPercentage && errors.discountPercentage}
-              color="warning"
+              color="info"
             />
           </Stack>
-
           <LoadingButtonStyled
             size="medium"
             type="submit"

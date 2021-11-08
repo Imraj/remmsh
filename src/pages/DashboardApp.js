@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Box, Grid, Container, Typography, Alert, CircularProgress } from '@mui/material';
+import { Box, Grid, Container, Typography, Alert, CircularProgress, Card } from '@mui/material';
 import { green } from '@mui/material/colors';
+import { styled } from '@mui/material/styles';
 import Page from '../components/Page';
 import {
   // AppCreditBalance,
@@ -12,6 +13,14 @@ import {
 import { getUserDetails } from '../actions/userActions';
 import { USER_DETAILS_RESET } from '../constants/userConstants';
 // ----------------------------------------------------------------------
+
+const RootStyle = styled(Card)(({ theme }) => ({
+  boxShadow: 'none',
+  textAlign: 'center',
+  // padding: theme.spacing(5, 0),
+  color: theme.palette.info.darker,
+  backgroundColor: theme.palette.info.lighter
+}));
 
 export default function DashboardApp() {
   const dispatch = useDispatch();
@@ -41,6 +50,12 @@ export default function DashboardApp() {
   return (
     <Page title="Zoro | Dashboard">
       <Container maxWidth="xl">
+        <Box sx={{ pb: 5 }}>
+          <Typography variant="h4">
+            Hi <strong style={{ color: green[400] }}>{userInfo.name}</strong>, Welcome back
+          </Typography>
+        </Box>
+
         {error && (
           <Grid item xs={12} sx={{ my: '16px' }}>
             <Alert variant="outlined" severity="error">
@@ -77,76 +92,73 @@ export default function DashboardApp() {
           </Grid>
         )}
 
-        <Box sx={{ pb: 5 }}>
-          <Typography variant="h4">
-            Hi <strong style={{ color: green[400] }}>{userInfo.name}</strong>, Welcome back
-          </Typography>
-        </Box>
-        <Grid container spacing={3}>
-          {!userCheckCodeLoading && (
-            <Grid item xs={12} md={4}>
-              <AppCheckCode
-                userCheckCodeError={userCheckCodeError}
-                userCheckCodeSuccess={userCheckCodeSuccess}
-              />
-            </Grid>
-          )}
-
-          {userCheckCodeLoading && (
-            <Grid
-              item
-              xs={12}
-              md={4}
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              height="262px"
-            >
-              <CircularProgress size={50} color="info" />
-            </Grid>
-          )}
-          {loading && (
-            <>
-              <Grid
-                item
-                xs={12}
-                md={4}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                height="262px"
-              >
-                <CircularProgress size={50} color="warning" />
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                md={4}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                height="262px"
-              >
-                <CircularProgress size={50} color="error" />
-              </Grid>
-            </>
-          )}
-
-          {userDetails && (
-            <>
+        <RootStyle>
+          <Grid container spacing={3}>
+            {!userCheckCodeLoading && (
               <Grid item xs={12} md={4}>
-                <AppDiscount
-                  discount={userDetails.discount}
-                  userInfo={userInfo}
-                  userDisccountError={userDisccountError}
+                <AppCheckCode
+                  userCheckCodeError={userCheckCodeError}
+                  userCheckCodeSuccess={userCheckCodeSuccess}
                 />
               </Grid>
-              <Grid item xs={12} md={4}>
-                <AppActivateDiscount isActive={userDetails.isActive} userInfo={userInfo} />
+            )}
+
+            {userCheckCodeLoading && (
+              <Grid
+                item
+                xs={12}
+                md={4}
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                height="262px"
+              >
+                <CircularProgress size={50} color="info" />
               </Grid>
-            </>
-          )}
-        </Grid>
+            )}
+            {loading && (
+              <>
+                <Grid
+                  item
+                  xs={12}
+                  md={4}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  height="262px"
+                >
+                  <CircularProgress size={50} color="warning" />
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  md={4}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  height="262px"
+                >
+                  <CircularProgress size={50} color="error" />
+                </Grid>
+              </>
+            )}
+
+            {userDetails && (
+              <>
+                <Grid item xs={12} md={4}>
+                  <AppDiscount
+                    discount={userDetails.discount}
+                    userInfo={userInfo}
+                    userDisccountError={userDisccountError}
+                  />
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <AppActivateDiscount isActive={userDetails.isActive} userInfo={userInfo} />
+                </Grid>
+              </>
+            )}
+          </Grid>
+        </RootStyle>
       </Container>
     </Page>
   );
