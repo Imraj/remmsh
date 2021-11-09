@@ -46,7 +46,13 @@ export default function AppTotalActivation() {
         </Grid>
         <Grid item>
           {loading && <CircularProgress size={35} color="error" />}
-          {userDetails && <Typography variant="h3">{userDetails.totalActivation}</Typography>}
+          {userDetails && (
+            <Typography variant="h3">
+              {userDetails.totalActivation && userDetails.totalActivation > 0
+                ? userDetails.totalActivation
+                : 0}
+            </Typography>
+          )}
           <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
             Total activation
           </Typography>

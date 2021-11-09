@@ -46,7 +46,11 @@ export default function AppTotalSeen() {
         </Grid>
         <Grid item>
           {loading && <CircularProgress size={35} color="primary" />}
-          {userDetails && <Typography variant="h3">{userDetails.totalSeen}</Typography>}
+          {userDetails && (
+            <Typography variant="h3">
+              {userDetails.totalSeen && userDetails.totalSeen > 0 ? userDetails.totalSeen : 0}
+            </Typography>
+          )}
 
           <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
             Total seen

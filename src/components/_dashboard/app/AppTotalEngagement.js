@@ -45,7 +45,13 @@ export default function AppTotalEngagement() {
         </Grid>
         <Grid item>
           {loading && <CircularProgress size={35} color="warning" />}
-          {userDetails && <Typography variant="h3">{userDetails.totalEngagement}</Typography>}
+          {userDetails && (
+            <Typography variant="h3">
+              {userDetails.totalEngagement && userDetails.totalEngagement > 0
+                ? userDetails.totalEngagement
+                : 0}
+            </Typography>
+          )}
           <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
             Total engagement
           </Typography>
