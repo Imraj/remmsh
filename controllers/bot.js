@@ -100,7 +100,7 @@ const botWebhook = async (req, res) => {
 
                   //Update total seen for all reseturants
                   await User.updateMany(
-                    { type: "resturant" },
+                    { type: "resturant", isActive: true },
                     { $inc: { totalSeen: 1 } }
                   );
                 } else if (textMessage === "2" || textMessage === "٢") {
@@ -117,7 +117,7 @@ const botWebhook = async (req, res) => {
 
                   //Update total seen for all coffees
                   await User.updateMany(
-                    { type: "coffee" },
+                    { type: "coffee", isActive: true },
                     { $inc: { totalSeen: 1 } }
                   );
                 } else if (textMessage === "3" || textMessage === "٣") {
@@ -134,7 +134,7 @@ const botWebhook = async (req, res) => {
 
                   //Update total seen for all lounges
                   await User.updateMany(
-                    { type: "lounge" },
+                    { type: "lounge", isActive: true },
                     { $inc: { totalSeen: 1 } }
                   );
                 } else {
@@ -423,7 +423,7 @@ const botWebhook = async (req, res) => {
 
                   //Update total seen for all reseturants
                   await User.updateMany(
-                    { type: "resturant" },
+                    { type: "resturant", isActive: true },
                     { $inc: { totalSeen: 1 } }
                   );
                 } else if (textMessage === "2" || textMessage === "٢") {
@@ -440,7 +440,7 @@ const botWebhook = async (req, res) => {
 
                   //Update total seen for all coffees
                   await User.updateMany(
-                    { type: "coffee" },
+                    { type: "coffee", isActive: true },
                     { $inc: { totalSeen: 1 } }
                   );
                 } else if (textMessage === "3" || textMessage === "٣") {
@@ -457,7 +457,7 @@ const botWebhook = async (req, res) => {
 
                   //Update total seen for all lounges
                   await User.updateMany(
-                    { type: "lounge" },
+                    { type: "lounge", isActive: true },
                     { $inc: { totalSeen: 1 } }
                   );
                 } else {
