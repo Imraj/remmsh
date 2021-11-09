@@ -9,7 +9,10 @@ import {
   // AppCreditBalance,
   AppCheckCode,
   AppDiscount,
-  AppActivateDiscount
+  AppActivateDiscount,
+  AppTotalSeen,
+  AppTotalEngagement,
+  AppTotalActivation
 } from '../components/_dashboard/app';
 import { getUserDetails } from '../actions/userActions';
 import {
@@ -51,8 +54,28 @@ export default function DashboardApp() {
 
   useEffect(() => {
     dispatch(getUserDetails(userInfo._id));
-    dispatch({ type: USER_DETAILS_RESET });
   }, [dispatch, userInfo, userDisccountSuccess, updateUserActiveSuccess]);
+
+  useEffect(() => {
+    if (updateUserActiveSuccess) {
+      showToast('User status changed', 'info');
+      dispatch({ type: USER_UPDATE_ACTIVE_RESET });
+    }
+  }, [updateUserActiveSuccess]);
+
+  useEffect(() => {
+    if (userCheckCodeSuccess) {
+      showToast('Code is vaild', 'success');
+      dispatch({ type: USER_CHECK_CODE_RESET });
+    }
+  }, [userCheckCodeSuccess]);
+
+  useEffect(() => {
+    if (userDisccountSuccess) {
+      showToast('Disccount updated successfully', 'success');
+      dispatch({ type: USER_UPDATE_DISCOUNT_RESET });
+    }
+  }, [userDisccountSuccess]);
 
   const showToast = (text, severity) => {
     toast[severity](text, {
@@ -78,14 +101,7 @@ export default function DashboardApp() {
     showToast(updateUserActiveError, 'error');
     dispatch({ type: USER_UPDATE_ACTIVE_RESET });
   }
-  if (userCheckCodeSuccess) {
-    showToast('Code is vaild', 'success');
-    dispatch({ type: USER_CHECK_CODE_RESET });
-  }
-  if (updateUserActiveSuccess) {
-    showToast('User status changed', 'info');
-    dispatch({ type: USER_UPDATE_ACTIVE_RESET });
-  }
+
   return (
     <Page title="Zoro | Dashboard">
       <Container maxWidth="xl">
@@ -130,7 +146,7 @@ export default function DashboardApp() {
                   justifyContent="center"
                   height="262px"
                 >
-                  <CircularProgress size={50} color="warning" />
+                  <CircularProgress size={50} color="info" />
                 </Grid>
                 <Grid
                   item
@@ -141,7 +157,7 @@ export default function DashboardApp() {
                   justifyContent="center"
                   height="262px"
                 >
-                  <CircularProgress size={50} color="error" />
+                  <CircularProgress size={50} color="info" />
                 </Grid>
               </>
             )}
@@ -162,6 +178,20 @@ export default function DashboardApp() {
             )}
           </Grid>
         </RootStyle>
+      </Container>
+
+      <Container maxWidth="xl" sx={{ mt: 2 }}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6} md={4}>
+            <AppTotalSeen />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <AppTotalEngagement />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <AppTotalActivation />
+          </Grid>
+        </Grid>
       </Container>
     </Page>
   );
