@@ -221,7 +221,7 @@ const updateUserActive = async (req, res) => {
   }
 };
 
-// @desc    Update user active
+// @desc    user check code
 // @route   PATCH /api/users/checkcode
 // @access  Private
 const userCheckCode = async (req, res) => {
@@ -234,6 +234,12 @@ const userCheckCode = async (req, res) => {
     if (!code) return res.status(404).json({ error: "Code is invalid" });
 
     await code.remove();
+
+    //Update to total activation
+    await User.findOneAndUpdate(
+      { _id: req.user._id },
+      { $inc: { totalActivation: 1 } }
+    );
 
     res.status(200).json(code);
   } catch (error) {

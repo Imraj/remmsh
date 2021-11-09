@@ -35,6 +35,15 @@ const userSchema = mongoose.Schema(
     discount: {
       type: Number,
     },
+    totalSeen: {
+      type: Number,
+    },
+    totalEngagement: {
+      type: Number,
+    },
+    totalActivation: {
+      type: Number,
+    },
     tokens: [
       {
         token: {

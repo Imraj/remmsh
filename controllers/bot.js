@@ -97,6 +97,12 @@ const botWebhook = async (req, res) => {
                   text += "\n";
                   text += `للقائمة السابقة ارسل 0️⃣ \n`;
                   await redisHmset(redisChatId, "choiseQSend", true);
+
+                  //Update total seen for all reseturants
+                  await User.updateMany(
+                    { type: "resturant" },
+                    { $inc: { totalSeen: 1 } }
+                  );
                 } else if (textMessage === "2" || textMessage === "٢") {
                   await redisHmset(redisChatId, "service", "2");
 
@@ -108,6 +114,12 @@ const botWebhook = async (req, res) => {
                   text += `للقائمة السابقة ارسل 0️⃣ \n`;
 
                   await redisHmset(redisChatId, "choiseQSend", true);
+
+                  //Update total seen for all coffees
+                  await User.updateMany(
+                    { type: "coffee" },
+                    { $inc: { totalSeen: 1 } }
+                  );
                 } else if (textMessage === "3" || textMessage === "٣") {
                   await redisHmset(redisChatId, "service", "3");
 
@@ -119,6 +131,12 @@ const botWebhook = async (req, res) => {
                   text += `للقائمة السابقة ارسل 0️⃣ \n`;
 
                   await redisHmset(redisChatId, "choiseQSend", true);
+
+                  //Update total seen for all lounges
+                  await User.updateMany(
+                    { type: "lounge" },
+                    { $inc: { totalSeen: 1 } }
+                  );
                 } else {
                   text = `\u202B`;
                   text += `مرحباً بك 🔊\n\n`;
@@ -180,6 +198,12 @@ const botWebhook = async (req, res) => {
                     user: restaurants[parseInt(textMessage) - 1].id,
                     code,
                   });
+
+                  //Update to total engagement
+                  await User.findOneAndUpdate(
+                    { _id: restaurants[parseInt(textMessage) - 1].id },
+                    { $inc: { totalEngagement: 1 } }
+                  );
 
                   await redisdel(redisChatId);
                 } else {
@@ -244,6 +268,12 @@ const botWebhook = async (req, res) => {
                     code,
                   });
 
+                  //Update to total engagement
+                  await User.findOneAndUpdate(
+                    { _id: coffees[parseInt(textMessage) - 1].id },
+                    { $inc: { totalEngagement: 1 } }
+                  );
+
                   await redisdel(redisChatId);
                 } else {
                   text = `الاختيار المدخل غير صحيح\n`;
@@ -304,6 +334,12 @@ const botWebhook = async (req, res) => {
                     user: lounges[parseInt(textMessage) - 1].id,
                     code,
                   });
+
+                  //Update to total engagement
+                  await User.findOneAndUpdate(
+                    { _id: lounges[parseInt(textMessage) - 1].id },
+                    { $inc: { totalEngagement: 1 } }
+                  );
 
                   await redisdel(redisChatId);
                 } else {
@@ -384,6 +420,12 @@ const botWebhook = async (req, res) => {
                   text += "\n";
                   text += `For previos menu send 0️⃣ \n`;
                   await redisHmset(redisChatId, "choiseQSend", true);
+
+                  //Update total seen for all reseturants
+                  await User.updateMany(
+                    { type: "resturant" },
+                    { $inc: { totalSeen: 1 } }
+                  );
                 } else if (textMessage === "2" || textMessage === "٢") {
                   await redisHmset(redisChatId, "service", "2");
 
@@ -395,6 +437,12 @@ const botWebhook = async (req, res) => {
                   text += `For previos menu send 0️⃣ \n`;
 
                   await redisHmset(redisChatId, "choiseQSend", true);
+
+                  //Update total seen for all coffees
+                  await User.updateMany(
+                    { type: "coffee" },
+                    { $inc: { totalSeen: 1 } }
+                  );
                 } else if (textMessage === "3" || textMessage === "٣") {
                   await redisHmset(redisChatId, "service", "3");
 
@@ -406,6 +454,12 @@ const botWebhook = async (req, res) => {
                   text += `For previos menu send 0️⃣`;
 
                   await redisHmset(redisChatId, "choiseQSend", true);
+
+                  //Update total seen for all lounges
+                  await User.updateMany(
+                    { type: "lounge" },
+                    { $inc: { totalSeen: 1 } }
+                  );
                 } else {
                   text = `Welcome 🔊\n\n`;
                   text += `1️⃣ Restaurants 🥗\n`;
@@ -462,6 +516,12 @@ const botWebhook = async (req, res) => {
                     user: restaurants[parseInt(textMessage) - 1].id,
                     code,
                   });
+
+                  //Update to total engagement
+                  await User.findOneAndUpdate(
+                    { _id: restaurants[parseInt(textMessage) - 1].id },
+                    { $inc: { totalEngagement: 1 } }
+                  );
 
                   await redisdel(redisChatId);
                 } else {
@@ -525,6 +585,12 @@ const botWebhook = async (req, res) => {
                     code,
                   });
 
+                  //Update to total engagement
+                  await User.findOneAndUpdate(
+                    { _id: coffees[parseInt(textMessage) - 1].id },
+                    { $inc: { totalEngagement: 1 } }
+                  );
+
                   await redisdel(redisChatId);
                 } else {
                   text = `Incorrect choice\n`;
@@ -584,6 +650,12 @@ const botWebhook = async (req, res) => {
                     user: lounges[parseInt(textMessage) - 1].id,
                     code,
                   });
+
+                  //Update to total engagement
+                  await User.findOneAndUpdate(
+                    { _id: lounges[parseInt(textMessage) - 1].id },
+                    { $inc: { totalEngagement: 1 } }
+                  );
 
                   await redisdel(redisChatId);
                 } else {
