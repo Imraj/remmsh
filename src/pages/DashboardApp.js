@@ -24,10 +24,10 @@ import {
 
 // ----------------------------------------------------------------------
 
-const RootStyle = styled(Card)(({ theme }) => ({
+const ActionsDashboardStyle = styled(Card)(({ theme }) => ({
   boxShadow: 'none',
   textAlign: 'center',
-  // padding: theme.spacing(5, 0),
+  marginTop: theme.spacing(2),
   color: theme.palette.info.darker,
   backgroundColor: theme.palette.info.lighter
 }));
@@ -110,8 +110,18 @@ export default function DashboardApp() {
             Hi <strong style={{ color: green[400] }}>{userInfo.name}</strong>, Welcome back
           </Typography>
         </Box>
-
-        <RootStyle>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6} md={4}>
+            <AppTotalSeen />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <AppTotalEngagement />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <AppTotalActivation />
+          </Grid>
+        </Grid>
+        <ActionsDashboardStyle>
           <Grid container spacing={3}>
             {!userCheckCodeLoading && (
               <Grid item xs={12} md={4}>
@@ -177,21 +187,7 @@ export default function DashboardApp() {
               </>
             )}
           </Grid>
-        </RootStyle>
-      </Container>
-
-      <Container maxWidth="xl" sx={{ mt: 2 }}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={4}>
-            <AppTotalSeen />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <AppTotalEngagement />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <AppTotalActivation />
-          </Grid>
-        </Grid>
+        </ActionsDashboardStyle>
       </Container>
     </Page>
   );
