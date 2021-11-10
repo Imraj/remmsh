@@ -87,7 +87,9 @@ const botWebhook = async (req, res) => {
                 if (textMessage === "1" || textMessage === "١") {
                   await redisHmset(redisChatId, "service", "1");
 
-                  text = "*الرجاء اختيار المطعم 🥗:*\n\n";
+                  text = "*الرجاء اختيار المطعم 🔢*\n\n";
+                  text += "••••••••••••••••••\n\n";
+
                   restaurants.forEach((restaurant, i) => {
                     text += `*${i + 1}*- ${restaurant.name} *${
                       restaurant.discount
@@ -105,7 +107,9 @@ const botWebhook = async (req, res) => {
                 } else if (textMessage === "2" || textMessage === "٢") {
                   await redisHmset(redisChatId, "service", "2");
 
-                  text = "*الرجاء اختيار الكافي ☕:*\n\n";
+                  text = "*الرجاء اختيار الكافي 🔢*\n\n";
+                  text += "••••••••••••••••••\n\n";
+
                   coffees.forEach((coffee, i) => {
                     text += `*${i + 1}*- ${coffee.name} *${
                       coffee.discount
@@ -123,7 +127,9 @@ const botWebhook = async (req, res) => {
                 } else if (textMessage === "3" || textMessage === "٣") {
                   await redisHmset(redisChatId, "service", "3");
 
-                  text = "*الرجاء اختيار اللاونج 🛋️:*\n\n";
+                  text = "*الرجاء اختيار اللاونج 🔢*\n\n";
+                  text += "••••••••••••••••••\n\n";
+
                   lounges.forEach((lounge, i) => {
                     text += `*${i + 1}*- ${lounge.name} *${
                       lounge.discount
@@ -208,8 +214,10 @@ const botWebhook = async (req, res) => {
 
                   await redisdel(redisChatId);
                 } else {
-                  text = `الاختيار المدخل غير صحيح\n\n`;
-                  text += "*الرجاء اختيار المطعم 🥗:*\n\n";
+                  text = `الاختيار المدخل غير صحيح ⭕️\n\n`;
+                  text += "*الرجاء اختيار المطعم 🔢*\n\n";
+                  text += "••••••••••••••••••\n\n";
+
                   restaurants.forEach((restaurant, i) => {
                     text += `*${i + 1}*- ${restaurant.name} ${
                       restaurant.discount
@@ -278,8 +286,9 @@ const botWebhook = async (req, res) => {
 
                   await redisdel(redisChatId);
                 } else {
-                  text = `الاختيار المدخل غير صحيح\n\n`;
-                  text += "*الرجاء اختيار الكافي ☕:*\n\n";
+                  text = `الاختيار المدخل غير صحيح ⭕️\n\n`;
+                  text += "*الرجاء اختيار الكافي 🔢*\n\n";
+                  text += "••••••••••••••••••\n\n";
 
                   coffees.forEach((coffee, i) => {
                     text += `*${i + 1}*- ${coffee.name} ${
@@ -349,8 +358,10 @@ const botWebhook = async (req, res) => {
 
                   await redisdel(redisChatId);
                 } else {
-                  text = `الاختيار المدخل غير صحيح\n`;
-                  text += "*الرجاء اختيار اللاونج 🛋️:*\n\n";
+                  text = `الاختيار المدخل غير صحيح ⭕️\n\n`;
+                  text += "*الرجاء اختيار اللاونج 🔢*\n\n";
+                  text += "••••••••••••••••••\n\n";
+
                   lounges.forEach((lounge, i) => {
                     text += `*${i + 1}*- ${lounge.name} ${
                       lounge.discount
@@ -421,7 +432,8 @@ const botWebhook = async (req, res) => {
                 if (textMessage === "1" || textMessage === "١") {
                   await redisHmset(redisChatId, "service", "1");
 
-                  text = "*Please choose a restaurant 🥗:*\n\n";
+                  text = "*Please choose a restaurant 🔢*\n\n";
+                  text += "••••••••••••••••••\n\n";
                   restaurants.forEach((restaurant, i) => {
                     text += `*${i + 1}*- ${restaurant.name} *${
                       restaurant.discount
@@ -439,7 +451,8 @@ const botWebhook = async (req, res) => {
                 } else if (textMessage === "2" || textMessage === "٢") {
                   await redisHmset(redisChatId, "service", "2");
 
-                  text = "*Please choose a coffee ☕:*\n\n";
+                  text = "*Please choose a coffee 🔢*\n\n";
+                  text += "••••••••••••••••••\n\n";
                   coffees.forEach((coffee, i) => {
                     text += `*${i + 1}*- ${coffee.name} *${
                       coffee.discount
@@ -458,7 +471,9 @@ const botWebhook = async (req, res) => {
                 } else if (textMessage === "3" || textMessage === "٣") {
                   await redisHmset(redisChatId, "service", "3");
 
-                  text = "*Please choose a Lounge 🛋️:*\n\n";
+                  text = "*Please choose a Lounge 🔢*\n\n";
+                  text += "••••••••••••••••••\n\n";
+
                   lounges.forEach((lounge, i) => {
                     text += `*${i + 1}*- ${lounge.name} *${
                       lounge.discount
@@ -539,8 +554,10 @@ const botWebhook = async (req, res) => {
 
                   await redisdel(redisChatId);
                 } else {
-                  text = `Incorrect choice\n\n`;
-                  text += "*Please choose a restaurant 🥗:*\n\n";
+                  text = `Incorrect choice ⭕️\n\n`;
+                  text += "*Please choose a restaurant 🔢*\n\n";
+                  text += "••••••••••••••••••\n\n";
+
                   restaurants.forEach((restaurant, i) => {
                     text += `*${i + 1}*- ${restaurant.name} ${
                       restaurant.discount
@@ -608,8 +625,9 @@ const botWebhook = async (req, res) => {
 
                   await redisdel(redisChatId);
                 } else {
-                  text = `Incorrect choice\n\n`;
-                  text += "*Please choose a coffee ☕:*\n\n";
+                  text = `Incorrect choice ⭕️\n\n`;
+                  text += "*Please choose a coffee 🔢*\n\n";
+                  text += "••••••••••••••••••\n\n";
                   coffees.forEach((coffee, i) => {
                     text += `*${i + 1}*- ${coffee.name} ${
                       coffee.discount
@@ -677,8 +695,10 @@ const botWebhook = async (req, res) => {
 
                   await redisdel(redisChatId);
                 } else {
-                  text = `Incorrect choice\n\n`;
-                  text += "*Please choose a Lounge 🛋️:*\n\n";
+                  text = `Incorrect choice ⭕️\n\n`;
+                  text += "*Please choose a Lounge 🔢*\n\n";
+                  text += "••••••••••••••••••\n\n";
+
                   lounges.forEach((lounge, i) => {
                     text += `*${i + 1}*- ${lounge.name} ${
                       lounge.discount
