@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import * as api from '../api';
 import {
   USER_REGISTER_FAIL,
@@ -113,6 +114,11 @@ export const getUserDetails = (id) => async (dispatch) => {
       payload:
         error.response && error.response.data.error ? error.response.data.error : error.message
     });
+
+    showToast(
+      error.response && error.response.data.error ? error.response.data.error : error.message,
+      'error'
+    );
   }
 };
 
@@ -128,12 +134,19 @@ export const updateUserDisccount = (id, userData) => async (dispatch) => {
       type: USER_UPDATE_DISCOUNT_SUCCESS,
       payload: data
     });
+
+    showToast('Disccount updated successfully', 'success');
   } catch (error) {
     dispatch({
       type: USER_UPDATE_DISCOUNT_FAIL,
       payload:
         error.response && error.response.data.error ? error.response.data.error : error.message
     });
+
+    showToast(
+      error.response && error.response.data.error ? error.response.data.error : error.message,
+      'error'
+    );
   }
 };
 
@@ -149,12 +162,19 @@ export const updateUserActive = (id) => async (dispatch) => {
       type: USER_UPDATE_ACTIVE_SUCCESS,
       payload: data
     });
+
+    showToast('User status changed', 'info');
   } catch (error) {
     dispatch({
       type: USER_UPDATE_ACTIVE_FAIL,
       payload:
         error.response && error.response.data.error ? error.response.data.error : error.message
     });
+
+    showToast(
+      error.response && error.response.data.error ? error.response.data.error : error.message,
+      'error'
+    );
   }
 };
 
@@ -170,11 +190,22 @@ export const userCheckcode = (codeData) => async (dispatch) => {
       type: USER_CHECK_CODE_SUCCESS,
       payload: data
     });
+
+    showToast('Code is vaild', 'success');
   } catch (error) {
     dispatch({
       type: USER_CHECK_CODE_FAIL,
       payload:
         error.response && error.response.data.error ? error.response.data.error : error.message
     });
+
+    showToast(
+      error.response && error.response.data.error ? error.response.data.error : error.message,
+      'error'
+    );
   }
+};
+
+const showToast = (text, severity) => {
+  toast[severity](text);
 };

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Box, Grid, Container, Typography, Alert, CircularProgress, Card } from '@mui/material';
 import { green } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
-import { toast } from 'material-react-toastify';
 import Page from '../components/Page';
 import {
   // AppCreditBalance,
@@ -15,12 +14,6 @@ import {
   AppTotalActivation
 } from '../components/_dashboard/app';
 import { getUserDetails } from '../actions/userActions';
-import {
-  USER_DETAILS_RESET,
-  USER_CHECK_CODE_RESET,
-  USER_UPDATE_DISCOUNT_RESET,
-  USER_UPDATE_ACTIVE_RESET
-} from '../constants/userConstants';
 
 // ----------------------------------------------------------------------
 
@@ -37,13 +30,13 @@ export default function DashboardApp() {
   const userInfo = useSelector((state) => state.userLogin.userInfo);
 
   const userDetailsStore = useSelector((state) => state.userDetails);
-  const { loading, error, userDetails } = userDetailsStore;
+  const { loading, userDetails } = userDetailsStore;
 
   const updateUserDisccountStore = useSelector((state) => state.updateUserDisccount);
   const { error: userDisccountError, success: userDisccountSuccess } = updateUserDisccountStore;
 
   const updateUserActiveStore = useSelector((state) => state.updateUserActive);
-  const { error: updateUserActiveError, success: updateUserActiveSuccess } = updateUserActiveStore;
+  const { success: updateUserActiveSuccess } = updateUserActiveStore;
 
   const userCheckCode = useSelector((state) => state.userCheckCode);
   const {
@@ -55,52 +48,6 @@ export default function DashboardApp() {
   useEffect(() => {
     dispatch(getUserDetails(userInfo._id));
   }, [dispatch, userInfo, userDisccountSuccess, updateUserActiveSuccess]);
-
-  useEffect(() => {
-    if (updateUserActiveSuccess) {
-      showToast('User status changed', 'info');
-      dispatch({ type: USER_UPDATE_ACTIVE_RESET });
-    }
-  }, [updateUserActiveSuccess]);
-
-  useEffect(() => {
-    if (userCheckCodeSuccess) {
-      showToast('Code is vaild', 'success');
-      dispatch({ type: USER_CHECK_CODE_RESET });
-    }
-  }, [userCheckCodeSuccess]);
-
-  useEffect(() => {
-    if (userDisccountSuccess) {
-      showToast('Disccount updated successfully', 'success');
-      dispatch({ type: USER_UPDATE_DISCOUNT_RESET });
-    }
-  }, [userDisccountSuccess]);
-
-  const showToast = (text, severity) => {
-    toast[severity](text, {
-      position: 'top-left',
-      autoClose: false,
-      hideProgressBar: true,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true
-    });
-  };
-
-  if (error) showToast(error, 'error');
-  if (userCheckCodeError) {
-    showToast(userCheckCodeError, 'error');
-    dispatch({ type: USER_CHECK_CODE_RESET });
-  }
-  if (userDisccountError) {
-    showToast(userDisccountError, 'error');
-    dispatch({ type: USER_UPDATE_DISCOUNT_RESET });
-  }
-  if (updateUserActiveError) {
-    showToast(updateUserActiveError, 'error');
-    dispatch({ type: USER_UPDATE_ACTIVE_RESET });
-  }
 
   return (
     <Page title="Zoro | Dashboard">

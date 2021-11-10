@@ -1,10 +1,10 @@
-import { ToastContainer } from 'material-react-toastify';
+import { ToastContainer } from 'react-toastify';
 // routes
 import Router from './routes';
 // theme
 import ThemeConfig from './theme';
 import GlobalStyles from './theme/globalStyles';
-import 'material-react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 // ----------------------------------------------------------------------
 
@@ -13,12 +13,16 @@ export default function App() {
     <ThemeConfig>
       <ToastContainer
         position="top-left"
-        autoClose={false}
+        autoClose={3000}
+        hideProgressBar={false}
         newestOnTop={false}
-        closeOnClick={false}
+        closeOnClick
         rtl={false}
         pauseOnFocusLoss
         draggable
+        pauseOnHover
+        icon={false}
+        theme="colored"
       />
       <GlobalStyles />
       <Router />
