@@ -91,10 +91,10 @@ const botWebhook = async (req, res) => {
                   restaurants.forEach((restaurant, i) => {
                     text += `*${i + 1}*- ${restaurant.name} *${
                       restaurant.discount
-                    }%*\n`;
+                    }%*\n\n`;
                   });
-                  text += "\n";
-                  text += `للقائمة السابقة ارسل 0️⃣ \n`;
+
+                  text += `للقائمة السابقة ارسل 0️⃣`;
                   await redisHmset(redisChatId, "choiseQSend", true);
 
                   //Update total seen for all reseturants
@@ -109,10 +109,9 @@ const botWebhook = async (req, res) => {
                   coffees.forEach((coffee, i) => {
                     text += `*${i + 1}*- ${coffee.name} *${
                       coffee.discount
-                    }%*\n`;
+                    }%*\n\n`;
                   });
-                  text += "\n";
-                  text += `للقائمة السابقة ارسل 0️⃣ \n`;
+                  text += `للقائمة السابقة ارسل 0️⃣`;
 
                   await redisHmset(redisChatId, "choiseQSend", true);
 
@@ -128,10 +127,9 @@ const botWebhook = async (req, res) => {
                   lounges.forEach((lounge, i) => {
                     text += `*${i + 1}*- ${lounge.name} *${
                       lounge.discount
-                    }%*\n`;
+                    }%*\n\n`;
                   });
-                  text += "\n";
-                  text += `للقائمة السابقة ارسل 0️⃣ \n`;
+                  text += `للقائمة السابقة ارسل 0️⃣ `;
 
                   await redisHmset(redisChatId, "choiseQSend", true);
 
@@ -215,8 +213,10 @@ const botWebhook = async (req, res) => {
                   restaurants.forEach((restaurant, i) => {
                     text += `*${i + 1}*- ${restaurant.name} ${
                       restaurant.discount
-                    }%\n`;
+                    }%\n\n`;
                   });
+
+                  text += `للقائمة السابقة ارسل 0️⃣ \n`;
 
                   await redisHmset(redisChatId, "serviceQSend", true);
                   await redisHmset(redisChatId, "choiseQSend", true);
@@ -281,8 +281,12 @@ const botWebhook = async (req, res) => {
                   text = `الاختيار المدخل غير صحيح\n`;
                   text += "الرجاء اختيار الكافي:\n\n";
                   coffees.forEach((coffee, i) => {
-                    text += `*${i + 1}*- ${coffee.name} ${coffee.discount}%\n`;
+                    text += `*${i + 1}*- ${coffee.name} ${
+                      coffee.discount
+                    }%\n\n`;
                   });
+
+                  text += `للقائمة السابقة ارسل 0️⃣ \n`;
 
                   await redisHmset(redisChatId, "serviceQSend", true);
                   await redisHmset(redisChatId, "choiseQSend", true);
@@ -347,8 +351,12 @@ const botWebhook = async (req, res) => {
                   text = `الاختيار المدخل غير صحيح\n`;
                   text += "الرجاء اختيار اللاونج:\n\n";
                   lounges.forEach((lounge, i) => {
-                    text += `*${i + 1}*- ${lounge.name} ${lounge.discount}%\n`;
+                    text += `*${i + 1}*- ${lounge.name} ${
+                      lounge.discount
+                    }%\n\n`;
                   });
+
+                  text += `للقائمة السابقة ارسل 0️⃣ \n`;
 
                   await redisHmset(redisChatId, "serviceQSend", true);
                   await redisHmset(redisChatId, "choiseQSend", true);
@@ -416,10 +424,10 @@ const botWebhook = async (req, res) => {
                   restaurants.forEach((restaurant, i) => {
                     text += `*${i + 1}*- ${restaurant.name} *${
                       restaurant.discount
-                    }%*\n`;
+                    }%*\n\n`;
                   });
-                  text += "\n";
-                  text += `For previos menu send 0️⃣ \n`;
+
+                  text += `For previos menu send 0️⃣`;
                   await redisHmset(redisChatId, "choiseQSend", true);
 
                   //Update total seen for all reseturants
@@ -434,10 +442,10 @@ const botWebhook = async (req, res) => {
                   coffees.forEach((coffee, i) => {
                     text += `*${i + 1}*- ${coffee.name} *${
                       coffee.discount
-                    }%*\n`;
+                    }%*\n\n`;
                   });
-                  text += "\n";
-                  text += `For previos menu send 0️⃣ \n`;
+
+                  text += `For previos menu send 0️⃣`;
 
                   await redisHmset(redisChatId, "choiseQSend", true);
 
@@ -453,9 +461,9 @@ const botWebhook = async (req, res) => {
                   lounges.forEach((lounge, i) => {
                     text += `*${i + 1}*- ${lounge.name} *${
                       lounge.discount
-                    }%*\n`;
+                    }%*\n\n`;
                   });
-                  text += "\n";
+
                   text += `For previos menu send 0️⃣`;
 
                   await redisHmset(redisChatId, "choiseQSend", true);
@@ -535,8 +543,10 @@ const botWebhook = async (req, res) => {
                   restaurants.forEach((restaurant, i) => {
                     text += `*${i + 1}*- ${restaurant.name} ${
                       restaurant.discount
-                    }%\n`;
+                    }%\n\n`;
                   });
+
+                  text += `For previos menu send 0️⃣`;
 
                   await redisHmset(redisChatId, "serviceQSend", true);
                   await redisHmset(redisChatId, "choiseQSend", true);
@@ -600,8 +610,12 @@ const botWebhook = async (req, res) => {
                   text = `Incorrect choice\n`;
                   text += "Please choose a coffee:\n\n";
                   coffees.forEach((coffee, i) => {
-                    text += `*${i + 1}*- ${coffee.name} ${coffee.discount}%\n`;
+                    text += `*${i + 1}*- ${coffee.name} ${
+                      coffee.discount
+                    }%\n\n`;
                   });
+
+                  text += `For previos menu send 0️⃣`;
 
                   await redisHmset(redisChatId, "serviceQSend", true);
                   await redisHmset(redisChatId, "choiseQSend", true);
@@ -665,8 +679,12 @@ const botWebhook = async (req, res) => {
                   text = `Incorrect choice\n`;
                   text += "Please choose a Lounge:\n\n";
                   lounges.forEach((lounge, i) => {
-                    text += `*${i + 1}*- ${lounge.name} ${lounge.discount}%\n`;
+                    text += `*${i + 1}*- ${lounge.name} ${
+                      lounge.discount
+                    }%\n\n`;
                   });
+
+                  text += `For previos menu send 0️⃣`;
 
                   await redisHmset(redisChatId, "serviceQSend", true);
                   await redisHmset(redisChatId, "choiseQSend", true);
