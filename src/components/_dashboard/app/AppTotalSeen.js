@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { Icon } from '@iconify/react';
-import eyeFilled from '@iconify/icons-ant-design/eye-filled';
+import eyeOutline from '@iconify/icons-ant-design/eye-outline';
 // material
 import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography, Grid, CircularProgress } from '@mui/material';
@@ -11,8 +11,9 @@ const RootStyle = styled(Card)(({ theme }) => ({
   boxShadow: 'none',
   textAlign: 'center',
   padding: theme.spacing(3, 3),
-  color: theme.palette.primary.darker,
-  backgroundColor: theme.palette.primary.lighter
+  color: theme.palette.warning.dark,
+  border: `1px solid ${theme.palette.warning.dark}`,
+  background: '#ffffff'
 }));
 
 const IconWrapperStyle = styled('div')(({ theme }) => ({
@@ -23,11 +24,8 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
   width: theme.spacing(8),
   height: theme.spacing(8),
   justifyContent: 'center',
-  color: theme.palette.primary.dark,
-  backgroundImage: `linear-gradient(135deg, ${alpha(theme.palette.primary.dark, 0)} 0%, ${alpha(
-    theme.palette.primary.dark,
-    0.24
-  )} 100%)`
+  color: '#ffffff',
+  background: theme.palette.warning.dark
 }));
 
 // ----------------------------------------------------------------------
@@ -41,11 +39,11 @@ export default function AppTotalSeen() {
       <Grid container justifyContent="space-around" alignItems="center">
         <Grid item>
           <IconWrapperStyle>
-            <Icon icon={eyeFilled} width={24} height={24} />
+            <Icon icon={eyeOutline} width={24} height={24} />
           </IconWrapperStyle>
         </Grid>
         <Grid item>
-          {loading && <CircularProgress size={35} color="primary" />}
+          {loading && <CircularProgress size={35} color="warning" />}
           {userDetails && (
             <Typography variant="h3">
               {userDetails.totalSeen && userDetails.totalSeen > 0 ? userDetails.totalSeen : 0}

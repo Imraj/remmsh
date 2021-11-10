@@ -10,8 +10,9 @@ const RootStyle = styled(Card)(({ theme }) => ({
   boxShadow: 'none',
   textAlign: 'center',
   padding: theme.spacing(3, 3),
-  color: theme.palette.warning.darker,
-  backgroundColor: theme.palette.warning.lighter
+  color: theme.palette.secondary.dark,
+  border: `1px solid ${theme.palette.secondary.dark}`,
+  background: '#ffffff'
 }));
 
 const IconWrapperStyle = styled('div')(({ theme }) => ({
@@ -22,11 +23,8 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
   width: theme.spacing(8),
   height: theme.spacing(8),
   justifyContent: 'center',
-  color: theme.palette.warning.dark,
-  backgroundImage: `linear-gradient(135deg, ${alpha(theme.palette.warning.dark, 0)} 0%, ${alpha(
-    theme.palette.warning.dark,
-    0.24
-  )} 100%)`
+  color: '#ffffff',
+  background: theme.palette.secondary.dark
 }));
 
 // ----------------------------------------------------------------------
@@ -44,7 +42,7 @@ export default function AppTotalEngagement() {
           </IconWrapperStyle>
         </Grid>
         <Grid item>
-          {loading && <CircularProgress size={35} color="warning" />}
+          {loading && <CircularProgress size={35} color="secondary" />}
           {userDetails && (
             <Typography variant="h3">
               {userDetails.totalEngagement && userDetails.totalEngagement > 0
