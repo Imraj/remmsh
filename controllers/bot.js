@@ -2,8 +2,7 @@ const User = require("../models/User");
 const Code = require("../models/Code");
 const promisify = require("util").promisify;
 const { sendMessage, setReaded, setUnreaded } = require("../utils/whatsappApi");
-const voucherCodes = require("voucher-code-generator");
-
+const { getCode } = require("../utils/generateCode");
 // @desc    Bot webhook
 // @route   POST /api/bot/webhook
 // @access  Public
@@ -90,7 +89,7 @@ const botWebhook = async (req, res) => {
 
                   text = "الرجاء اختيار المطعم:\n\n";
                   restaurants.forEach((restaurant, i) => {
-                    text += `${i + 1}- ${restaurant.name} *${
+                    text += `*${i + 1}*- ${restaurant.name} *${
                       restaurant.discount
                     }%*\n`;
                   });
@@ -108,7 +107,9 @@ const botWebhook = async (req, res) => {
 
                   text = "الرجاء اختيار الكافي:\n\n";
                   coffees.forEach((coffee, i) => {
-                    text += `${i + 1}- ${coffee.name} *${coffee.discount}%*\n`;
+                    text += `*${i + 1}*- ${coffee.name} *${
+                      coffee.discount
+                    }%*\n`;
                   });
                   text += "\n";
                   text += `للقائمة السابقة ارسل 0️⃣ \n`;
@@ -125,7 +126,9 @@ const botWebhook = async (req, res) => {
 
                   text = "الرجاء اختيار اللاونج:\n\n";
                   lounges.forEach((lounge, i) => {
-                    text += `${i + 1}- ${lounge.name} *${lounge.discount}%*\n`;
+                    text += `*${i + 1}*- ${lounge.name} *${
+                      lounge.discount
+                    }%*\n`;
                   });
                   text += "\n";
                   text += `للقائمة السابقة ارسل 0️⃣ \n`;
@@ -179,10 +182,10 @@ const botWebhook = async (req, res) => {
                   parseInt(textMessage) > 0 &&
                   parseInt(textMessage) <= restaurants.length
                 ) {
-                  const code = voucherCodes.generate({
-                    length: 8,
-                  })[0];
-                  text = `الخصم: *${
+                  const code = await getCode();
+
+                  text = `*${restaurants[parseInt(textMessage) - 1].name}*\n\n`;
+                  text += `الخصم: *${
                     restaurants[parseInt(textMessage) - 1].discount
                   }%*\n`;
                   text += `كود الخصم: *${code}*\n\n`;
@@ -210,7 +213,7 @@ const botWebhook = async (req, res) => {
                   text = `الاختيار المدخل غير صحيح\n`;
                   text += "الرجاء اختيار المطعم:\n\n";
                   restaurants.forEach((restaurant, i) => {
-                    text += `${i + 1}- ${restaurant.name} ${
+                    text += `*${i + 1}*- ${restaurant.name} ${
                       restaurant.discount
                     }%\n`;
                   });
@@ -249,11 +252,10 @@ const botWebhook = async (req, res) => {
                   parseInt(textMessage) > 0 &&
                   parseInt(textMessage) <= coffees.length
                 ) {
-                  const code = voucherCodes.generate({
-                    length: 8,
-                  })[0];
+                  const code = await getCode();
 
-                  text = `الخصم: *${
+                  text = `*${coffees[parseInt(textMessage) - 1].name}*\n\n`;
+                  text += `الخصم: *${
                     coffees[parseInt(textMessage) - 1].discount
                   }%*\n`;
                   text += `كود الخصم: *${code}*\n\n`;
@@ -279,7 +281,7 @@ const botWebhook = async (req, res) => {
                   text = `الاختيار المدخل غير صحيح\n`;
                   text += "الرجاء اختيار الكافي:\n\n";
                   coffees.forEach((coffee, i) => {
-                    text += `${i + 1}- ${coffee.name} ${coffee.discount}%\n`;
+                    text += `*${i + 1}*- ${coffee.name} ${coffee.discount}%\n`;
                   });
 
                   await redisHmset(redisChatId, "serviceQSend", true);
@@ -316,11 +318,10 @@ const botWebhook = async (req, res) => {
                   parseInt(textMessage) > 0 &&
                   parseInt(textMessage) <= lounges.length
                 ) {
-                  const code = voucherCodes.generate({
-                    length: 8,
-                  })[0];
+                  const code = await getCode();
 
-                  text = `الخصم: *${
+                  text = `*${lounges[parseInt(textMessage) - 1].name}*\n\n`;
+                  text += `الخصم: *${
                     lounges[parseInt(textMessage) - 1].discount
                   }%*\n`;
                   text += `كود الخصم: *${code}*\n\n`;
@@ -346,7 +347,7 @@ const botWebhook = async (req, res) => {
                   text = `الاختيار المدخل غير صحيح\n`;
                   text += "الرجاء اختيار اللاونج:\n\n";
                   lounges.forEach((lounge, i) => {
-                    text += `${i + 1}- ${lounge.name} ${lounge.discount}%\n`;
+                    text += `*${i + 1}*- ${lounge.name} ${lounge.discount}%\n`;
                   });
 
                   await redisHmset(redisChatId, "serviceQSend", true);
@@ -413,7 +414,7 @@ const botWebhook = async (req, res) => {
 
                   text = "Please choose a restaurant:\n\n";
                   restaurants.forEach((restaurant, i) => {
-                    text += `${i + 1}- ${restaurant.name} *${
+                    text += `*${i + 1}*- ${restaurant.name} *${
                       restaurant.discount
                     }%*\n`;
                   });
@@ -431,7 +432,9 @@ const botWebhook = async (req, res) => {
 
                   text = "Please choose a coffee:\n\n";
                   coffees.forEach((coffee, i) => {
-                    text += `${i + 1}- ${coffee.name} *${coffee.discount}%*\n`;
+                    text += `*${i + 1}*- ${coffee.name} *${
+                      coffee.discount
+                    }%*\n`;
                   });
                   text += "\n";
                   text += `For previos menu send 0️⃣ \n`;
@@ -448,7 +451,9 @@ const botWebhook = async (req, res) => {
 
                   text = "Please choose a Lounge:\n\n";
                   lounges.forEach((lounge, i) => {
-                    text += `${i + 1}- ${lounge.name} *${lounge.discount}%*\n`;
+                    text += `*${i + 1}*- ${lounge.name} *${
+                      lounge.discount
+                    }%*\n`;
                   });
                   text += "\n";
                   text += `For previos menu send 0️⃣`;
@@ -498,10 +503,10 @@ const botWebhook = async (req, res) => {
                   parseInt(textMessage) > 0 &&
                   parseInt(textMessage) <= restaurants.length
                 ) {
-                  const code = voucherCodes.generate({
-                    length: 8,
-                  })[0];
-                  text = `Discount: *${
+                  const code = await getCode();
+
+                  text = `*${restaurants[parseInt(textMessage) - 1].name}*\n\n`;
+                  text += `Discount: *${
                     restaurants[parseInt(textMessage) - 1].discount
                   }%*\n`;
                   text += `Discount code: *${code}*\n\n`;
@@ -528,7 +533,7 @@ const botWebhook = async (req, res) => {
                   text = `Incorrect choice\n`;
                   text += "Please choose a restaurant:\n\n";
                   restaurants.forEach((restaurant, i) => {
-                    text += `${i + 1}- ${restaurant.name} ${
+                    text += `*${i + 1}*- ${restaurant.name} ${
                       restaurant.discount
                     }%\n`;
                   });
@@ -565,11 +570,10 @@ const botWebhook = async (req, res) => {
                   parseInt(textMessage) > 0 &&
                   parseInt(textMessage) <= coffees.length
                 ) {
-                  const code = voucherCodes.generate({
-                    length: 8,
-                  })[0];
+                  const code = await getCode();
 
-                  text = `Discount: *${
+                  text = `*${coffees[parseInt(textMessage) - 1].name}*\n\n`;
+                  text += `Discount: *${
                     coffees[parseInt(textMessage) - 1].discount
                   }%*\n`;
                   text += `Discount code: *${code}*\n\n`;
@@ -596,7 +600,7 @@ const botWebhook = async (req, res) => {
                   text = `Incorrect choice\n`;
                   text += "Please choose a coffee:\n\n";
                   coffees.forEach((coffee, i) => {
-                    text += `${i + 1}- ${coffee.name} ${coffee.discount}%\n`;
+                    text += `*${i + 1}*- ${coffee.name} ${coffee.discount}%\n`;
                   });
 
                   await redisHmset(redisChatId, "serviceQSend", true);
@@ -631,11 +635,10 @@ const botWebhook = async (req, res) => {
                   parseInt(textMessage) > 0 &&
                   parseInt(textMessage) <= coffees.length
                 ) {
-                  const code = voucherCodes.generate({
-                    length: 8,
-                  })[0];
+                  const code = await getCode();
 
-                  text = `Discount: *${
+                  text = `*${lounges[parseInt(textMessage) - 1].name}*\n\n`;
+                  text += `Discount: *${
                     lounges[parseInt(textMessage) - 1].discount
                   }%*\n`;
                   text += `Discount code: *${code}*\n\n`;
@@ -662,7 +665,7 @@ const botWebhook = async (req, res) => {
                   text = `Incorrect choice\n`;
                   text += "Please choose a Lounge:\n\n";
                   lounges.forEach((lounge, i) => {
-                    text += `${i + 1}- ${lounge.name} ${lounge.discount}%\n`;
+                    text += `*${i + 1}*- ${lounge.name} ${lounge.discount}%\n`;
                   });
 
                   await redisHmset(redisChatId, "serviceQSend", true);
