@@ -13,7 +13,7 @@ export default function App() {
     <ThemeConfig>
       <ToastContainer
         position="top-left"
-        autoClose={3000}
+        autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
@@ -23,6 +23,7 @@ export default function App() {
         pauseOnHover
         icon={false}
         theme="colored"
+        closeButton={false}
       />
       <GlobalStyles />
       <Router />
