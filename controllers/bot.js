@@ -2,8 +2,7 @@ const User = require("../models/User");
 const Code = require("../models/Code");
 const promisify = require("util").promisify;
 const { sendMessage, setReaded, setUnreaded } = require("../utils/whatsappApi");
-const voucherCodes = require("voucher-code-generator");
-
+const { getCode } = require("../utils/generateCode");
 // @desc    Bot webhook
 // @route   POST /api/bot/webhook
 // @access  Public
@@ -179,9 +178,8 @@ const botWebhook = async (req, res) => {
                   parseInt(textMessage) > 0 &&
                   parseInt(textMessage) <= restaurants.length
                 ) {
-                  const code = voucherCodes.generate({
-                    length: 8,
-                  })[0];
+                  const code = await getCode();
+
                   text = `الخصم: *${
                     restaurants[parseInt(textMessage) - 1].discount
                   }%*\n`;
@@ -249,9 +247,7 @@ const botWebhook = async (req, res) => {
                   parseInt(textMessage) > 0 &&
                   parseInt(textMessage) <= coffees.length
                 ) {
-                  const code = voucherCodes.generate({
-                    length: 8,
-                  })[0];
+                  const code = await getCode();
 
                   text = `الخصم: *${
                     coffees[parseInt(textMessage) - 1].discount
@@ -316,9 +312,7 @@ const botWebhook = async (req, res) => {
                   parseInt(textMessage) > 0 &&
                   parseInt(textMessage) <= lounges.length
                 ) {
-                  const code = voucherCodes.generate({
-                    length: 8,
-                  })[0];
+                  const code = await getCode();
 
                   text = `الخصم: *${
                     lounges[parseInt(textMessage) - 1].discount
@@ -498,9 +492,8 @@ const botWebhook = async (req, res) => {
                   parseInt(textMessage) > 0 &&
                   parseInt(textMessage) <= restaurants.length
                 ) {
-                  const code = voucherCodes.generate({
-                    length: 8,
-                  })[0];
+                  const code = await getCode();
+
                   text = `Discount: *${
                     restaurants[parseInt(textMessage) - 1].discount
                   }%*\n`;
@@ -565,9 +558,7 @@ const botWebhook = async (req, res) => {
                   parseInt(textMessage) > 0 &&
                   parseInt(textMessage) <= coffees.length
                 ) {
-                  const code = voucherCodes.generate({
-                    length: 8,
-                  })[0];
+                  const code = await getCode();
 
                   text = `Discount: *${
                     coffees[parseInt(textMessage) - 1].discount
@@ -631,9 +622,7 @@ const botWebhook = async (req, res) => {
                   parseInt(textMessage) > 0 &&
                   parseInt(textMessage) <= coffees.length
                 ) {
-                  const code = voucherCodes.generate({
-                    length: 8,
-                  })[0];
+                  const code = await getCode();
 
                   text = `Discount: *${
                     lounges[parseInt(textMessage) - 1].discount
