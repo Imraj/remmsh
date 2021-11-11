@@ -31,6 +31,9 @@ const userSchema = mongoose.Schema(
     discount: {
       type: Number,
     },
+    type: {
+      type: String,
+    },
     totalSeen: {
       type: Number,
     },

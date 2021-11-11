@@ -6,6 +6,7 @@ const Redis = require("redis");
 const usersRoutes = require("./routes/users");
 const botRoutes = require("./routes/bot");
 const app = express();
+const User = require("./models/User");
 
 // Create Redis Client
 let RedisClient = Redis.createClient(process.env.REDIS_URL);
