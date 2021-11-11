@@ -3,6 +3,7 @@ const Code = require("../models/Code");
 const promisify = require("util").promisify;
 const { sendMessage, setReaded, setUnreaded } = require("../utils/whatsappApi");
 const { getCode } = require("../utils/generateCode");
+
 // @desc    Bot webhook
 // @route   POST /api/bot/webhook
 // @access  Public
@@ -87,8 +88,8 @@ const botWebhook = async (req, res) => {
                 if (textMessage === "1" || textMessage === "١") {
                   await redisHmset(redisChatId, "service", "1");
 
-                  text = "*الرجاء اختيار المطعم 🔢*\n\n";
-                  text += "••••••••••••••••••\n\n";
+                  text = "*لكود الخصم ارسل رقم الخيار المطلوب😁*\n";
+                  text += "⏬\n⏬\n\n";
 
                   restaurants.forEach((restaurant, i) => {
                     text += `*${i + 1}*- ${restaurant.name} *${
@@ -107,8 +108,8 @@ const botWebhook = async (req, res) => {
                 } else if (textMessage === "2" || textMessage === "٢") {
                   await redisHmset(redisChatId, "service", "2");
 
-                  text = "*الرجاء اختيار الكافي 🔢*\n\n";
-                  text += "••••••••••••••••••\n\n";
+                  text = "*لكود الخصم ارسل رقم الخيار المطلوب😁*\n";
+                  text += "⏬\n⏬\n\n";
 
                   coffees.forEach((coffee, i) => {
                     text += `*${i + 1}*- ${coffee.name} *${
@@ -127,8 +128,8 @@ const botWebhook = async (req, res) => {
                 } else if (textMessage === "3" || textMessage === "٣") {
                   await redisHmset(redisChatId, "service", "3");
 
-                  text = "*الرجاء اختيار اللاونج 🔢*\n\n";
-                  text += "••••••••••••••••••\n\n";
+                  text = "*لكود الخصم ارسل رقم الخيار المطلوب😁*\n";
+                  text += "⏬\n⏬\n\n";
 
                   lounges.forEach((lounge, i) => {
                     text += `*${i + 1}*- ${lounge.name} *${
@@ -189,17 +190,16 @@ const botWebhook = async (req, res) => {
                   const code = await getCode();
 
                   text = `*${restaurants[parseInt(textMessage) - 1].name}*\n\n`;
-                  text += `الخصم: *${
+                  text += `الخصم💰: *${
                     restaurants[parseInt(textMessage) - 1].discount
                   }%*\n`;
-                  text += `كود الخصم: *${code}*\n\n`;
+                  text += `كود الخصم🥳: *${code}*\n\n`;
                   text += `📍 الموقع:\n`;
                   text += `${
                     restaurants[parseInt(textMessage) - 1].location
                   }\n\n`;
                   text += `للإقتراحات او الشكاوى ارسل 🅰️\n\n`;
-                  text += `فخورين لمساعدتك\n`;
-                  text += `Zoro`;
+                  text += `*🥷🏼Z*`;
 
                   await Code.create({
                     user: restaurants[parseInt(textMessage) - 1].id,
@@ -215,8 +215,8 @@ const botWebhook = async (req, res) => {
                   await redisdel(redisChatId);
                 } else {
                   text = `الاختيار المدخل غير صحيح ⭕️\n\n`;
-                  text += "*الرجاء اختيار المطعم 🔢*\n\n";
-                  text += "••••••••••••••••••\n\n";
+                  text += "*لكود الخصم ارسل رقم الخيار المطلوب😁*\n";
+                  text += "⏬\n⏬\n\n";
 
                   restaurants.forEach((restaurant, i) => {
                     text += `*${i + 1}*- ${restaurant.name} ${
@@ -263,15 +263,14 @@ const botWebhook = async (req, res) => {
                   const code = await getCode();
 
                   text = `*${coffees[parseInt(textMessage) - 1].name}*\n\n`;
-                  text += `الخصم: *${
+                  text += `الخصم💰: *${
                     coffees[parseInt(textMessage) - 1].discount
                   }%*\n`;
-                  text += `كود الخصم: *${code}*\n\n`;
+                  text += `كود الخصم🥳: *${code}*\n\n`;
                   text += `📍 الموقع:\n`;
                   text += `${coffees[parseInt(textMessage) - 1].location}\n\n`;
                   text += `للإقتراحات او الشكاوى ارسل 🅰️\n\n`;
-                  text += `فخورين لمساعدتك\n`;
-                  text += `Zoro`;
+                  text += `*🥷🏼Z*`;
 
                   await Code.create({
                     user: coffees[parseInt(textMessage) - 1].id,
@@ -287,8 +286,8 @@ const botWebhook = async (req, res) => {
                   await redisdel(redisChatId);
                 } else {
                   text = `الاختيار المدخل غير صحيح ⭕️\n\n`;
-                  text += "*الرجاء اختيار الكافي 🔢*\n\n";
-                  text += "••••••••••••••••••\n\n";
+                  text += "*لكود الخصم ارسل رقم الخيار المطلوب😁*\n";
+                  text += "⏬\n⏬\n\n";
 
                   coffees.forEach((coffee, i) => {
                     text += `*${i + 1}*- ${coffee.name} ${
@@ -335,15 +334,14 @@ const botWebhook = async (req, res) => {
                   const code = await getCode();
 
                   text = `*${lounges[parseInt(textMessage) - 1].name}*\n\n`;
-                  text += `الخصم: *${
+                  text += `الخصم💰: *${
                     lounges[parseInt(textMessage) - 1].discount
                   }%*\n`;
-                  text += `كود الخصم: *${code}*\n\n`;
+                  text += `كود الخصم🥳: *${code}*\n\n`;
                   text += `📍 الموقع:\n`;
                   text += `${lounges[parseInt(textMessage) - 1].location}\n\n`;
                   text += `للإقتراحات او الشكاوى ارسل 🅰️\n\n`;
-                  text += `فخورين لمساعدتك\n`;
-                  text += `Zoro`;
+                  text += `*🥷🏼Z*`;
 
                   await Code.create({
                     user: lounges[parseInt(textMessage) - 1].id,
@@ -359,8 +357,8 @@ const botWebhook = async (req, res) => {
                   await redisdel(redisChatId);
                 } else {
                   text = `الاختيار المدخل غير صحيح ⭕️\n\n`;
-                  text += "*الرجاء اختيار اللاونج 🔢*\n\n";
-                  text += "••••••••••••••••••\n\n";
+                  text += "*لكود الخصم ارسل رقم الخيار المطلوب😁*\n";
+                  text += "⏬\n⏬\n\n";
 
                   lounges.forEach((lounge, i) => {
                     text += `*${i + 1}*- ${lounge.name} ${
@@ -432,8 +430,9 @@ const botWebhook = async (req, res) => {
                 if (textMessage === "1" || textMessage === "١") {
                   await redisHmset(redisChatId, "service", "1");
 
-                  text = "*Please choose a restaurant 🔢*\n\n";
-                  text += "••••••••••••••••••\n\n";
+                  text = "*Choose an option for the discount code😁*\n";
+                  text += "⏬\n⏬\n\n";
+
                   restaurants.forEach((restaurant, i) => {
                     text += `*${i + 1}*- ${restaurant.name} *${
                       restaurant.discount
@@ -451,8 +450,8 @@ const botWebhook = async (req, res) => {
                 } else if (textMessage === "2" || textMessage === "٢") {
                   await redisHmset(redisChatId, "service", "2");
 
-                  text = "*Please choose a coffee 🔢*\n\n";
-                  text += "••••••••••••••••••\n\n";
+                  text = "*Choose an option for the discount code😁*\n";
+                  text += "⏬\n⏬\n\n";
                   coffees.forEach((coffee, i) => {
                     text += `*${i + 1}*- ${coffee.name} *${
                       coffee.discount
@@ -471,8 +470,8 @@ const botWebhook = async (req, res) => {
                 } else if (textMessage === "3" || textMessage === "٣") {
                   await redisHmset(redisChatId, "service", "3");
 
-                  text = "*Please choose a Lounge 🔢*\n\n";
-                  text += "••••••••••••••••••\n\n";
+                  text = "*Choose an option for the discount code😁*\n";
+                  text += "⏬\n⏬\n\n";
 
                   lounges.forEach((lounge, i) => {
                     text += `*${i + 1}*- ${lounge.name} *${
@@ -530,16 +529,15 @@ const botWebhook = async (req, res) => {
                   const code = await getCode();
 
                   text = `*${restaurants[parseInt(textMessage) - 1].name}*\n\n`;
-                  text += `Discount: *${
+                  text += `Discount💰: *${
                     restaurants[parseInt(textMessage) - 1].discount
                   }%*\n`;
-                  text += `Discount code: *${code}*\n\n`;
+                  text += `Discount code🥳: *${code}*\n\n`;
                   text += `📍 Location:\n${
                     restaurants[parseInt(textMessage) - 1].location
                   }\n\n`;
                   text += `For suggestions or complaints send 🅰️🅰️\n\n`;
-                  text += `Happy to assist you\n`;
-                  text += `Zoro`;
+                  text += `*Z🥷🏼*`;
 
                   await Code.create({
                     user: restaurants[parseInt(textMessage) - 1].id,
@@ -555,8 +553,8 @@ const botWebhook = async (req, res) => {
                   await redisdel(redisChatId);
                 } else {
                   text = `Incorrect choice ⭕️\n\n`;
-                  text += "*Please choose a restaurant 🔢*\n\n";
-                  text += "••••••••••••••••••\n\n";
+                  text += "*Choose an option for the discount code😁*\n";
+                  text += "⏬\n⏬\n\n";
 
                   restaurants.forEach((restaurant, i) => {
                     text += `*${i + 1}*- ${restaurant.name} ${
@@ -601,16 +599,15 @@ const botWebhook = async (req, res) => {
                   const code = await getCode();
 
                   text = `*${coffees[parseInt(textMessage) - 1].name}*\n\n`;
-                  text += `Discount: *${
+                  text += `Discount💰: *${
                     coffees[parseInt(textMessage) - 1].discount
                   }%*\n`;
-                  text += `Discount code: *${code}*\n\n`;
+                  text += `Discount code🥳: *${code}*\n\n`;
                   text += `📍 Location:\n${
                     coffees[parseInt(textMessage) - 1].location
                   }\n\n`;
                   text += `For suggestions or complaints send 🅰️🅰️\n\n`;
-                  text += `Happy to assist you\n`;
-                  text += `Zoro`;
+                  text += `*Z🥷🏼*`;
 
                   await Code.create({
                     user: coffees[parseInt(textMessage) - 1].id,
@@ -626,8 +623,8 @@ const botWebhook = async (req, res) => {
                   await redisdel(redisChatId);
                 } else {
                   text = `Incorrect choice ⭕️\n\n`;
-                  text += "*Please choose a coffee 🔢*\n\n";
-                  text += "••••••••••••••••••\n\n";
+                  text += "*Choose an option for the discount code😁*\n";
+                  text += "⏬\n⏬\n\n";
                   coffees.forEach((coffee, i) => {
                     text += `*${i + 1}*- ${coffee.name} ${
                       coffee.discount
@@ -671,16 +668,15 @@ const botWebhook = async (req, res) => {
                   const code = await getCode();
 
                   text = `*${lounges[parseInt(textMessage) - 1].name}*\n\n`;
-                  text += `Discount: *${
+                  text += `Discount💰: *${
                     lounges[parseInt(textMessage) - 1].discount
                   }%*\n`;
-                  text += `Discount code: *${code}*\n\n`;
+                  text += `Discount code🥳: *${code}*\n\n`;
                   text += `📍 Location:\n${
                     lounges[parseInt(textMessage) - 1].location
                   }\n\n`;
                   text += `For suggestions or complaints send 🅰️🅰️\n\n`;
-                  text += `Happy to assist you\n`;
-                  text += `Zoro`;
+                  text += `*Z🥷🏼*`;
 
                   await Code.create({
                     user: lounges[parseInt(textMessage) - 1].id,
@@ -696,8 +692,8 @@ const botWebhook = async (req, res) => {
                   await redisdel(redisChatId);
                 } else {
                   text = `Incorrect choice ⭕️\n\n`;
-                  text += "*Please choose a Lounge 🔢*\n\n";
-                  text += "••••••••••••••••••\n\n";
+                  text += "*Choose an option for the discount code😁*\n";
+                  text += "⏬\n⏬\n\n";
 
                   lounges.forEach((lounge, i) => {
                     text += `*${i + 1}*- ${lounge.name} ${
@@ -756,29 +752,35 @@ const botWebhook = async (req, res) => {
           let text = "";
 
           if (textMessage.match(/^[a-zA-Z0-9]/)) {
-            text = `Welcome 🔊\n\n`;
+            text = `*Zoro 🥷🏼*\n`;
+            text = `*Live discount codes 🔥*\n\n`;
+            text = `*Choose a service 🔥*\n\n`;
             text += `1️⃣ Restaurants 🥗\n`;
             text += `2️⃣ Coffees ☕\n`;
             text += `3️⃣ Lounge 🛋️\n\n`;
-            text += `للعربية ارسل علامة #️⃣`;
+            text += `*للعربية ارسل علامة #️⃣*`;
             await redisHmset(redisChatId, "lang", "2");
           } else if (textMessage.match(/^[\u0600-\u06FF]/)) {
             text = `\u202B`;
-            text += `مرحباً بك 🔊\n\n`;
+            text += `*زورو 🥷🏼*\n`;
+            text += `*أكواد خصم لايف 🔥*\n\n`;
+            text += `*ارسل رقم الخدمة المطلوبة:*\n\n`;
             text += `1️⃣ مطاعم 🥗\n`;
             text += `2️⃣ كافيهات ☕\n`;
             text += `3️⃣ لاونج 🛋️\n\n`;
             text += `\u202C`;
-            text += `For English send #️⃣`;
+            text += `*For English send #️⃣*`;
             await redisHmset(redisChatId, "lang", "1");
           } else {
             text = `\u202B`;
-            text += `مرحباً بك 🔊\n\n`;
+            text += `*زورو 🥷🏼*\n`;
+            text += `*أكواد خصم لايف 🔥*\n\n`;
+            text += `*ارسل رقم الخدمة المطلوبة:*\n\n`;
             text += `1️⃣ مطاعم 🥗\n`;
             text += `2️⃣ كافيهات ☕\n`;
             text += `3️⃣ لاونج 🛋️\n\n`;
             text += `\u202C`;
-            text += `For English send #️⃣`;
+            text += `*For English send #️⃣*`;
             await redisHmset(redisChatId, "lang", "1");
           }
 
