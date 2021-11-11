@@ -68,9 +68,9 @@ const botWebhook = async (req, res) => {
                   discount: user.discount,
                   location: user.location,
                   ShowSocialMediaLinkes: user.ShowSocialMediaLinkes,
-                  instagram: user.instagram,
-                  snapchat: user.snapchat,
-                  twitter: user.twitter,
+                  instagram: user.instagram || "",
+                  snapchat: user.snapchat || "",
+                  twitter: user.twitter || "",
                 };
               });
 
