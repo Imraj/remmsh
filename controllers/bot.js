@@ -44,11 +44,13 @@ const botWebhook = async (req, res) => {
           if (pendingReservation.lang === "1") {
             if (textMessage === "#") {
               await redisHmset(redisChatId, "lang", "2");
-              let text = `Welcome 🔊\n\n`;
+              let text = `*Zoro 🥷🏼*\n`;
+              text += `*Live discount codes 🔥*\n\n`;
+              text += `*Choose a service 🔥*\n\n`;
               text += `1️⃣ Restaurants 🥗\n`;
               text += `2️⃣ Coffees ☕\n`;
               text += `3️⃣ Lounge 🛋️\n\n`;
-              text += `للعربية ارسل علامة #️⃣`;
+              text += `*للعربية ارسل علامة #️⃣*`;
 
               await sendMessage(text, chatId, null, instanceId, instanceToken);
               await redisHmset(redisChatId, "serviceQSend", true);
@@ -147,12 +149,14 @@ const botWebhook = async (req, res) => {
                   );
                 } else {
                   text = `\u202B`;
-                  text += `مرحباً بك 🔊\n\n`;
+                  text += `*زورو 🥷🏼*\n`;
+                  text += `*أكواد خصم لايف 🔥*\n\n`;
+                  text += `*ارسل رقم الخدمة المطلوبة:*\n\n`;
                   text += `1️⃣ مطاعم 🥗\n`;
                   text += `2️⃣ كافيهات ☕\n`;
                   text += `3️⃣ لاونج 🛋️\n\n`;
                   text += `\u202C`;
-                  text += `For English send #️⃣`;
+                  text += `*For English send #️⃣*`;
                   await redisHmset(redisChatId, "serviceQSend", true);
                   await redisHmset(redisChatId, "choiseQSend", false);
                   await redisHmset(redisChatId, "service", "");
@@ -174,12 +178,14 @@ const botWebhook = async (req, res) => {
                 let text;
                 if (textMessage === "0") {
                   text = `\u202B`;
-                  text += `مرحباً بك 🔊\n\n`;
+                  text += `*زورو 🥷🏼*\n`;
+                  text += `*أكواد خصم لايف 🔥*\n\n`;
+                  text += `*ارسل رقم الخدمة المطلوبة:*\n\n`;
                   text += `1️⃣ مطاعم 🥗\n`;
                   text += `2️⃣ كافيهات ☕\n`;
                   text += `3️⃣ لاونج 🛋️\n\n`;
                   text += `\u202C`;
-                  text += `For English send #️⃣`;
+                  text += `*For English send #️⃣*`;
                   await redisHmset(redisChatId, "serviceQSend", true);
                   await redisHmset(redisChatId, "choiseQSend", false);
                   await redisHmset(redisChatId, "service", "");
@@ -247,12 +253,14 @@ const botWebhook = async (req, res) => {
                 let text;
                 if (textMessage === "0") {
                   text = `\u202B`;
-                  text += `مرحباً بك 🔊\n\n`;
+                  text += `*زورو 🥷🏼*\n`;
+                  text += `*أكواد خصم لايف 🔥*\n\n`;
+                  text += `*ارسل رقم الخدمة المطلوبة:*\n\n`;
                   text += `1️⃣ مطاعم 🥗\n`;
                   text += `2️⃣ كافيهات ☕\n`;
                   text += `3️⃣ لاونج 🛋️\n\n`;
                   text += `\u202C`;
-                  text += `For English send #️⃣`;
+                  text += `*For English send #️⃣*`;
                   await redisHmset(redisChatId, "serviceQSend", true);
                   await redisHmset(redisChatId, "choiseQSend", false);
                   await redisHmset(redisChatId, "service", "");
@@ -318,12 +326,14 @@ const botWebhook = async (req, res) => {
                 let text;
                 if (textMessage === "0") {
                   text = `\u202B`;
-                  text += `مرحباً بك 🔊\n\n`;
+                  text += `*زورو 🥷🏼*\n`;
+                  text += `*أكواد خصم لايف 🔥*\n\n`;
+                  text += `*ارسل رقم الخدمة المطلوبة:*\n\n`;
                   text += `1️⃣ مطاعم 🥗\n`;
                   text += `2️⃣ كافيهات ☕\n`;
                   text += `3️⃣ لاونج 🛋️\n\n`;
                   text += `\u202C`;
-                  text += `For English send #️⃣`;
+                  text += `*For English send #️⃣*`;
                   await redisHmset(redisChatId, "serviceQSend", true);
                   await redisHmset(redisChatId, "choiseQSend", false);
                   await redisHmset(redisChatId, "service", "");
@@ -385,12 +395,14 @@ const botWebhook = async (req, res) => {
             if (textMessage === "#") {
               await redisHmset(redisChatId, "lang", "1");
               let text = `\u202B`;
-              text += `مرحباً بك 🔊\n\n`;
+              text += `*زورو 🥷🏼*\n`;
+              text += `*أكواد خصم لايف 🔥*\n\n`;
+              text += `*ارسل رقم الخدمة المطلوبة:*\n\n`;
               text += `1️⃣ مطاعم 🥗\n`;
               text += `2️⃣ كافيهات ☕\n`;
               text += `3️⃣ لاونج 🛋️\n\n`;
               text += `\u202C`;
-              text += `For English send #️⃣`;
+              text += `*For English send #️⃣*`;
 
               await sendMessage(text, chatId, null, instanceId, instanceToken);
               await redisHmset(redisChatId, "serviceQSend", true);
@@ -489,11 +501,13 @@ const botWebhook = async (req, res) => {
                     { $inc: { totalSeen: 1 } }
                   );
                 } else {
-                  text = `Welcome 🔊\n\n`;
+                  text = `*Zoro 🥷🏼*\n`;
+                  text += `*Live discount codes 🔥*\n\n`;
+                  text += `*Choose a service 🔥*\n\n`;
                   text += `1️⃣ Restaurants 🥗\n`;
                   text += `2️⃣ Coffees ☕\n`;
                   text += `3️⃣ Lounge 🛋️\n\n`;
-                  text += `للعربية ارسل علامة #️⃣`;
+                  text += `*للعربية ارسل علامة #️⃣*`;
                   await redisHmset(redisChatId, "serviceQSend", true);
                   await redisHmset(redisChatId, "choiseQSend", false);
                   await redisHmset(redisChatId, "service", "");
@@ -514,11 +528,13 @@ const botWebhook = async (req, res) => {
               ) {
                 let text;
                 if (textMessage === "0") {
-                  text = `Welcome 🔊\n\n`;
+                  text = `*Zoro 🥷🏼*\n`;
+                  text += `*Live discount codes 🔥*\n\n`;
+                  text += `*Choose a service 🔥*\n\n`;
                   text += `1️⃣ Restaurants 🥗\n`;
                   text += `2️⃣ Coffees ☕\n`;
                   text += `3️⃣ Lounge 🛋️\n\n`;
-                  text += `للعربية ارسل علامة #️⃣`;
+                  text += `*للعربية ارسل علامة #️⃣*`;
                   await redisHmset(redisChatId, "serviceQSend", true);
                   await redisHmset(redisChatId, "choiseQSend", false);
                   await redisHmset(redisChatId, "service", "");
@@ -584,11 +600,13 @@ const botWebhook = async (req, res) => {
               ) {
                 let text;
                 if (textMessage === "0") {
-                  text = `Welcome 🔊\n\n`;
+                  text = `*Zoro 🥷🏼*\n`;
+                  text += `*Live discount codes 🔥*\n\n`;
+                  text += `*Choose a service 🔥*\n\n`;
                   text += `1️⃣ Restaurants 🥗\n`;
                   text += `2️⃣ Coffees ☕\n`;
                   text += `3️⃣ Lounge 🛋️\n\n`;
-                  text += `للعربية ارسل علامة #️⃣`;
+                  text += `*للعربية ارسل علامة #️⃣*`;
                   await redisHmset(redisChatId, "serviceQSend", true);
                   await redisHmset(redisChatId, "choiseQSend", false);
                   await redisHmset(redisChatId, "service", "");
@@ -653,11 +671,13 @@ const botWebhook = async (req, res) => {
               ) {
                 let text;
                 if (textMessage === "0") {
-                  text = `Welcome 🔊\n\n`;
+                  text = `*Zoro 🥷🏼*\n`;
+                  text += `*Live discount codes 🔥*\n\n`;
+                  text += `*Choose a service 🔥*\n\n`;
                   text += `1️⃣ Restaurants 🥗\n`;
                   text += `2️⃣ Coffees ☕\n`;
                   text += `3️⃣ Lounge 🛋️\n\n`;
-                  text += `للعربية ارسل علامة #️⃣`;
+                  text += `*للعربية ارسل علامة #️⃣*`;
                   await redisHmset(redisChatId, "serviceQSend", true);
                   await redisHmset(redisChatId, "choiseQSend", false);
                   await redisHmset(redisChatId, "service", "");
@@ -753,8 +773,8 @@ const botWebhook = async (req, res) => {
 
           if (textMessage.match(/^[a-zA-Z0-9]/)) {
             text = `*Zoro 🥷🏼*\n`;
-            text = `*Live discount codes 🔥*\n\n`;
-            text = `*Choose a service 🔥*\n\n`;
+            text += `*Live discount codes 🔥*\n\n`;
+            text += `*Choose a service 🔥*\n\n`;
             text += `1️⃣ Restaurants 🥗\n`;
             text += `2️⃣ Coffees ☕\n`;
             text += `3️⃣ Lounge 🛋️\n\n`;
