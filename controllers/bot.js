@@ -3,6 +3,7 @@ const Code = require("../models/Code");
 const promisify = require("util").promisify;
 const { sendMessage, setReaded, setUnreaded } = require("../utils/whatsappApi");
 const { getCode } = require("../utils/generateCode");
+const { log } = require("console");
 
 // @desc    Bot webhook
 // @route   POST /api/bot/webhook
@@ -59,7 +60,6 @@ const botWebhook = async (req, res) => {
               await redisHmset(redisChatId, "codeSent", false);
             } else {
               const users = await User.find({ isActive: true });
-              console.log(users);
 
               const usersArray = users.map((user) => {
                 return {
@@ -74,8 +74,6 @@ const botWebhook = async (req, res) => {
                   twitter: user.twitter,
                 };
               });
-
-              console.log(usersArray);
 
               const coffees = usersArray.filter(
                 (user) => user.type === "coffee"
@@ -102,6 +100,7 @@ const botWebhook = async (req, res) => {
                   text += "⏬\n⏬\n\n";
 
                   restaurants.forEach((restaurant, i) => {
+                    log(restaurant.name);
                     text += `*${i + 1}*- ${restaurant.name} *${
                       restaurant.discount
                     }%*\n\n`;
