@@ -59,6 +59,8 @@ const botWebhook = async (req, res) => {
               await redisHmset(redisChatId, "codeSent", false);
             } else {
               const users = await User.find({ isActive: true });
+              console.log(users);
+
               const usersArray = users.map((user) => {
                 return {
                   id: user._id,
@@ -72,6 +74,8 @@ const botWebhook = async (req, res) => {
                   twitter: user.twitter,
                 };
               });
+
+              console.log(usersArray);
 
               const coffees = usersArray.filter(
                 (user) => user.type === "coffee"
