@@ -61,33 +61,29 @@ const botWebhook = async (req, res) => {
               const users = await User.find({ isActive: true });
 
               console.log("users", users);
-              const usersArray = users.map((user) => {
-                return {
-                  id: user._id,
-                  type: user.type,
-                  name: user.nameAr,
-                  discount: user.discount,
-                  location: user.location,
-                  ShowSocialMediaLinkes: user.ShowSocialMediaLinkes,
-                  instagram: user.instagram || "",
-                  snapchat: user.snapchat || "",
-                  twitter: user.twitter || "",
-                };
-              });
+              // const usersArray = users.map((user) => {
+              //   return {
+              //     id: user._id,
+              //     type: user.type,
+              //     name: user.nameAr,
+              //     discount: user.discount,
+              //     location: user.location,
+              //     ShowSocialMediaLinkes: user.ShowSocialMediaLinkes,
+              //     instagram: user.instagram || "",
+              //     snapchat: user.snapchat || "",
+              //     twitter: user.twitter || "",
+              //   };
+              // });
 
-              console.log("usersArray", usersArray);
+              // console.log("usersArray", usersArray);
 
-              const coffees = usersArray.filter(
-                (user) => user.type === "coffee"
-              );
+              const coffees = users.filter((user) => user.type === "coffee");
 
-              const restaurants = usersArray.filter(
+              const restaurants = users.filter(
                 (user) => user.type === "resturant"
               );
 
-              const lounges = usersArray.filter(
-                (user) => user.type === "lounge"
-              );
+              const lounges = users.filter((user) => user.type === "lounge");
 
               console.log("coffees", coffees);
               console.log("restaurants", restaurants);
