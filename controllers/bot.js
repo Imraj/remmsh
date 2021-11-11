@@ -80,11 +80,11 @@ const botWebhook = async (req, res) => {
                 if (textMessage === "1" || textMessage === "١") {
                   await redisHmset(redisChatId, "service", "1");
 
-                  text = "*لكود الخصم ارسل رقم الخيار المطلوب😁*\n";
+                  text = "*لكود الخصم ارسل رقم الخيار باللغة الإنجليزية😁*\n";
                   text += "⏬\n⏬\n\n";
 
                   restaurants.forEach((restaurant, i) => {
-                    text += `*${i + 1}*- ${restaurant.nameAr} *${
+                    text += `*${i + 1}*. ${restaurant.nameAr} *${
                       restaurant.discount
                     }%*\n\n`;
                   });
@@ -100,11 +100,11 @@ const botWebhook = async (req, res) => {
                 } else if (textMessage === "2" || textMessage === "٢") {
                   await redisHmset(redisChatId, "service", "2");
 
-                  text = "*لكود الخصم ارسل رقم الخيار المطلوب😁*\n";
+                  text = "*لكود الخصم ارسل رقم الخيار باللغة الإنجليزية😁*\n";
                   text += "⏬\n⏬\n\n";
 
                   coffees.forEach((coffee, i) => {
-                    text += `*${i + 1}*- ${coffee.nameAr} *${
+                    text += `*${i + 1}*. ${coffee.nameAr} *${
                       coffee.discount
                     }%*\n\n`;
                   });
@@ -120,11 +120,11 @@ const botWebhook = async (req, res) => {
                 } else if (textMessage === "3" || textMessage === "٣") {
                   await redisHmset(redisChatId, "service", "3");
 
-                  text = "*لكود الخصم ارسل رقم الخيار المطلوب😁*\n";
+                  text = "*لكود الخصم ارسل رقم الخيار باللغة الإنجليزية😁*\n";
                   text += "⏬\n⏬\n\n";
 
                   lounges.forEach((lounge, i) => {
-                    text += `*${i + 1}*- ${lounge.nameAr} *${
+                    text += `*${i + 1}*. ${lounge.nameAr} *${
                       lounge.discount
                     }%*\n\n`;
                   });
@@ -221,7 +221,7 @@ const botWebhook = async (req, res) => {
                     text += `\n`;
                   }
 
-                  text += `للإقتراحات او الشكاوى ارسل 🅰️\n\n`;
+                  text += `للإقتراحات و الشكاوي ارسل 🅰️\n\n`;
                   text += `*🥷🏼Z*`;
 
                   await Code.create({
@@ -238,11 +238,11 @@ const botWebhook = async (req, res) => {
                   await redisdel(redisChatId);
                 } else {
                   text = `الاختيار المدخل غير صحيح ⭕️\n\n`;
-                  text += "*لكود الخصم ارسل رقم الخيار المطلوب😁*\n";
+                  text += "*لكود الخصم ارسل رقم الخيار باللغة الإنجليزية😁*\n";
                   text += "⏬\n⏬\n\n";
 
                   restaurants.forEach((restaurant, i) => {
-                    text += `*${i + 1}*- ${restaurant.nameAr} ${
+                    text += `*${i + 1}*. ${restaurant.nameAr} ${
                       restaurant.discount
                     }%\n\n`;
                   });
@@ -317,7 +317,7 @@ const botWebhook = async (req, res) => {
                     text += `\n`;
                   }
 
-                  text += `للإقتراحات او الشكاوى ارسل 🅰️\n\n`;
+                  text += `للإقتراحات و الشكاوي ارسل 🅰️\n\n`;
                   text += `*🥷🏼Z*`;
 
                   await Code.create({
@@ -334,11 +334,11 @@ const botWebhook = async (req, res) => {
                   await redisdel(redisChatId);
                 } else {
                   text = `الاختيار المدخل غير صحيح ⭕️\n\n`;
-                  text += "*لكود الخصم ارسل رقم الخيار المطلوب😁*\n";
+                  text += "*لكود الخصم ارسل رقم الخيار باللغة الإنجليزية😁*\n";
                   text += "⏬\n⏬\n\n";
 
                   coffees.forEach((coffee, i) => {
-                    text += `*${i + 1}*- ${coffee.nameAr} ${
+                    text += `*${i + 1}*. ${coffee.nameAr} ${
                       coffee.discount
                     }%\n\n`;
                   });
@@ -413,7 +413,7 @@ const botWebhook = async (req, res) => {
                     text += `\n`;
                   }
 
-                  text += `للإقتراحات او الشكاوى ارسل 🅰️\n\n`;
+                  text += `للإقتراحات و الشكاوي ارسل 🅰️\n\n`;
                   text += `*🥷🏼Z*`;
 
                   await Code.create({
@@ -430,11 +430,11 @@ const botWebhook = async (req, res) => {
                   await redisdel(redisChatId);
                 } else {
                   text = `الاختيار المدخل غير صحيح ⭕️\n\n`;
-                  text += "*لكود الخصم ارسل رقم الخيار المطلوب😁*\n";
+                  text += "*لكود الخصم ارسل رقم الخيار باللغة الإنجليزية😁*\n";
                   text += "⏬\n⏬\n\n";
 
                   lounges.forEach((lounge, i) => {
-                    text += `*${i + 1}*- ${lounge.nameAr} ${
+                    text += `*${i + 1}*. ${lounge.nameAr} ${
                       lounge.discount
                     }%\n\n`;
                   });
@@ -499,7 +499,7 @@ const botWebhook = async (req, res) => {
                   text += "⏬\n⏬\n\n";
 
                   restaurants.forEach((restaurant, i) => {
-                    text += `*${i + 1}*- ${restaurant.name} *${
+                    text += `*${i + 1}*. ${restaurant.name} *${
                       restaurant.discount
                     }%*\n\n`;
                   });
@@ -518,7 +518,7 @@ const botWebhook = async (req, res) => {
                   text = "*Choose an option for the discount code😁*\n";
                   text += "⏬\n⏬\n\n";
                   coffees.forEach((coffee, i) => {
-                    text += `*${i + 1}*- ${coffee.name} *${
+                    text += `*${i + 1}*. ${coffee.name} *${
                       coffee.discount
                     }%*\n\n`;
                   });
@@ -539,7 +539,7 @@ const botWebhook = async (req, res) => {
                   text += "⏬\n⏬\n\n";
 
                   lounges.forEach((lounge, i) => {
-                    text += `*${i + 1}*- ${lounge.name} *${
+                    text += `*${i + 1}*. ${lounge.name} *${
                       lounge.discount
                     }%*\n\n`;
                   });
@@ -651,7 +651,7 @@ const botWebhook = async (req, res) => {
                   text += "⏬\n⏬\n\n";
 
                   restaurants.forEach((restaurant, i) => {
-                    text += `*${i + 1}*- ${restaurant.name} ${
+                    text += `*${i + 1}*. ${restaurant.name} ${
                       restaurant.discount
                     }%\n\n`;
                   });
@@ -745,7 +745,7 @@ const botWebhook = async (req, res) => {
                   text += "*Choose an option for the discount code😁*\n";
                   text += "⏬\n⏬\n\n";
                   coffees.forEach((coffee, i) => {
-                    text += `*${i + 1}*- ${coffee.name} ${
+                    text += `*${i + 1}*. ${coffee.name} ${
                       coffee.discount
                     }%\n\n`;
                   });
@@ -840,7 +840,7 @@ const botWebhook = async (req, res) => {
                   text += "⏬\n⏬\n\n";
 
                   lounges.forEach((lounge, i) => {
-                    text += `*${i + 1}*- ${lounge.name} ${
+                    text += `*${i + 1}*. ${lounge.name} ${
                       lounge.discount
                     }%\n\n`;
                   });
