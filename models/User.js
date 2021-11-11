@@ -24,10 +24,6 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    type: {
-      type: String,
-      required: true,
-    },
     isActive: {
       type: Boolean,
       default: false,
@@ -43,6 +39,19 @@ const userSchema = mongoose.Schema(
     },
     totalActivation: {
       type: Number,
+    },
+    ShowSocialMediaLinkes: {
+      type: Boolean,
+      default: false,
+    },
+    instagram: {
+      type: String,
+    },
+    snapchat: {
+      type: String,
+    },
+    twitter: {
+      type: String,
     },
     tokens: [
       {

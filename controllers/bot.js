@@ -66,6 +66,10 @@ const botWebhook = async (req, res) => {
                   name: user.nameAr,
                   discount: user.discount,
                   location: user.location,
+                  ShowSocialMediaLinkes: user.ShowSocialMediaLinkes,
+                  instagram: user.instagram,
+                  snapchat: user.snapchat,
+                  twitter: user.twitter,
                 };
               });
 
@@ -204,6 +208,31 @@ const botWebhook = async (req, res) => {
                   text += `${
                     restaurants[parseInt(textMessage) - 1].location
                   }\n\n`;
+
+                  if (
+                    restaurants[parseInt(textMessage) - 1].ShowSocialMediaLinkes
+                  ) {
+                    if (restaurants[parseInt(textMessage) - 1].instagram) {
+                      text += `*انستقرام*\n`;
+                      text += `${
+                        restaurants[parseInt(textMessage) - 1].instagram
+                      }\n`;
+                    }
+                    if (restaurants[parseInt(textMessage) - 1].snapchat) {
+                      text += `*سناب شات*\n`;
+                      text += `${
+                        restaurants[parseInt(textMessage) - 1].snapchat
+                      }\n`;
+                    }
+                    if (restaurants[parseInt(textMessage) - 1].twitter) {
+                      text += `*تويتر*\n`;
+                      text += `${
+                        restaurants[parseInt(textMessage) - 1].twitter
+                      }\n`;
+                    }
+                    text += `\n`;
+                  }
+
                   text += `للإقتراحات او الشكاوى ارسل 🅰️\n\n`;
                   text += `*🥷🏼Z*`;
 
@@ -277,6 +306,29 @@ const botWebhook = async (req, res) => {
                   text += `كود الخصم🥳: *${code}*\n\n`;
                   text += `📍 الموقع:\n`;
                   text += `${coffees[parseInt(textMessage) - 1].location}\n\n`;
+
+                  if (
+                    coffees[parseInt(textMessage) - 1].ShowSocialMediaLinkes
+                  ) {
+                    if (coffees[parseInt(textMessage) - 1].instagram) {
+                      text += `*انستقرام*\n`;
+                      text += `${
+                        coffees[parseInt(textMessage) - 1].instagram
+                      }\n`;
+                    }
+                    if (coffees[parseInt(textMessage) - 1].snapchat) {
+                      text += `*سناب شات*\n`;
+                      text += `${
+                        coffees[parseInt(textMessage) - 1].snapchat
+                      }\n`;
+                    }
+                    if (coffees[parseInt(textMessage) - 1].twitter) {
+                      text += `*تويتر*\n`;
+                      text += `${coffees[parseInt(textMessage) - 1].twitter}\n`;
+                    }
+                    text += `\n`;
+                  }
+
                   text += `للإقتراحات او الشكاوى ارسل 🅰️\n\n`;
                   text += `*🥷🏼Z*`;
 
@@ -350,6 +402,29 @@ const botWebhook = async (req, res) => {
                   text += `كود الخصم🥳: *${code}*\n\n`;
                   text += `📍 الموقع:\n`;
                   text += `${lounges[parseInt(textMessage) - 1].location}\n\n`;
+
+                  if (
+                    lounges[parseInt(textMessage) - 1].ShowSocialMediaLinkes
+                  ) {
+                    if (lounges[parseInt(textMessage) - 1].instagram) {
+                      text += `*انستقرام*\n`;
+                      text += `${
+                        lounges[parseInt(textMessage) - 1].instagram
+                      }\n`;
+                    }
+                    if (lounges[parseInt(textMessage) - 1].snapchat) {
+                      text += `*سناب شات*\n`;
+                      text += `${
+                        lounges[parseInt(textMessage) - 1].snapchat
+                      }\n`;
+                    }
+                    if (lounges[parseInt(textMessage) - 1].twitter) {
+                      text += `*تويتر*\n`;
+                      text += `${lounges[parseInt(textMessage) - 1].twitter}\n`;
+                    }
+                    text += `\n`;
+                  }
+
                   text += `للإقتراحات او الشكاوى ارسل 🅰️\n\n`;
                   text += `*🥷🏼Z*`;
 
@@ -418,6 +493,10 @@ const botWebhook = async (req, res) => {
                   name: user.name,
                   discount: user.discount,
                   location: user.location,
+                  ShowSocialMediaLinkes: user.ShowSocialMediaLinkes,
+                  instagram: user.instagram,
+                  snapchat: user.snapchat,
+                  twitter: user.twitter,
                 };
               });
 
@@ -552,6 +631,31 @@ const botWebhook = async (req, res) => {
                   text += `📍 Location:\n${
                     restaurants[parseInt(textMessage) - 1].location
                   }\n\n`;
+
+                  if (
+                    restaurants[parseInt(textMessage) - 1].ShowSocialMediaLinkes
+                  ) {
+                    if (restaurants[parseInt(textMessage) - 1].instagram) {
+                      text += `*Instagram*\n`;
+                      text += `${
+                        restaurants[parseInt(textMessage) - 1].instagram
+                      }\n`;
+                    }
+                    if (restaurants[parseInt(textMessage) - 1].snapchat) {
+                      text += `*Snapchat*\n`;
+                      text += `${
+                        restaurants[parseInt(textMessage) - 1].snapchat
+                      }\n`;
+                    }
+                    if (restaurants[parseInt(textMessage) - 1].twitter) {
+                      text += `*Twitter*\n`;
+                      text += `${
+                        restaurants[parseInt(textMessage) - 1].twitter
+                      }\n`;
+                    }
+                    text += `\n`;
+                  }
+
                   text += `For suggestions or complaints send 🅰️🅰️\n\n`;
                   text += `*Z🥷🏼*`;
 
@@ -624,6 +728,29 @@ const botWebhook = async (req, res) => {
                   text += `📍 Location:\n${
                     coffees[parseInt(textMessage) - 1].location
                   }\n\n`;
+
+                  if (
+                    coffees[parseInt(textMessage) - 1].ShowSocialMediaLinkes
+                  ) {
+                    if (coffees[parseInt(textMessage) - 1].instagram) {
+                      text += `*Instagram*\n`;
+                      text += `${
+                        coffees[parseInt(textMessage) - 1].instagram
+                      }\n`;
+                    }
+                    if (coffees[parseInt(textMessage) - 1].snapchat) {
+                      text += `*Snapchat*\n`;
+                      text += `${
+                        coffees[parseInt(textMessage) - 1].snapchat
+                      }\n`;
+                    }
+                    if (coffees[parseInt(textMessage) - 1].twitter) {
+                      text += `*Twitter*\n`;
+                      text += `${coffees[parseInt(textMessage) - 1].twitter}\n`;
+                    }
+                    text += `\n`;
+                  }
+
                   text += `For suggestions or complaints send 🅰️🅰️\n\n`;
                   text += `*Z🥷🏼*`;
 
@@ -695,6 +822,29 @@ const botWebhook = async (req, res) => {
                   text += `📍 Location:\n${
                     lounges[parseInt(textMessage) - 1].location
                   }\n\n`;
+
+                  if (
+                    lounges[parseInt(textMessage) - 1].ShowSocialMediaLinkes
+                  ) {
+                    if (lounges[parseInt(textMessage) - 1].instagram) {
+                      text += `*Instagram*\n`;
+                      text += `${
+                        lounges[parseInt(textMessage) - 1].instagram
+                      }\n`;
+                    }
+                    if (lounges[parseInt(textMessage) - 1].snapchat) {
+                      text += `*Snapchat*\n`;
+                      text += `${
+                        lounges[parseInt(textMessage) - 1].snapchat
+                      }\n`;
+                    }
+                    if (lounges[parseInt(textMessage) - 1].twitter) {
+                      text += `*Twitter*\n`;
+                      text += `${lounges[parseInt(textMessage) - 1].twitter}\n`;
+                    }
+                    text += `\n`;
+                  }
+
                   text += `For suggestions or complaints send 🅰️🅰️\n\n`;
                   text += `*Z🥷🏼*`;
 

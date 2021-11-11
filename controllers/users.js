@@ -38,7 +38,17 @@ const authUser = async (req, res) => {
 // @route   POST /api/users
 // @access  Public
 const registerUser = async (req, res) => {
-  const { name, nameAr, email, password, type, location } = req.body;
+  const {
+    name,
+    nameAr,
+    email,
+    password,
+    type,
+    location,
+    instagram,
+    snapchat,
+    twitter,
+  } = req.body;
 
   try {
     const userExists = await User.findOne({ email });
@@ -53,6 +63,9 @@ const registerUser = async (req, res) => {
       password,
       type,
       location,
+      instagram,
+      snapchat,
+      twitter,
     });
 
     const token = generateToken(user._id);
@@ -66,6 +79,7 @@ const registerUser = async (req, res) => {
       token,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Something went wrong" });
   }
 };
@@ -126,6 +140,9 @@ const updateUser = async (req, res) => {
     user.isActive = req.body.isActive || user.isActive;
     user.location = req.body.location || user.location;
     user.discount = req.body.discount || user.discount;
+    user.instagram = req.body.instagram || user.instagram;
+    user.snapchat = req.body.snapchat || user.snapchat;
+    user.twitter = req.body.twitter || user.twitter;
     if (req.body.password) {
       user.password = req.body.password;
     }
@@ -142,6 +159,9 @@ const updateUser = async (req, res) => {
       isActive: updatedUser.isActive,
       discount: updatedUser.discount,
       location: updatedUser.location,
+      instagram: updatedUser.instagram,
+      snapchat: updatedUser.snapchat,
+      twitter: updatedUser.twitter,
     });
   } catch (error) {
     res.status(500).json({ error: "Something went wrong" });
