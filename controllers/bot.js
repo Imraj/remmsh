@@ -60,6 +60,7 @@ const botWebhook = async (req, res) => {
             } else {
               const users = await User.find({ isActive: true });
 
+              console.log("users", users);
               const usersArray = users.map((user) => {
                 return {
                   id: user._id,
