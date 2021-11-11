@@ -3,7 +3,6 @@ const Code = require("../models/Code");
 const promisify = require("util").promisify;
 const { sendMessage, setReaded, setUnreaded } = require("../utils/whatsappApi");
 const { getCode } = require("../utils/generateCode");
-const { log } = require("console");
 
 // @desc    Bot webhook
 // @route   POST /api/bot/webhook
@@ -99,8 +98,8 @@ const botWebhook = async (req, res) => {
                   text = "*لكود الخصم ارسل رقم الخيار المطلوب😁*\n";
                   text += "⏬\n⏬\n\n";
 
+                  console.log("Resturents", restaurants);
                   restaurants.forEach((restaurant, i) => {
-                    log(restaurant.name);
                     text += `*${i + 1}*- ${restaurant.name} *${
                       restaurant.discount
                     }%*\n\n`;
