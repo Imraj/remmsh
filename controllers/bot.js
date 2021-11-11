@@ -56,7 +56,7 @@ const botWebhook = async (req, res) => {
               await redisHmset(redisChatId, "serviceQSend", true);
               await redisHmset(redisChatId, "choiseQSend", false);
               await redisHmset(redisChatId, "service", "");
-              await redisHmset(redisChatId, "codeSent", "");
+              await redisHmset(redisChatId, "codeSent", false);
             } else {
               const users = await User.find({ isActive: true });
               const usersArray = users.map((user) => {
@@ -177,7 +177,7 @@ const botWebhook = async (req, res) => {
                 pendingReservation.service === "1" &&
                 pendingReservation.choiseQSend &&
                 (!pendingReservation.codeSent ||
-                  pendingReservation.codeSent === "")
+                  pendingReservation.codeSent === false)
               ) {
                 let text;
                 if (textMessage === "0") {
@@ -277,7 +277,7 @@ const botWebhook = async (req, res) => {
                 pendingReservation.service === "2" &&
                 pendingReservation.choiseQSend &&
                 (!pendingReservation.codeSent ||
-                  pendingReservation.codeSent === "")
+                  pendingReservation.codeSent === false)
               ) {
                 let text;
                 if (textMessage === "0") {
@@ -373,7 +373,7 @@ const botWebhook = async (req, res) => {
                 pendingReservation.service === "3" &&
                 pendingReservation.choiseQSend &&
                 (!pendingReservation.codeSent ||
-                  pendingReservation.codeSent === "")
+                  pendingReservation.codeSent === false)
               ) {
                 let text;
                 if (textMessage === "0") {
@@ -483,7 +483,7 @@ const botWebhook = async (req, res) => {
               await redisHmset(redisChatId, "serviceQSend", true);
               await redisHmset(redisChatId, "choiseQSend", false);
               await redisHmset(redisChatId, "service", "");
-              await redisHmset(redisChatId, "codeSent", "");
+              await redisHmset(redisChatId, "codeSent", false);
             } else {
               const users = await User.find({ isActive: true });
               const usersArray = users.map((user) => {
@@ -603,7 +603,7 @@ const botWebhook = async (req, res) => {
                 pendingReservation.service === "1" &&
                 pendingReservation.choiseQSend &&
                 (!pendingReservation.codeSent ||
-                  pendingReservation.codeSent === "")
+                  pendingReservation.codeSent === false)
               ) {
                 let text;
                 if (textMessage === "0") {
@@ -700,7 +700,7 @@ const botWebhook = async (req, res) => {
                 pendingReservation.service === "2" &&
                 pendingReservation.choiseQSend &&
                 (!pendingReservation.codeSent ||
-                  pendingReservation.codeSent === "")
+                  pendingReservation.codeSent === false)
               ) {
                 let text;
                 if (textMessage === "0") {
@@ -794,7 +794,7 @@ const botWebhook = async (req, res) => {
                 pendingReservation.service === "3" &&
                 pendingReservation.choiseQSend &&
                 (!pendingReservation.codeSent ||
-                  pendingReservation.codeSent === "")
+                  pendingReservation.codeSent === false)
               ) {
                 let text;
                 if (textMessage === "0") {
