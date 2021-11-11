@@ -86,6 +86,10 @@ const botWebhook = async (req, res) => {
                 (user) => user.type === "lounge"
               );
 
+              console.log("coffees", coffees);
+              console.log("restaurants", restaurants);
+              console.log("lounges", lounges);
+
               if (
                 pendingReservation.serviceQSend &&
                 (!pendingReservation.service ||
