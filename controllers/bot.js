@@ -164,7 +164,7 @@ const botWebhook = async (req, res) => {
                 pendingReservation.service === "1" &&
                 pendingReservation.choiseQSend &&
                 (!pendingReservation.codeSent ||
-                  pendingReservation.codeSent === false)
+                  pendingReservation.codeSent === "false")
               ) {
                 let text;
                 if (textMessage === "0") {
@@ -266,7 +266,7 @@ const botWebhook = async (req, res) => {
                 pendingReservation.service === "2" &&
                 pendingReservation.choiseQSend &&
                 (!pendingReservation.codeSent ||
-                  pendingReservation.codeSent === false)
+                  pendingReservation.codeSent === "false")
               ) {
                 let text;
                 if (textMessage === "0") {
@@ -362,7 +362,7 @@ const botWebhook = async (req, res) => {
                 pendingReservation.service === "3" &&
                 pendingReservation.choiseQSend &&
                 (!pendingReservation.codeSent ||
-                  pendingReservation.codeSent === false)
+                  pendingReservation.codeSent === "false")
               ) {
                 let text;
                 if (textMessage === "0") {
@@ -578,7 +578,7 @@ const botWebhook = async (req, res) => {
                 pendingReservation.service === "1" &&
                 pendingReservation.choiseQSend &&
                 (!pendingReservation.codeSent ||
-                  pendingReservation.codeSent === false)
+                  pendingReservation.codeSent === "false")
               ) {
                 let text;
                 if (textMessage === "0") {
@@ -675,7 +675,7 @@ const botWebhook = async (req, res) => {
                 pendingReservation.service === "2" &&
                 pendingReservation.choiseQSend &&
                 (!pendingReservation.codeSent ||
-                  pendingReservation.codeSent === false)
+                  pendingReservation.codeSent === "false")
               ) {
                 let text;
                 if (textMessage === "0") {
@@ -769,7 +769,7 @@ const botWebhook = async (req, res) => {
                 pendingReservation.service === "3" &&
                 pendingReservation.choiseQSend &&
                 (!pendingReservation.codeSent ||
-                  pendingReservation.codeSent === false)
+                  pendingReservation.codeSent === "false")
               ) {
                 let text;
                 if (textMessage === "0") {
