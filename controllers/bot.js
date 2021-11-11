@@ -83,7 +83,6 @@ const botWebhook = async (req, res) => {
                   text = "*لكود الخصم ارسل رقم الخيار المطلوب😁*\n";
                   text += "⏬\n⏬\n\n";
 
-                  console.log("Resturents", restaurants);
                   restaurants.forEach((restaurant, i) => {
                     text += `*${i + 1}*- ${restaurant.nameAr} *${
                       restaurant.discount
