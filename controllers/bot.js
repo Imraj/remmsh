@@ -74,6 +74,8 @@ const botWebhook = async (req, res) => {
                 };
               });
 
+              console.log("usersArray", usersArray);
+
               const coffees = usersArray.filter(
                 (user) => user.type === "coffee"
               );
