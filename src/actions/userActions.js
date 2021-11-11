@@ -23,33 +23,45 @@ import {
   USER_CHECK_CODE_FAIL
 } from '../constants/userConstants';
 
-export const register = (name, nameAr, email, password, type, location) => async (dispatch) => {
-  try {
-    dispatch({
-      type: USER_REGISTER_REQUEST
-    });
+export const register =
+  (name, nameAr, email, password, type, location, instagram, snapchat, twitter) =>
+  async (dispatch) => {
+    try {
+      dispatch({
+        type: USER_REGISTER_REQUEST
+      });
 
-    const { data } = await api.regiserUser({ name, nameAr, email, password, type, location });
+      const { data } = await api.regiserUser({
+        name,
+        nameAr,
+        email,
+        password,
+        type,
+        location,
+        instagram,
+        snapchat,
+        twitter
+      });
 
-    dispatch({
-      type: USER_REGISTER_SUCCESS,
-      payload: data
-    });
+      dispatch({
+        type: USER_REGISTER_SUCCESS,
+        payload: data
+      });
 
-    dispatch({
-      type: USER_LOGIN_SUCCESS,
-      payload: data
-    });
+      dispatch({
+        type: USER_LOGIN_SUCCESS,
+        payload: data
+      });
 
-    localStorage.setItem('userInfo', JSON.stringify(data));
-  } catch (error) {
-    dispatch({
-      type: USER_REGISTER_FAIL,
-      payload:
-        error.response && error.response.data.error ? error.response.data.error : error.message
-    });
-  }
-};
+      localStorage.setItem('userInfo', JSON.stringify(data));
+    } catch (error) {
+      dispatch({
+        type: USER_REGISTER_FAIL,
+        payload:
+          error.response && error.response.data.error ? error.response.data.error : error.message
+      });
+    }
+  };
 
 export const login = (email, password) => async (dispatch) => {
   try {

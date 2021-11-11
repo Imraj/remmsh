@@ -15,6 +15,8 @@ import {
   InputLabel,
   MenuItem,
   FormControl,
+  FormControlLabel,
+  Checkbox,
   Select,
   FormHelperText,
   Grid,
@@ -49,7 +51,10 @@ export default function RegisterForm() {
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
     password: Yup.string().required('Password is required'),
     type: Yup.string().required('Type is required'),
-    location: Yup.string().required('Location is required')
+    location: Yup.string().required('Location is required'),
+    instagram: Yup.string(),
+    snapchat: Yup.string(),
+    twitter: Yup.string()
   });
 
   const formik = useFormik({
@@ -59,15 +64,21 @@ export default function RegisterForm() {
       type: '',
       email: '',
       password: '',
-      location: ''
+      location: '',
+      ShowSocialMediaLinkes: false,
+      instagram: '',
+      snapchat: '',
+      twitter: ''
     },
     validationSchema: RegisterSchema,
-    onSubmit: ({ name, nameAr, email, password, type, location }) => {
-      dispatch(register(name, nameAr, email, password, type, location));
+    onSubmit: ({ name, nameAr, email, password, type, location, instagram, snapchat, twitter }) => {
+      dispatch(
+        register(name, nameAr, email, password, type, location, instagram, snapchat, twitter)
+      );
     }
   });
 
-  const { errors, touched, handleSubmit, getFieldProps } = formik;
+  const { errors, touched, values, handleSubmit, getFieldProps } = formik;
   let { isSubmitting } = formik;
 
   if (error) {
@@ -147,6 +158,45 @@ export default function RegisterForm() {
             </Select>
             <FormHelperText>{touched.type && errors.type}</FormHelperText>
           </FormControl>
+
+          <FormControlLabel
+            control={
+              <Checkbox
+                {...getFieldProps('ShowSocialMediaLinkes')}
+                checked={values.ShowSocialMediaLinkes}
+              />
+            }
+            label="Show social media linkes"
+          />
+
+          {values.ShowSocialMediaLinkes && (
+            <>
+              <TextField
+                fullWidth
+                label="Instagram"
+                {...getFieldProps('instagram')}
+                error={Boolean(touched.instagram && errors.instagram)}
+                helperText={touched.instagram && errors.instagram}
+              />
+
+              <TextField
+                fullWidth
+                label="Snapchat"
+                {...getFieldProps('snapchat')}
+                error={Boolean(touched.snapchat && errors.snapchat)}
+                helperText={touched.snapchat && errors.snapchat}
+              />
+
+              <TextField
+                fullWidth
+                label="Twitter"
+                {...getFieldProps('twitter')}
+                error={Boolean(touched.twitter && errors.twitter)}
+                helperText={touched.twitter && errors.twitter}
+              />
+            </>
+          )}
+
           <LoadingButton
             fullWidth
             size="large"
