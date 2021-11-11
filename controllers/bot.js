@@ -46,7 +46,7 @@ const botWebhook = async (req, res) => {
               await redisHmset(redisChatId, "lang", "2");
               let text = `*Zoro 🥷🏼*\n`;
               text += `*Live discount codes 🔥*\n\n`;
-              text += `*Choose a service 🔥*\n\n`;
+              text += `*Choose a service*\n\n`;
               text += `1️⃣ Restaurants 🥗\n`;
               text += `2️⃣ Coffees ☕\n`;
               text += `3️⃣ Lounge 🛋️\n\n`;
@@ -503,7 +503,7 @@ const botWebhook = async (req, res) => {
                 } else {
                   text = `*Zoro 🥷🏼*\n`;
                   text += `*Live discount codes 🔥*\n\n`;
-                  text += `*Choose a service 🔥*\n\n`;
+                  text += `*Choose a service*\n\n`;
                   text += `1️⃣ Restaurants 🥗\n`;
                   text += `2️⃣ Coffees ☕\n`;
                   text += `3️⃣ Lounge 🛋️\n\n`;
@@ -530,7 +530,7 @@ const botWebhook = async (req, res) => {
                 if (textMessage === "0") {
                   text = `*Zoro 🥷🏼*\n`;
                   text += `*Live discount codes 🔥*\n\n`;
-                  text += `*Choose a service 🔥*\n\n`;
+                  text += `*Choose a service*\n\n`;
                   text += `1️⃣ Restaurants 🥗\n`;
                   text += `2️⃣ Coffees ☕\n`;
                   text += `3️⃣ Lounge 🛋️\n\n`;
@@ -602,7 +602,7 @@ const botWebhook = async (req, res) => {
                 if (textMessage === "0") {
                   text = `*Zoro 🥷🏼*\n`;
                   text += `*Live discount codes 🔥*\n\n`;
-                  text += `*Choose a service 🔥*\n\n`;
+                  text += `*Choose a service*\n\n`;
                   text += `1️⃣ Restaurants 🥗\n`;
                   text += `2️⃣ Coffees ☕\n`;
                   text += `3️⃣ Lounge 🛋️\n\n`;
@@ -673,7 +673,7 @@ const botWebhook = async (req, res) => {
                 if (textMessage === "0") {
                   text = `*Zoro 🥷🏼*\n`;
                   text += `*Live discount codes 🔥*\n\n`;
-                  text += `*Choose a service 🔥*\n\n`;
+                  text += `*Choose a service*\n\n`;
                   text += `1️⃣ Restaurants 🥗\n`;
                   text += `2️⃣ Coffees ☕\n`;
                   text += `3️⃣ Lounge 🛋️\n\n`;
@@ -774,7 +774,7 @@ const botWebhook = async (req, res) => {
           if (textMessage.match(/^[a-zA-Z0-9]/)) {
             text = `*Zoro 🥷🏼*\n`;
             text += `*Live discount codes 🔥*\n\n`;
-            text += `*Choose a service 🔥*\n\n`;
+            text += `*Choose a service*\n\n`;
             text += `1️⃣ Restaurants 🥗\n`;
             text += `2️⃣ Coffees ☕\n`;
             text += `3️⃣ Lounge 🛋️\n\n`;
