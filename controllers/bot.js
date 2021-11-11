@@ -58,36 +58,18 @@ const botWebhook = async (req, res) => {
               await redisHmset(redisChatId, "service", "");
               await redisHmset(redisChatId, "codeSent", false);
             } else {
-              const users = await User.find({ isActive: true });
-
-              console.log("users", users);
-              // const usersArray = users.map((user) => {
-              //   return {
-              //     id: user._id,
-              //     type: user.type,
-              //     name: user.nameAr,
-              //     discount: user.discount,
-              //     location: user.location,
-              //     ShowSocialMediaLinkes: user.ShowSocialMediaLinkes,
-              //     instagram: user.instagram || "",
-              //     snapchat: user.snapchat || "",
-              //     twitter: user.twitter || "",
-              //   };
-              // });
-
-              // console.log("usersArray", usersArray);
-
-              const coffees = users.filter((user) => user.type === "coffee");
-
-              const restaurants = users.filter(
-                (user) => user.type === "resturant"
-              );
-
-              const lounges = users.filter((user) => user.type === "lounge");
-
-              console.log("coffees", coffees);
-              console.log("restaurants", restaurants);
-              console.log("lounges", lounges);
+              const coffees = await User.find({
+                isActive: true,
+                type: "coffee",
+              });
+              const restaurants = await User.find({
+                isActive: true,
+                type: "resturant",
+              });
+              const lounges = await User.find({
+                isActive: true,
+                type: "lounge",
+              });
 
               if (
                 pendingReservation.serviceQSend &&
@@ -103,7 +85,7 @@ const botWebhook = async (req, res) => {
 
                   console.log("Resturents", restaurants);
                   restaurants.forEach((restaurant, i) => {
-                    text += `*${i + 1}*- ${restaurant.name} *${
+                    text += `*${i + 1}*- ${restaurant.nameAr} *${
                       restaurant.discount
                     }%*\n\n`;
                   });
@@ -123,7 +105,7 @@ const botWebhook = async (req, res) => {
                   text += "⏬\n⏬\n\n";
 
                   coffees.forEach((coffee, i) => {
-                    text += `*${i + 1}*- ${coffee.name} *${
+                    text += `*${i + 1}*- ${coffee.nameAr} *${
                       coffee.discount
                     }%*\n\n`;
                   });
@@ -143,7 +125,7 @@ const botWebhook = async (req, res) => {
                   text += "⏬\n⏬\n\n";
 
                   lounges.forEach((lounge, i) => {
-                    text += `*${i + 1}*- ${lounge.name} *${
+                    text += `*${i + 1}*- ${lounge.nameAr} *${
                       lounge.discount
                     }%*\n\n`;
                   });
@@ -204,7 +186,9 @@ const botWebhook = async (req, res) => {
                 ) {
                   const code = await getCode();
 
-                  text = `*${restaurants[parseInt(textMessage) - 1].name}*\n\n`;
+                  text = `*${
+                    restaurants[parseInt(textMessage) - 1].nameAr
+                  }*\n\n`;
                   text += `الخصم💰: *${
                     restaurants[parseInt(textMessage) - 1].discount
                   }%*\n`;
@@ -259,7 +243,7 @@ const botWebhook = async (req, res) => {
                   text += "⏬\n⏬\n\n";
 
                   restaurants.forEach((restaurant, i) => {
-                    text += `*${i + 1}*- ${restaurant.name} ${
+                    text += `*${i + 1}*- ${restaurant.nameAr} ${
                       restaurant.discount
                     }%\n\n`;
                   });
@@ -304,7 +288,7 @@ const botWebhook = async (req, res) => {
                 ) {
                   const code = await getCode();
 
-                  text = `*${coffees[parseInt(textMessage) - 1].name}*\n\n`;
+                  text = `*${coffees[parseInt(textMessage) - 1].nameAr}*\n\n`;
                   text += `الخصم💰: *${
                     coffees[parseInt(textMessage) - 1].discount
                   }%*\n`;
@@ -355,7 +339,7 @@ const botWebhook = async (req, res) => {
                   text += "⏬\n⏬\n\n";
 
                   coffees.forEach((coffee, i) => {
-                    text += `*${i + 1}*- ${coffee.name} ${
+                    text += `*${i + 1}*- ${coffee.nameAr} ${
                       coffee.discount
                     }%\n\n`;
                   });
@@ -400,7 +384,7 @@ const botWebhook = async (req, res) => {
                 ) {
                   const code = await getCode();
 
-                  text = `*${lounges[parseInt(textMessage) - 1].name}*\n\n`;
+                  text = `*${lounges[parseInt(textMessage) - 1].nameAr}*\n\n`;
                   text += `الخصم💰: *${
                     lounges[parseInt(textMessage) - 1].discount
                   }%*\n`;
@@ -451,7 +435,7 @@ const botWebhook = async (req, res) => {
                   text += "⏬\n⏬\n\n";
 
                   lounges.forEach((lounge, i) => {
-                    text += `*${i + 1}*- ${lounge.name} ${
+                    text += `*${i + 1}*- ${lounge.nameAr} ${
                       lounge.discount
                     }%\n\n`;
                   });
@@ -490,32 +474,18 @@ const botWebhook = async (req, res) => {
               await redisHmset(redisChatId, "service", "");
               await redisHmset(redisChatId, "codeSent", false);
             } else {
-              const users = await User.find({ isActive: true });
-              const usersArray = users.map((user) => {
-                return {
-                  id: user._id,
-                  type: user.type,
-                  name: user.name,
-                  discount: user.discount,
-                  location: user.location,
-                  ShowSocialMediaLinkes: user.ShowSocialMediaLinkes,
-                  instagram: user.instagram,
-                  snapchat: user.snapchat,
-                  twitter: user.twitter,
-                };
+              const coffees = await User.find({
+                isActive: true,
+                type: "coffee",
               });
-
-              const coffees = usersArray.filter(
-                (user) => user.type === "coffee"
-              );
-
-              const restaurants = usersArray.filter(
-                (user) => user.type === "resturant"
-              );
-
-              const lounges = usersArray.filter(
-                (user) => user.type === "lounge"
-              );
+              const restaurants = await User.find({
+                isActive: true,
+                type: "resturant",
+              });
+              const lounges = await User.find({
+                isActive: true,
+                type: "lounge",
+              });
 
               if (
                 pendingReservation.serviceQSend &&
