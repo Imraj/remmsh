@@ -1,5 +1,7 @@
+const moment = require("moment");
 const User = require("../models/User");
 const Code = require("../models/Code");
+const ActiveTimer = require("../models/ActiveTimer");
 const generateToken = require("../utils/generateToken");
 
 // @desc    Auth User
@@ -30,6 +32,7 @@ const authUser = async (req, res) => {
       token,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Something went wrong" });
   }
 };
@@ -91,9 +94,9 @@ const getUser = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const user = await User.findById(id).select(
-      "-password -tokens -createdAt -updatedAt"
-    );
+    const user = await User.findById(id)
+      .select("-password -tokens -createdAt -updatedAt")
+      .populate("activeTimer");
 
     if (!user) return res.status(400).json({ error: "User does not exists" });
 
@@ -222,6 +225,33 @@ const updateUserActive = async (req, res) => {
       return res.status(400).json({ error: "Create discount to be activated" });
 
     user.isActive = !user.isActive;
+
+    const countdownTimestamp = await ActiveTimer.findOne({ user: user._id });
+
+    if (
+      countdownTimestamp &&
+      countdownTimestamp.countdownTimestamp < moment().valueOf()
+    ) {
+      await countdownTimestamp.remove();
+
+      if (user.isActive) {
+        const activeTimer = await ActiveTimer.create({
+          user: user._id,
+          countdownTimestamp: moment().add(1, "day").valueOf(),
+        });
+        user.activeTimer = activeTimer._id;
+      }
+    }
+
+    if (!countdownTimestamp) {
+      if (user.isActive) {
+        const activeTimer = await ActiveTimer.create({
+          user: user._id,
+          countdownTimestamp: moment().add(1, "day").valueOf(),
+        });
+        user.activeTimer = activeTimer._id;
+      }
+    }
 
     const updatedUser = await user.save();
 

@@ -3,6 +3,11 @@ const bcrypt = require("bcryptjs");
 
 const userSchema = mongoose.Schema(
   {
+    activeTimer: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: false,
+      ref: "ActiveTimer",
+    },
     name: {
       type: String,
       required: true,
