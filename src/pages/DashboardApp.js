@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Grid, Container, Typography, Alert, CircularProgress, Card } from '@mui/material';
 import { green } from '@mui/material/colors';
@@ -129,7 +129,11 @@ export default function DashboardApp() {
                   />
                 </Grid>
                 <Grid item xs={12} md={4}>
-                  <AppActivateDiscount isActive={userDetails.isActive} userInfo={userInfo} />
+                  <AppActivateDiscount
+                    countdownTimestamp={userDetails.activeTimer?.countdownTimestamp}
+                    isActive={userDetails.isActive}
+                    userInfo={userInfo}
+                  />
                 </Grid>
               </>
             )}
