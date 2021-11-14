@@ -11,8 +11,8 @@ const RootStyle = styled(Card)(({ theme }) => ({
   boxShadow: 'none',
   textAlign: 'center',
   padding: theme.spacing(3, 3),
-  color: theme.palette.warning.dark,
-  border: `1px solid ${theme.palette.warning.dark}`,
+  color: theme.palette.lightWarning.main,
+  border: `1px solid ${theme.palette.lightWarning.main}`,
   background: '#ffffff'
 }));
 
@@ -25,7 +25,7 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
   height: theme.spacing(8),
   justifyContent: 'center',
   color: '#ffffff',
-  background: theme.palette.warning.dark
+  background: theme.palette.lightWarning.main
 }));
 
 // ----------------------------------------------------------------------
@@ -43,7 +43,7 @@ export default function AppTotalSeen() {
           </IconWrapperStyle>
         </Grid>
         <Grid item>
-          {loading && <CircularProgress size={35} color="warning" />}
+          {loading && <CircularProgress size={35} color="error" />}
           {userDetails && (
             <Typography variant="h3">
               {userDetails.totalSeen && userDetails.totalSeen > 0 ? userDetails.totalSeen : 0}

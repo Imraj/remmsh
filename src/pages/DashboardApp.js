@@ -124,6 +124,7 @@ export default function DashboardApp() {
                 <Grid item xs={12} md={4}>
                   <AppDiscount
                     discount={userDetails.discount}
+                    discountExpireAt={userDetails.discountExpireAt}
                     userInfo={userInfo}
                     userDisccountError={userDisccountError}
                   />

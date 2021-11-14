@@ -77,6 +77,15 @@ const ERROR = {
   contrastText: '#fff'
 };
 
+const LIGHTWARNING = {
+  lighter: '#ff8f00',
+  light: '#ffa040',
+  main: '#ff6f00',
+  dark: '#c43e00',
+  darker: '#e65100',
+  contrastText: '#fff'
+};
+
 const GRADIENTS = {
   primary: createGradient(PRIMARY.light, PRIMARY.main),
   info: createGradient(INFO.light, INFO.main),
@@ -100,6 +109,7 @@ const palette = {
   info: { ...INFO },
   success: { ...SUCCESS },
   warning: { ...WARNING },
+  lightWarning: { ...LIGHTWARNING },
   error: { ...ERROR },
   grey: GREY,
   gradients: GRADIENTS,

@@ -146,8 +146,6 @@ export const updateUserDisccount = (id, userData) => async (dispatch) => {
       type: USER_UPDATE_DISCOUNT_SUCCESS,
       payload: data
     });
-
-    showToast('Disccount updated successfully', 'success');
   } catch (error) {
     dispatch({
       type: USER_UPDATE_DISCOUNT_FAIL,
@@ -174,8 +172,6 @@ export const updateUserActive = (id) => async (dispatch) => {
       type: USER_UPDATE_ACTIVE_SUCCESS,
       payload: data
     });
-
-    showToast('User status changed', 'info');
   } catch (error) {
     dispatch({
       type: USER_UPDATE_ACTIVE_FAIL,
