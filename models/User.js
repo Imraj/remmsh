@@ -36,6 +36,7 @@ const userSchema = mongoose.Schema(
     discount: {
       type: Number,
     },
+    discountExpireAt: Date,
     type: {
       type: String,
     },

@@ -179,17 +179,27 @@ const updateUserDiscount = async (req, res) => {
     if (req.params.id.toString() !== req.user._id.toString())
       return res.status(401).json({ error: "Not authorized" });
 
-    if (!req.body.discount)
+    if (!req.body.discount || !req.body.discountExpireAt)
       return res.status(400).json({ error: "Bad Request" });
 
     if (parseInt(req.body.discount) <= 0 || parseInt(req.body.discount) > 100)
       return res.status(400).json({ error: "Incorrect discount value" });
+
+    if (
+      !moment(req.body.discountExpireAt).isSameOrAfter(
+        moment().format("YYYY-MM-DDTHH:mm")
+      )
+    )
+      return res
+        .status(400)
+        .json({ error: "Date and time can not be greater then now" });
 
     const user = await User.findById(req.params.id);
 
     if (!user) return res.status(404).json({ error: "User not found" });
 
     user.discount = req.body.discount;
+    user.discountExpireAt = req.body.discountExpireAt;
 
     const updatedUser = await user.save();
 
@@ -202,6 +212,7 @@ const updateUserDiscount = async (req, res) => {
       email: updatedUser.email,
       isActive: updatedUser.isActive,
       discount: updatedUser.discount,
+      discountExpireAt: updatedUser.discountExpireAt,
       location: updatedUser.location,
     });
   } catch (error) {
