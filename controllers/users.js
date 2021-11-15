@@ -61,7 +61,7 @@ const registerUser = async (req, res) => {
     if (userExists)
       return res.status(400).json({ error: "User already exists" });
 
-    const user = await User.create({
+    const user = new User({
       name,
       nameAr,
       email,
@@ -75,9 +75,18 @@ const registerUser = async (req, res) => {
       twitter,
     });
 
+    //Create credits record and attchet to the user
+    const credit = new Credit({
+      user: user._id,
+    });
+    user.credits = credit._id;
+
     const token = generateToken(user._id);
     user.tokens = user.tokens.concat({ token });
+
+    //Save chnages
     await user.save();
+    await credit.save();
 
     res.status(201).json({
       _id: user._id,
