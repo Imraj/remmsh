@@ -106,7 +106,7 @@ export default function AppDiscount({ discountExpireAt, discount, userInfo, user
             variant="contained"
             loading={isSubmitting}
           >
-            Submit
+            Save
           </LoadingButtonStyled>
         </Form>
       </FormikProvider>
