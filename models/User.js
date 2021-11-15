@@ -31,11 +31,11 @@ const userSchema = mongoose.Schema(
     },
     district: {
       type: String,
-      required: true,
+      required: false,
     },
     districtAr: {
       type: String,
-      required: true,
+      required: false,
     },
     isActive: {
       type: Boolean,
