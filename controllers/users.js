@@ -2,6 +2,7 @@ const moment = require("moment");
 const User = require("../models/User");
 const Code = require("../models/Code");
 const ActiveTimer = require("../models/ActiveTimer");
+const Credit = require("../models/Credit");
 const generateToken = require("../utils/generateToken");
 
 // @desc    Auth User
@@ -96,7 +97,8 @@ const getUser = async (req, res) => {
   try {
     const user = await User.findById(id)
       .select("-password -tokens -createdAt -updatedAt")
-      .populate("activeTimer");
+      .populate("activeTimer")
+      .populate("credits");
 
     if (!user) return res.status(400).json({ error: "User does not exists" });
 
@@ -246,6 +248,11 @@ const updateUserActive = async (req, res) => {
       await countdownTimestamp.remove();
 
       if (user.isActive) {
+        await Credit.findOneAndUpdate(
+          { user: user._id },
+          { $inc: { balance: -10 } }
+        );
+
         const activeTimer = await ActiveTimer.create({
           user: user._id,
           countdownTimestamp: moment().add(1, "day").valueOf(),
@@ -256,6 +263,11 @@ const updateUserActive = async (req, res) => {
 
     if (!countdownTimestamp) {
       if (user.isActive) {
+        await Credit.findOneAndUpdate(
+          { user: user._id },
+          { $inc: { balance: -10 } }
+        );
+
         const activeTimer = await ActiveTimer.create({
           user: user._id,
           countdownTimestamp: moment().add(1, "day").valueOf(),

@@ -8,6 +8,11 @@ const userSchema = mongoose.Schema(
       required: false,
       ref: "ActiveTimer",
     },
+    credits: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Credit",
+    },
     name: {
       type: String,
       required: true,
