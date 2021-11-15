@@ -24,7 +24,19 @@ import {
 } from '../constants/userConstants';
 
 export const register =
-  (name, nameAr, email, password, type, location, instagram, snapchat, twitter) =>
+  (
+    name,
+    nameAr,
+    email,
+    password,
+    type,
+    location,
+    district,
+    districtAr,
+    instagram,
+    snapchat,
+    twitter
+  ) =>
   async (dispatch) => {
     try {
       dispatch({
@@ -38,6 +50,8 @@ export const register =
         password,
         type,
         location,
+        district,
+        districtAr,
         instagram,
         snapchat,
         twitter

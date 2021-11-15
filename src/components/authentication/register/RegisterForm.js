@@ -43,7 +43,10 @@ export default function RegisterForm() {
   }, [userInfo, navigate]);
 
   const RegisterSchema = Yup.object().shape({
-    name: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Name is required'),
+    name: Yup.string()
+      .min(2, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('English name is required'),
     nameAr: Yup.string()
       .min(2, 'Too Short!')
       .max(50, 'Too Long!')
@@ -52,6 +55,14 @@ export default function RegisterForm() {
     password: Yup.string().required('Password is required'),
     type: Yup.string().required('Type is required'),
     location: Yup.string().required('Location is required'),
+    district: Yup.string()
+      .min(2, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('English district is required'),
+    districtAr: Yup.string()
+      .min(2, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('Arabic district is required'),
     instagram: Yup.string(),
     snapchat: Yup.string(),
     twitter: Yup.string()
@@ -65,15 +76,41 @@ export default function RegisterForm() {
       email: '',
       password: '',
       location: '',
+      district: '',
+      districtAr: '',
       ShowSocialMediaLinkes: false,
       instagram: '',
       snapchat: '',
       twitter: ''
     },
     validationSchema: RegisterSchema,
-    onSubmit: ({ name, nameAr, email, password, type, location, instagram, snapchat, twitter }) => {
+    onSubmit: ({
+      name,
+      nameAr,
+      email,
+      password,
+      type,
+      location,
+      district,
+      districtAr,
+      instagram,
+      snapchat,
+      twitter
+    }) => {
       dispatch(
-        register(name, nameAr, email, password, type, location, instagram, snapchat, twitter)
+        register(
+          name,
+          nameAr,
+          email,
+          password,
+          type,
+          location,
+          district,
+          districtAr,
+          instagram,
+          snapchat,
+          twitter
+        )
       );
     }
   });
@@ -99,7 +136,7 @@ export default function RegisterForm() {
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <TextField
               fullWidth
-              label="Name"
+              label="English name"
               {...getFieldProps('name')}
               error={Boolean(touched.name && errors.name)}
               helperText={touched.name && errors.name}
@@ -149,6 +186,7 @@ export default function RegisterForm() {
             error={Boolean(touched.location && errors.location)}
             helperText={touched.location && errors.location}
           />
+
           <FormControl fullWidth error={Boolean(touched.type && errors.type)}>
             <InputLabel>Type</InputLabel>
             <Select label="Type" {...getFieldProps('type')}>
@@ -158,7 +196,23 @@ export default function RegisterForm() {
             </Select>
             <FormHelperText>{touched.type && errors.type}</FormHelperText>
           </FormControl>
-
+          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+            <TextField
+              fullWidth
+              label="English district"
+              {...getFieldProps('district')}
+              error={Boolean(touched.district && errors.district)}
+              helperText={touched.district && errors.district}
+            />
+            <TextField
+              dir="rtl"
+              fullWidth
+              label="Arabic district"
+              {...getFieldProps('districtAr')}
+              error={Boolean(touched.districtAr && errors.districtAr)}
+              helperText={touched.districtAr && errors.districtAr}
+            />
+          </Stack>
           <FormControlLabel
             control={
               <Checkbox
