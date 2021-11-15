@@ -145,7 +145,7 @@ export default function DashboardApp() {
                 </Grid>
                 <Grid item xs={12} md={4}>
                   <AppActivateDiscount
-                    countdownTimestamp={userDetails.activeTimer?.countdownTimestamp}
+                    countdownTimestamp={userDetails.activeTimer}
                     isActive={userDetails.isActive}
                     userInfo={userInfo}
                   />
