@@ -211,6 +211,15 @@ const botWebhook = async (req, res) => {
                     restaurants[parseInt(textMessage) - 1].discount
                   }%*\n`;
                   text += `كود الخصم🥳: *${code}*\n\n`;
+
+                  if (restaurants[parseInt(textMessage) - 1].discountExpireAt) {
+                    moment.locale("ar");
+                    const expiry = moment(
+                      restaurants[parseInt(textMessage) - 1].discountExpireAt
+                    ).fromNow();
+                    text += `انتهاء الكود: *${expiry}*\n\n`;
+                  }
+
                   text += `📍 الموقع:\n`;
                   text += `${
                     restaurants[parseInt(textMessage) - 1].location
@@ -311,6 +320,15 @@ const botWebhook = async (req, res) => {
                     coffees[parseInt(textMessage) - 1].discount
                   }%*\n`;
                   text += `كود الخصم🥳: *${code}*\n\n`;
+
+                  if (coffees[parseInt(textMessage) - 1].discountExpireAt) {
+                    moment.locale("ar");
+                    const expiry = moment(
+                      coffees[parseInt(textMessage) - 1].discountExpireAt
+                    ).fromNow();
+                    text += `انتهاء الكود: *${expiry}*\n\n`;
+                  }
+
                   text += `📍 الموقع:\n`;
                   text += `${coffees[parseInt(textMessage) - 1].location}\n\n`;
 
@@ -407,6 +425,15 @@ const botWebhook = async (req, res) => {
                     lounges[parseInt(textMessage) - 1].discount
                   }%*\n`;
                   text += `كود الخصم🥳: *${code}*\n\n`;
+
+                  if (lounges[parseInt(textMessage) - 1].discountExpireAt) {
+                    moment.locale("ar");
+                    const expiry = moment(
+                      lounges[parseInt(textMessage) - 1].discountExpireAt
+                    ).fromNow();
+                    text += `انتهاء الكود: *${expiry}*\n\n`;
+                  }
+
                   text += `📍 الموقع:\n`;
                   text += `${lounges[parseInt(textMessage) - 1].location}\n\n`;
 
@@ -636,6 +663,15 @@ const botWebhook = async (req, res) => {
                     restaurants[parseInt(textMessage) - 1].discount
                   }%*\n`;
                   text += `Discount code🥳: *${code}*\n\n`;
+
+                  if (restaurants[parseInt(textMessage) - 1].discountExpireAt) {
+                    moment.locale("en");
+                    const expiry = moment(
+                      restaurants[parseInt(textMessage) - 1].discountExpireAt
+                    ).fromNow();
+                    text += `Code expire: *${expiry}*\n\n`;
+                  }
+
                   text += `📍 Location:\n${
                     restaurants[parseInt(textMessage) - 1].location
                   }\n\n`;
@@ -733,6 +769,15 @@ const botWebhook = async (req, res) => {
                     coffees[parseInt(textMessage) - 1].discount
                   }%*\n`;
                   text += `Discount code🥳: *${code}*\n\n`;
+
+                  if (coffees[parseInt(textMessage) - 1].discountExpireAt) {
+                    moment.locale("en");
+                    const expiry = moment(
+                      coffees[parseInt(textMessage) - 1].discountExpireAt
+                    ).fromNow();
+                    text += `Code expire: *${expiry}*\n\n`;
+                  }
+
                   text += `📍 Location:\n${
                     coffees[parseInt(textMessage) - 1].location
                   }\n\n`;
@@ -827,6 +872,15 @@ const botWebhook = async (req, res) => {
                     lounges[parseInt(textMessage) - 1].discount
                   }%*\n`;
                   text += `Discount code🥳: *${code}*\n\n`;
+
+                  if (lounges[parseInt(textMessage) - 1].discountExpireAt) {
+                    moment.locale("en");
+                    const expiry = moment(
+                      lounges[parseInt(textMessage) - 1].discountExpireAt
+                    ).fromNow();
+                    text += `Code expire: *${expiry}*\n\n`;
+                  }
+
                   text += `📍 Location:\n${
                     lounges[parseInt(textMessage) - 1].location
                   }\n\n`;
