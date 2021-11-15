@@ -212,11 +212,22 @@ const botWebhook = async (req, res) => {
                   }%*\n`;
                   text += `كود الخصم🥳: *${code}*\n\n`;
 
-                  if (restaurants[parseInt(textMessage) - 1].discountExpireAt) {
+                  if (
+                    restaurants[parseInt(textMessage) - 1].discountExpireAt &&
+                    moment(
+                      moment
+                        .utc(
+                          restaurants[parseInt(textMessage) - 1]
+                            .discountExpireAt
+                        )
+                        .format("YYYY-MM-DDTHH:mm")
+                    ).isSameOrAfter(moment().format("YYYY-MM-DDTHH:mm"))
+                  ) {
                     moment.locale("ar");
                     const expiry = moment(
                       restaurants[parseInt(textMessage) - 1].discountExpireAt
                     ).fromNow();
+                    // isSameOrAfter
                     text += `انتهاء الكود: *${expiry}*\n\n`;
                   }
 
@@ -321,7 +332,17 @@ const botWebhook = async (req, res) => {
                   }%*\n`;
                   text += `كود الخصم🥳: *${code}*\n\n`;
 
-                  if (coffees[parseInt(textMessage) - 1].discountExpireAt) {
+                  if (
+                    coffees[parseInt(textMessage) - 1].discountExpireAt &&
+                    moment(
+                      moment
+                        .utc(
+                          restaurants[parseInt(textMessage) - 1]
+                            .discountExpireAt
+                        )
+                        .format("YYYY-MM-DDTHH:mm")
+                    ).isSameOrAfter(moment().format("YYYY-MM-DDTHH:mm"))
+                  ) {
                     moment.locale("ar");
                     const expiry = moment(
                       coffees[parseInt(textMessage) - 1].discountExpireAt
@@ -426,7 +447,17 @@ const botWebhook = async (req, res) => {
                   }%*\n`;
                   text += `كود الخصم🥳: *${code}*\n\n`;
 
-                  if (lounges[parseInt(textMessage) - 1].discountExpireAt) {
+                  if (
+                    lounges[parseInt(textMessage) - 1].discountExpireAt &&
+                    moment(
+                      moment
+                        .utc(
+                          restaurants[parseInt(textMessage) - 1]
+                            .discountExpireAt
+                        )
+                        .format("YYYY-MM-DDTHH:mm")
+                    ).isSameOrAfter(moment().format("YYYY-MM-DDTHH:mm"))
+                  ) {
                     moment.locale("ar");
                     const expiry = moment(
                       lounges[parseInt(textMessage) - 1].discountExpireAt
@@ -664,7 +695,17 @@ const botWebhook = async (req, res) => {
                   }%*\n`;
                   text += `Discount code🥳: *${code}*\n\n`;
 
-                  if (restaurants[parseInt(textMessage) - 1].discountExpireAt) {
+                  if (
+                    restaurants[parseInt(textMessage) - 1].discountExpireAt &&
+                    moment(
+                      moment
+                        .utc(
+                          restaurants[parseInt(textMessage) - 1]
+                            .discountExpireAt
+                        )
+                        .format("YYYY-MM-DDTHH:mm")
+                    ).isSameOrAfter(moment().format("YYYY-MM-DDTHH:mm"))
+                  ) {
                     moment.locale("en");
                     const expiry = moment(
                       restaurants[parseInt(textMessage) - 1].discountExpireAt
@@ -770,7 +811,17 @@ const botWebhook = async (req, res) => {
                   }%*\n`;
                   text += `Discount code🥳: *${code}*\n\n`;
 
-                  if (coffees[parseInt(textMessage) - 1].discountExpireAt) {
+                  if (
+                    coffees[parseInt(textMessage) - 1].discountExpireAt &&
+                    moment(
+                      moment
+                        .utc(
+                          restaurants[parseInt(textMessage) - 1]
+                            .discountExpireAt
+                        )
+                        .format("YYYY-MM-DDTHH:mm")
+                    ).isSameOrAfter(moment().format("YYYY-MM-DDTHH:mm"))
+                  ) {
                     moment.locale("en");
                     const expiry = moment(
                       coffees[parseInt(textMessage) - 1].discountExpireAt
@@ -873,7 +924,17 @@ const botWebhook = async (req, res) => {
                   }%*\n`;
                   text += `Discount code🥳: *${code}*\n\n`;
 
-                  if (lounges[parseInt(textMessage) - 1].discountExpireAt) {
+                  if (
+                    lounges[parseInt(textMessage) - 1].discountExpireAt &&
+                    moment(
+                      moment
+                        .utc(
+                          restaurants[parseInt(textMessage) - 1]
+                            .discountExpireAt
+                        )
+                        .format("YYYY-MM-DDTHH:mm")
+                    ).isSameOrAfter(moment().format("YYYY-MM-DDTHH:mm"))
+                  ) {
                     moment.locale("en");
                     const expiry = moment(
                       lounges[parseInt(textMessage) - 1].discountExpireAt

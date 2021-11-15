@@ -5,6 +5,7 @@ const cors = require("cors");
 const Redis = require("redis");
 const usersRoutes = require("./routes/users");
 const botRoutes = require("./routes/bot");
+
 const app = express();
 
 // Create Redis Client
