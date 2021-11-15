@@ -53,8 +53,8 @@ if (process.env.ENV === "production") {
     app
   );
 
-  httpsServer.listen(443, () => {
-    console.log("HTTPS Server running on port 443");
+  httpsServer.listen(PORT, () => {
+    console.log(`HTTPS Server running on port ${PORT}`);
   });
 } else {
   app.listen(PORT, () => console.log(`App is listening on port: ${PORT}`));
