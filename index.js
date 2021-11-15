@@ -1,7 +1,9 @@
 require("dotenv").config();
+const https = require("https");
+const fs = require("fs");
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
+const mongoose = require("mongoose");
 const Redis = require("redis");
 const usersRoutes = require("./routes/users");
 const botRoutes = require("./routes/bot");
@@ -32,7 +34,28 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() =>
-    app.listen(PORT, () => console.log(`App is listening on port: ${PORT}`))
-  )
+  .then(() => {
+    console.log("Connected to database");
+  })
   .catch((e) => console.log(e));
+
+if (process.env.ENV === "production") {
+  // serve the API with signed certificate on 443 (SSL/HTTPS) port
+  const httpsServer = https.createServer(
+    {
+      key: fs.readFileSync(
+        "/etc/letsencrypt/live/dashboard.zorroksa.com/privkey.pem"
+      ),
+      cert: fs.readFileSync(
+        "/etc/letsencrypt/live/dashboard.zorroksa.com/fullchain.pem"
+      ),
+    },
+    app
+  );
+
+  httpsServer.listen(443, () => {
+    console.log("HTTPS Server running on port 443");
+  });
+} else {
+  app.listen(PORT, () => console.log(`App is listening on port: ${PORT}`));
+}

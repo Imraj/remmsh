@@ -92,7 +92,9 @@ const botWebhook = async (req, res) => {
                   restaurants.forEach((restaurant, i) => {
                     text += `*${i + 1}*. ${restaurant.nameAr} *${
                       restaurant.discount
-                    }%*\n\n`;
+                    }%*${
+                      restaurant.districtAr ? " " + restaurant.districtAr : ""
+                    }📍\n\n`;
                   });
 
                   text += `للقائمة السابقة ارسل 0️⃣`;
@@ -117,7 +119,9 @@ const botWebhook = async (req, res) => {
                   coffees.forEach((coffee, i) => {
                     text += `*${i + 1}*. ${coffee.nameAr} *${
                       coffee.discount
-                    }%*\n\n`;
+                    }%*${
+                      coffee.districtAr ? " " + coffee.districtAr : ""
+                    }📍\n\n`;
                   });
                   text += `للقائمة السابقة ارسل 0️⃣`;
 
@@ -141,7 +145,9 @@ const botWebhook = async (req, res) => {
                   lounges.forEach((lounge, i) => {
                     text += `*${i + 1}*. ${lounge.nameAr} *${
                       lounge.discount
-                    }%*\n\n`;
+                    }%*${
+                      lounge.districtAr ? " " + lounge.districtAr : ""
+                    }📍\n\n`;
                   });
                   text += `للقائمة السابقة ارسل 0️⃣ `;
 
@@ -281,9 +287,11 @@ const botWebhook = async (req, res) => {
                   text += "⏬\n⏬\n\n";
 
                   restaurants.forEach((restaurant, i) => {
-                    text += `*${i + 1}*. ${restaurant.nameAr} ${
+                    text += `*${i + 1}*. ${restaurant.nameAr} *${
                       restaurant.discount
-                    }%\n\n`;
+                    }%*${
+                      restaurant.districtAr ? " " + restaurant.districtAr : ""
+                    }📍\n\n`;
                   });
 
                   text += `للقائمة السابقة ارسل 0️⃣ \n`;
@@ -396,9 +404,11 @@ const botWebhook = async (req, res) => {
                   text += "⏬\n⏬\n\n";
 
                   coffees.forEach((coffee, i) => {
-                    text += `*${i + 1}*. ${coffee.nameAr} ${
+                    text += `*${i + 1}*. ${coffee.nameAr} *${
                       coffee.discount
-                    }%\n\n`;
+                    }%*${
+                      coffee.districtAr ? " " + coffee.districtAr : ""
+                    }📍\n\n`;
                   });
 
                   text += `للقائمة السابقة ارسل 0️⃣ \n`;
@@ -511,9 +521,11 @@ const botWebhook = async (req, res) => {
                   text += "⏬\n⏬\n\n";
 
                   lounges.forEach((lounge, i) => {
-                    text += `*${i + 1}*. ${lounge.nameAr} ${
+                    text += `*${i + 1}*. ${lounge.nameAr} *${
                       lounge.discount
-                    }%\n\n`;
+                    }%*${
+                      lounge.districtAr ? " " + lounge.districtAr : ""
+                    }📍\n\n`;
                   });
 
                   text += `للقائمة السابقة ارسل 0️⃣ \n`;
@@ -581,7 +593,9 @@ const botWebhook = async (req, res) => {
                   restaurants.forEach((restaurant, i) => {
                     text += `*${i + 1}*. ${restaurant.name} *${
                       restaurant.discount
-                    }%*\n\n`;
+                    }%*${
+                      restaurant.district ? " " + restaurant.district : ""
+                    }📍\n\n`;
                   });
 
                   text += `For previos menu send 0️⃣`;
@@ -602,9 +616,9 @@ const botWebhook = async (req, res) => {
                   text = "*Choose an option for the discount code😁*\n";
                   text += "⏬\n⏬\n\n";
                   coffees.forEach((coffee, i) => {
-                    text += `*${i + 1}*. ${coffee.name} *${
-                      coffee.discount
-                    }%*\n\n`;
+                    text += `*${i + 1}*. ${coffee.name} *${coffee.discount}%*${
+                      coffee.district ? " " + coffee.district : ""
+                    }📍\n\n`;
                   });
 
                   text += `For previos menu send 0️⃣`;
@@ -627,9 +641,9 @@ const botWebhook = async (req, res) => {
                   text += "⏬\n⏬\n\n";
 
                   lounges.forEach((lounge, i) => {
-                    text += `*${i + 1}*. ${lounge.name} *${
-                      lounge.discount
-                    }%*\n\n`;
+                    text += `*${i + 1}*. ${lounge.name} *${lounge.discount}%*${
+                      lounge.district ? " " + lounge.district : ""
+                    }📍\n\n`;
                   });
 
                   text += `For previos menu send 0️⃣`;
@@ -762,9 +776,11 @@ const botWebhook = async (req, res) => {
                   text += "⏬\n⏬\n\n";
 
                   restaurants.forEach((restaurant, i) => {
-                    text += `*${i + 1}*. ${restaurant.name} ${
+                    text += `*${i + 1}*. ${restaurant.name} *${
                       restaurant.discount
-                    }%\n\n`;
+                    }%*${
+                      restaurant.district ? " " + restaurant.district : ""
+                    }📍\n\n`;
                   });
 
                   text += `For previos menu send 0️⃣`;
@@ -875,9 +891,9 @@ const botWebhook = async (req, res) => {
                   text += "*Choose an option for the discount code😁*\n";
                   text += "⏬\n⏬\n\n";
                   coffees.forEach((coffee, i) => {
-                    text += `*${i + 1}*. ${coffee.name} ${
-                      coffee.discount
-                    }%\n\n`;
+                    text += `*${i + 1}*. ${coffee.name} *${coffee.discount}%*${
+                      coffee.district ? " " + coffee.district : ""
+                    }📍\n\n`;
                   });
 
                   text += `For previos menu send 0️⃣`;
@@ -989,9 +1005,9 @@ const botWebhook = async (req, res) => {
                   text += "⏬\n⏬\n\n";
 
                   lounges.forEach((lounge, i) => {
-                    text += `*${i + 1}*. ${lounge.name} ${
-                      lounge.discount
-                    }%\n\n`;
+                    text += `*${i + 1}*. ${lounge.name} *${lounge.discount}%*${
+                      lounge.district ? " " + lounge.district : ""
+                    }📍\n\n`;
                   });
 
                   text += `For previos menu send 0️⃣`;
