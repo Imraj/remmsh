@@ -6,7 +6,7 @@ import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import DashboardApp from './pages/DashboardApp';
-
+import Payment from './pages/Payment';
 import NotFound from './pages/Page404';
 
 // ----------------------------------------------------------------------
@@ -20,7 +20,8 @@ export default function Router() {
       element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
       children: [
         // { element: <Navigate to="/dashboard/app" replace /> },
-        { path: '', element: <DashboardApp /> }
+        { path: '', element: <DashboardApp /> },
+        { path: 'payment', element: <Payment /> }
       ]
     },
     {

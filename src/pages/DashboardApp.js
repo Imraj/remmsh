@@ -5,7 +5,7 @@ import { green } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
 import Page from '../components/Page';
 import {
-  // AppCreditBalance,
+  AppCreditBalance,
   AppCheckCode,
   AppDiscount,
   AppActivateDiscount,
@@ -52,11 +52,25 @@ export default function DashboardApp() {
   return (
     <Page title="Zoro | Dashboard">
       <Container maxWidth="xl">
-        <Box sx={{ pb: 5 }}>
-          <Typography variant="h4">
-            Hi <strong style={{ color: green[400] }}>{userInfo.name}</strong>, Welcome back
-          </Typography>
-        </Box>
+        <Grid
+          container
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={3}
+          sx={{ pb: 5 }}
+        >
+          <Grid item xs={12} sm={8} md={10}>
+            <Box>
+              <Typography variant="h4">
+                Hi <strong style={{ color: green[400] }}>{userInfo.name}</strong>, Welcome back
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={12} sm={4} md={2}>
+            <AppCreditBalance />
+          </Grid>
+        </Grid>
+
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={4}>
             <AppTotalSeen />
