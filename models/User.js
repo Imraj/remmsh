@@ -3,11 +3,6 @@ const bcrypt = require("bcryptjs");
 
 const userSchema = mongoose.Schema(
   {
-    activeTimer: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: false,
-      ref: "ActiveTimer",
-    },
     credits: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
@@ -38,6 +33,7 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    activeTimer: { type: Number },
     discount: {
       type: Number,
     },

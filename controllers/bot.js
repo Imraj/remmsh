@@ -1,3 +1,4 @@
+const moment = require("moment");
 const User = require("../models/User");
 const Code = require("../models/Code");
 const promisify = require("util").promisify;
@@ -61,14 +62,19 @@ const botWebhook = async (req, res) => {
               const coffees = await User.find({
                 isActive: true,
                 type: "coffee",
+                activeTimer: { $gte: moment().valueOf() },
               });
+
               const restaurants = await User.find({
                 isActive: true,
                 type: "resturant",
+                activeTimer: { $gte: moment().valueOf() },
               });
+
               const lounges = await User.find({
                 isActive: true,
                 type: "lounge",
+                activeTimer: { $gte: moment().valueOf() },
               });
 
               if (
@@ -94,7 +100,12 @@ const botWebhook = async (req, res) => {
 
                   //Update total seen for all reseturants
                   await User.updateMany(
-                    { type: "resturant", isActive: true },
+                    {
+                      type: "resturant",
+                      isActive: true,
+                      activeTimer: { $gte: moment().valueOf() },
+                    },
+
                     { $inc: { totalSeen: 1 } }
                   );
                 } else if (textMessage === "2" || textMessage === "٢") {
@@ -114,7 +125,11 @@ const botWebhook = async (req, res) => {
 
                   //Update total seen for all coffees
                   await User.updateMany(
-                    { type: "coffee", isActive: true },
+                    {
+                      type: "coffee",
+                      isActive: true,
+                      activeTimer: { $gte: moment().valueOf() },
+                    },
                     { $inc: { totalSeen: 1 } }
                   );
                 } else if (textMessage === "3" || textMessage === "٣") {
@@ -134,7 +149,11 @@ const botWebhook = async (req, res) => {
 
                   //Update total seen for all lounges
                   await User.updateMany(
-                    { type: "lounge", isActive: true },
+                    {
+                      type: "lounge",
+                      isActive: true,
+                      activeTimer: { $gte: moment().valueOf() },
+                    },
                     { $inc: { totalSeen: 1 } }
                   );
                 } else {
@@ -476,14 +495,17 @@ const botWebhook = async (req, res) => {
               const coffees = await User.find({
                 isActive: true,
                 type: "coffee",
+                activeTimer: { $gte: moment().valueOf() },
               });
               const restaurants = await User.find({
                 isActive: true,
                 type: "resturant",
+                activeTimer: { $gte: moment().valueOf() },
               });
               const lounges = await User.find({
                 isActive: true,
                 type: "lounge",
+                activeTimer: { $gte: moment().valueOf() },
               });
 
               if (
@@ -509,7 +531,11 @@ const botWebhook = async (req, res) => {
 
                   //Update total seen for all reseturants
                   await User.updateMany(
-                    { type: "resturant", isActive: true },
+                    {
+                      type: "resturant",
+                      isActive: true,
+                      activeTimer: { $gte: moment().valueOf() },
+                    },
                     { $inc: { totalSeen: 1 } }
                   );
                 } else if (textMessage === "2" || textMessage === "٢") {
@@ -529,7 +555,11 @@ const botWebhook = async (req, res) => {
 
                   //Update total seen for all coffees
                   await User.updateMany(
-                    { type: "coffee", isActive: true },
+                    {
+                      type: "coffee",
+                      isActive: true,
+                      activeTimer: { $gte: moment().valueOf() },
+                    },
                     { $inc: { totalSeen: 1 } }
                   );
                 } else if (textMessage === "3" || textMessage === "٣") {
@@ -550,7 +580,11 @@ const botWebhook = async (req, res) => {
 
                   //Update total seen for all lounges
                   await User.updateMany(
-                    { type: "lounge", isActive: true },
+                    {
+                      type: "lounge",
+                      isActive: true,
+                      activeTimer: { $gte: moment().valueOf() },
+                    },
                     { $inc: { totalSeen: 1 } }
                   );
                 } else {
