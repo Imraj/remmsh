@@ -229,7 +229,7 @@ const botWebhook = async (req, res) => {
                         .format("YYYY-MM-DDTHH:mm")
                     ).isSameOrAfter(moment().format("YYYY-MM-DDTHH:mm"))
                   ) {
-                    moment.locale("ar");
+                    moment.locale("ar-ly");
                     const expiry = moment(
                       restaurants[parseInt(textMessage) - 1].discountExpireAt
                     ).fromNow();
@@ -351,7 +351,7 @@ const botWebhook = async (req, res) => {
                         .format("YYYY-MM-DDTHH:mm")
                     ).isSameOrAfter(moment().format("YYYY-MM-DDTHH:mm"))
                   ) {
-                    moment.locale("ar");
+                    moment.locale("ar-ly");
                     const expiry = moment(
                       coffees[parseInt(textMessage) - 1].discountExpireAt
                     ).fromNow();
@@ -468,7 +468,7 @@ const botWebhook = async (req, res) => {
                         .format("YYYY-MM-DDTHH:mm")
                     ).isSameOrAfter(moment().format("YYYY-MM-DDTHH:mm"))
                   ) {
-                    moment.locale("ar");
+                    moment.locale("ar-ly");
                     const expiry = moment(
                       lounges[parseInt(textMessage) - 1].discountExpireAt
                     ).fromNow();
