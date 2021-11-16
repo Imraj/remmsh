@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import PlusIcon from '@iconify/icons-ant-design/plus-circle-fill';
 // material
-import { styled } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import { Card, Typography, Grid, CircularProgress, IconButton } from '@mui/material';
 
 // ----------------------------------------------------------------------
@@ -19,6 +19,8 @@ const RootStyle = styled(Card)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function AppCreditBalance() {
+  const theme = useTheme();
+
   const userDetailsStore = useSelector((state) => state.userDetails);
   const { loading, userDetails } = userDetailsStore;
 
@@ -26,14 +28,17 @@ export default function AppCreditBalance() {
     <RootStyle>
       <Grid container justifyContent="space-around" alignItems="center">
         <Grid item>
-          {loading && <CircularProgress size={30} color="info" />}
-          {userDetails && userDetails.credits && (
-            <Typography variant="h4">{userDetails.credits.balance}</Typography>
-          )}
+          <Typography variant="h6" color={theme.palette.info.darker}>
+            Wallet
+          </Typography>
         </Grid>
-        <Grid item>
+        <Grid item display="flex" alignItems="center">
+          {loading && <CircularProgress size={28} color="info" />}
+          {userDetails && userDetails.credits && (
+            <Typography variant="h5">{userDetails.credits.balance}</Typography>
+          )}
           <IconButton component={Link} to="/dashboard/payment" color="info">
-            <Icon icon={PlusIcon} width={38} height={38} />
+            <Icon icon={PlusIcon} width={28} height={28} />
           </IconButton>
         </Grid>
       </Grid>

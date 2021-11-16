@@ -57,16 +57,16 @@ export default function DashboardApp() {
           justifyContent="space-between"
           alignItems="center"
           spacing={3}
-          sx={{ pb: 5 }}
+          sx={{ pb: 5, mt: 1 }}
         >
-          <Grid item xs={12} sm={8} md={10}>
+          <Grid item xs={12} sm={8} md={9} lg={10}>
             <Box>
               <Typography variant="h4">
                 Hi <strong style={{ color: green[400] }}>{userInfo.name}</strong>, Welcome back
               </Typography>
             </Box>
           </Grid>
-          <Grid item xs={12} sm={4} md={2}>
+          <Grid item xs={12} sm={4} md={3} lg={2}>
             <AppCreditBalance />
           </Grid>
         </Grid>
