@@ -57,7 +57,7 @@ export default function DashboardApp() {
           justifyContent="space-between"
           alignItems="center"
           spacing={3}
-          sx={{ pb: 5, mt: 1 }}
+          sx={{ pb: 5 }}
         >
           <Grid item xs={12} sm={8} md={9} lg={10}>
             <Box>

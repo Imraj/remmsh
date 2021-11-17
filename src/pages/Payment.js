@@ -9,7 +9,7 @@ import { PaymentInfo } from '../components/_dashboard/payment';
 export default function Payment() {
   return (
     <Page title="Zoro | Payment">
-      <Container maxWidth="xl" sx={{ mt: 2 }}>
+      <Container maxWidth="xl">
         <Box>
           <Button
             variant="contained"

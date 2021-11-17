@@ -1,19 +1,17 @@
 import { Link as RouterLink } from 'react-router-dom';
-import { alpha, styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import { Box, Stack, AppBar, Toolbar } from '@mui/material';
 import Logo from '../../components/Logo';
 import AccountPopover from './AccountPopover';
 
 // ----------------------------------------------------------------------
 
-const APPBAR_MOBILE = 64;
-const APPBAR_DESKTOP = 92;
+const APPBAR_MOBILE = 40;
+const APPBAR_DESKTOP = 70;
 
 const RootStyle = styled(AppBar)(({ theme }) => ({
   boxShadow: 'none',
-  backdropFilter: 'blur(6px)',
-  WebkitBackdropFilter: 'blur(6px)', // Fix on Mobile
-  backgroundColor: alpha(theme.palette.background.default, 0.72),
+  backgroundColor: '#ffffff',
   [theme.breakpoints.up('lg')]: {
     width: `100%`
   }
@@ -33,7 +31,7 @@ export default function DashboardNavbar() {
   return (
     <RootStyle>
       <ToolbarStyle>
-        <Box sx={{ px: 2.5, py: 3 }}>
+        <Box sx={{ px: 2.5, py: 1 }}>
           <Box component={RouterLink} to="/" sx={{ display: 'inline-flex' }}>
             <Logo />
           </Box>
