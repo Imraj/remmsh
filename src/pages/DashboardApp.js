@@ -25,6 +25,13 @@ const ActionsDashboardStyle = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.info.lighter
 }));
 
+const StyledContainer = styled(Container)(({ theme }) => ({
+  marginTop: theme.spacing(3),
+  [theme.breakpoints.up('sm')]: {
+    marginTop: theme.spacing(0)
+  }
+}));
+
 export default function DashboardApp() {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.userLogin.userInfo);
@@ -51,7 +58,7 @@ export default function DashboardApp() {
 
   return (
     <Page title="Zoro | Dashboard">
-      <Container maxWidth="xl">
+      <StyledContainer maxWidth="xl">
         <Grid
           container
           justifyContent="space-between"
@@ -154,7 +161,7 @@ export default function DashboardApp() {
             )}
           </Grid>
         </ActionsDashboardStyle>
-      </Container>
+      </StyledContainer>
     </Page>
   );
 }

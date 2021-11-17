@@ -21,10 +21,6 @@ const HeaderStyle = styled('header')(({ theme }) => ({
   position: 'fixed',
   padding: theme.spacing(3),
   justifyContent: 'space-between',
-  [theme.breakpoints.up('md')]: {
-    alignItems: 'flex-start',
-    padding: theme.spacing(7, 5, 0, 7)
-  },
   [theme.breakpoints.up('sm')]: {
     position: 'absolute'
   }
