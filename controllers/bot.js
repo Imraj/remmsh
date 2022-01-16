@@ -1264,6 +1264,9 @@ const botWebhook = async (req, res) => {
           text2 += `*أكواد خصم لايف 🔥*\n\n`;
           text2 += `ارسل اسم اي مطعم\n\n`;
           text2 += `او ارسل اللوكشن لمعرفة المطاعم الي حولك\n`;
+
+          await sendMessage(text2, chatId, null, instanceId, instanceToken);
+
           await redisHmset(redisChatId, "chatId", chatId);
           await redisHmset(redisChatId, "serviceQSend", true);
           await redisExpire(redisChatId, 86400);
