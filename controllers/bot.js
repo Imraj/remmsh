@@ -1158,55 +1158,54 @@ const botWebhook = async (req, res) => {
       req.body.typeWebhook === "incomingMessageReceived" ||
       req.body.typeWebhook === "outgoingMessageReceived"
     ) {
-      if (req.body.messageData.typeMessage === "textMessage") {
-        const instanceId = process.env.INCTANCE_ID;
-        const instanceToken = process.env.INCTANCE_TOKEN;
-        const chatId = req.body.senderData.chatId;
-        const redisChatId = clientPhone + chatId;
-        const textMessage = req.body.messageData.textMessageData.textMessage;
-        const pendingExists = await redisExists(redisChatId);
-        let isPending = pendingExists ? true : false;
-        let pendingReservation = await redisHgetAll(redisChatId);
+      const instanceId = process.env.INCTANCE_ID;
+      const instanceToken = process.env.INCTANCE_TOKEN;
+      const chatId = req.body.senderData.chatId;
+      const redisChatId = clientPhone + chatId;
+      const textMessage = req.body.messageData?.textMessageData?.textMessage;
+      const pendingExists = await redisExists(redisChatId);
+      let isPending = pendingExists ? true : false;
+      let pendingReservation = await redisHgetAll(redisChatId);
 
-        if (
-          req.body.typeWebhook === "incomingMessageReceived" &&
-          (!pendingReservation?.customerService ||
-            pendingReservation?.customerService === "false")
-        ) {
-          if (isPending) {
-            if (textMessage === "AA" || textMessage === "aa") {
-              let text = "Thank you for reaching out\n\n";
-              text += "*Could you please send your inquiry* ";
-              text +=
-                "and you will be hearing from us in the next 24 hours\n\n";
-              text += "Zoro";
+      if (
+        req.body.typeWebhook === "incomingMessageReceived" &&
+        (!pendingReservation?.customerService ||
+          pendingReservation?.customerService === "false")
+      ) {
+        if (isPending) {
+          if (textMessage === "AA" || textMessage === "aa") {
+            let text = "Thank you for reaching out\n\n";
+            text += "*Could you please send your inquiry* ";
+            text += "and you will be hearing from us in the next 24 hours\n\n";
+            text += "Zoro";
 
-              await redisHmset(redisChatId, "chatId", chatId);
-              await redisHmset(redisChatId, "lang", "2");
-              await redisExpire(redisChatId, 86400);
-              await redisHmset(redisChatId, "customerService", true);
-              //Make the instance to mark thr incoming messages as unreaded
-              await setUnreaded(instanceId, instanceToken);
+            await redisHmset(redisChatId, "chatId", chatId);
+            await redisHmset(redisChatId, "lang", "2");
+            await redisExpire(redisChatId, 86400);
+            await redisHmset(redisChatId, "customerService", true);
+            //Make the instance to mark thr incoming messages as unreaded
+            await setUnreaded(instanceId, instanceToken);
 
-              await sendMessage(text, chatId, null, instanceId, instanceToken);
-            } else if (textMessage === "A" || textMessage === "a") {
-              let text = "شكرا لك على التواصل مع خدمة العملاء\n\n";
-              text += "*الرجاء ارسال استفسارك*\n";
-              text += "وسيتم الرد عليك خلال ٢٤ ساعة\n\n";
-              text += "Zoro";
+            await sendMessage(text, chatId, null, instanceId, instanceToken);
+          } else if (textMessage === "A" || textMessage === "a") {
+            let text = "شكرا لك على التواصل مع خدمة العملاء\n\n";
+            text += "*الرجاء ارسال استفسارك*\n";
+            text += "وسيتم الرد عليك خلال ٢٤ ساعة\n\n";
+            text += "Zoro";
 
-              await redisHmset(redisChatId, "chatId", chatId);
-              await redisHmset(redisChatId, "lang", "1");
-              await redisExpire(redisChatId, 86400);
-              await redisHmset(redisChatId, "customerService", true);
-              //Make the instance to mark thr incoming messages as unreaded
-              await setUnreaded(instanceId, instanceToken);
+            await redisHmset(redisChatId, "chatId", chatId);
+            await redisHmset(redisChatId, "lang", "1");
+            await redisExpire(redisChatId, 86400);
+            await redisHmset(redisChatId, "customerService", true);
+            //Make the instance to mark thr incoming messages as unreaded
+            await setUnreaded(instanceId, instanceToken);
 
-              await sendMessage(text, chatId, null, instanceId, instanceToken);
-            } else {
-              //Make the instance to mark the incoming messages as readed
-              await setReaded(instanceId, instanceToken);
+            await sendMessage(text, chatId, null, instanceId, instanceToken);
+          } else {
+            //Make the instance to mark the incoming messages as readed
+            await setReaded(instanceId, instanceToken);
 
+            if (req.body.messageData.typeMessage === "textMessage") {
               const code = await getCode();
 
               const resturnat = await User.findById("61e4183b441da5eb53369781");
@@ -1265,39 +1264,136 @@ const botWebhook = async (req, res) => {
               await sendMessage(text, chatId, null, instanceId, instanceToken);
               await redisdel(redisChatId);
             }
-          } else {
-            let text2 = `\u202B`;
-            text2 += `*زورو 🥷🏼*\n`;
-            text2 += `*أكواد خصم لايف 🔥*\n\n`;
-            text2 += `ارسل اسم اي مطعم\n\n`;
-            text2 += `او ارسل اللوكشن لمعرفة المطاعم الي حولك\n`;
 
-            await sendMessage(text2, chatId, null, instanceId, instanceToken);
+            if (req.body.messageData.typeMessage === "locationMessage") {
+              if (
+                pendingReservation.serviceQSend === "true" &&
+                (!pendingReservation.locationQSend ||
+                  pendingReservation.locationQSend == "false")
+              ) {
+                let text = `\u202B`;
+                text += `*هذه قائمة المطاعم الي حولك: 🔥*\n\n`;
+                text += `*- مطعم نما*\n`;
+                text += `*- مطعم الرمنسية*\n`;
+                text += `*- مطعم الناضج*\n`;
+                text += `*- مطعم البيك*\n`;
+                text += `*- مطعم الطازج*\n`;
+                text += `\n`;
+                text += `*زورو 🥷🏼*\n`;
 
-            await redisHmset(redisChatId, "chatId", chatId);
-            await redisHmset(redisChatId, "serviceQSend", true);
-            await redisExpire(redisChatId, 86400);
-          }
-        } else if (
-          req.body.typeWebhook === "outgoingMessageReceived" &&
-          pendingReservation?.customerService === "true"
-        ) {
-          if (textMessage === "**") {
-            await redisdel(redisChatId);
-            //Make the instance to mark the incoming messages as readed
-            await setReaded(instanceId, instanceToken);
-            let text;
-            if (pendingReservation.lang === "2") {
-              text = `Happy to assest you, see you later`;
-              text += `😊\n\n`;
-              text += `The conversation has been closed by the employee`;
-            } else {
-              text = `سعدنا بالحديث معك، نراك في وقت اخر`;
-              text += `😊\n\n`;
-              text += `تم اقفال المحادثة من قبل الموظف`;
+                await sendMessage(
+                  text,
+                  chatId,
+                  null,
+                  instanceId,
+                  instanceToken
+                );
+                await redisHmset(redisChatId, "locationQSend", true);
+              } else if (
+                pendingReservation.serviceQSend === "true" &&
+                pendingReservation.locationQSend == "true"
+              ) {
+                const code = await getCode();
+
+                const resturnat = await User.findById(
+                  "61e4183b441da5eb53369781"
+                );
+
+                text = `*${resturnat.nameAr}*\n\n`;
+                text += `الخصم💰: *${resturnat.discount}%*\n`;
+                text += `كود الخصم🥳: *${code}*\n\n`;
+
+                if (
+                  resturnat.discountExpireAt &&
+                  moment(
+                    moment
+                      .utc(resturnat.discountExpireAt)
+                      .format("YYYY-MM-DDTHH:mm")
+                  ).isSameOrAfter(moment().format("YYYY-MM-DDTHH:mm"))
+                ) {
+                  moment.locale("ar-ly");
+                  const expiry = moment(resturnat.discountExpireAt).fromNow();
+                  // isSameOrAfter
+                  text += `انتهاء الكود: *${expiry}*\n\n`;
+                }
+
+                text += `📍 الموقع:\n`;
+                text += `${resturnat.location}\n\n`;
+
+                if (resturnat.ShowSocialMediaLinkes) {
+                  if (resturnat.instagram) {
+                    text += `*انستقرام*\n`;
+                    text += `${resturnat.instagram}\n`;
+                  }
+                  if (resturnat.snapchat) {
+                    text += `*سناب شات*\n`;
+                    text += `${resturnat.snapchat}\n`;
+                  }
+                  if (resturnat.twitter) {
+                    text += `*تويتر*\n`;
+                    text += `${resturnat.twitter}\n`;
+                  }
+                  text += `\n`;
+                }
+
+                text += `للإقتراحات و الشكاوي ارسل 🅰️\n\n`;
+                text += `*🥷🏼Z*`;
+
+                await Code.create({
+                  user: resturnat.id,
+                  code,
+                });
+
+                //Update to total engagement
+                await User.findOneAndUpdate(
+                  { _id: resturnat.id },
+                  { $inc: { totalEngagement: 1 } }
+                );
+
+                await sendMessage(
+                  text,
+                  chatId,
+                  null,
+                  instanceId,
+                  instanceToken
+                );
+                await redisdel(redisChatId);
+              }
+              await redisdel(redisChatId);
             }
-            await sendMessage(text, chatId, null, instanceId, instanceToken);
           }
+        } else {
+          let text2 = `\u202B`;
+          text2 += `*زورو 🥷🏼*\n`;
+          text2 += `*أكواد خصم لايف 🔥*\n\n`;
+          text2 += `ارسل اسم اي مطعم\n\n`;
+          text2 += `او ارسل اللوكشن لمعرفة المطاعم الي حولك\n`;
+
+          await sendMessage(text2, chatId, null, instanceId, instanceToken);
+
+          await redisHmset(redisChatId, "chatId", chatId);
+          await redisHmset(redisChatId, "serviceQSend", true);
+          await redisExpire(redisChatId, 86400);
+        }
+      } else if (
+        req.body.typeWebhook === "outgoingMessageReceived" &&
+        pendingReservation?.customerService === "true"
+      ) {
+        if (textMessage === "**") {
+          await redisdel(redisChatId);
+          //Make the instance to mark the incoming messages as readed
+          await setReaded(instanceId, instanceToken);
+          let text;
+          if (pendingReservation.lang === "2") {
+            text = `Happy to assest you, see you later`;
+            text += `😊\n\n`;
+            text += `The conversation has been closed by the employee`;
+          } else {
+            text = `سعدنا بالحديث معك، نراك في وقت اخر`;
+            text += `😊\n\n`;
+            text += `تم اقفال المحادثة من قبل الموظف`;
+          }
+          await sendMessage(text, chatId, null, instanceId, instanceToken);
         }
       }
     }
