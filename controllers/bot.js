@@ -1206,63 +1206,86 @@ const botWebhook = async (req, res) => {
             await setReaded(instanceId, instanceToken);
 
             if (req.body.messageData.typeMessage === "textMessage") {
-              const code = await getCode();
+              if (textMessage !== "نما") {
+                let text = `\u202B`;
+                text += `الاسم المدخل غير صحيح\n\n`;
+                text += `هل تقصد *نما*\n\n`;
 
-              const resturnat = await User.findById("61e4183b441da5eb53369781");
+                await sendMessage(
+                  text,
+                  chatId,
+                  null,
+                  instanceId,
+                  instanceToken
+                );
+                await redisHmset(redisChatId, "locationQSend", true);
+              } else {
+                const code = await getCode();
 
-              text = `*${resturnat.nameAr}*\n\n`;
-              text += `الخصم💰: *${resturnat.discount}%*\n`;
-              text += `كود الخصم🥳: *${code}*\n\n`;
+                const resturnat = await User.findById(
+                  "61e4183b441da5eb53369781"
+                );
 
-              if (
-                resturnat.discountExpireAt &&
-                moment(
-                  moment
-                    .utc(resturnat.discountExpireAt)
-                    .format("YYYY-MM-DDTHH:mm")
-                ).isSameOrAfter(moment().format("YYYY-MM-DDTHH:mm"))
-              ) {
-                moment.locale("ar-ly");
-                const expiry = moment(resturnat.discountExpireAt).fromNow();
-                // isSameOrAfter
-                text += `انتهاء الكود: *${expiry}*\n\n`;
+                text = `*${resturnat.nameAr}*\n\n`;
+                text += `الخصم💰: *${resturnat.discount}%*\n`;
+                text += `كود الخصم🥳: *${code}*\n\n`;
+
+                if (
+                  resturnat.discountExpireAt &&
+                  moment(
+                    moment
+                      .utc(resturnat.discountExpireAt)
+                      .format("YYYY-MM-DDTHH:mm")
+                  ).isSameOrAfter(moment().format("YYYY-MM-DDTHH:mm"))
+                ) {
+                  moment.locale("ar-ly");
+                  const expiry = moment(resturnat.discountExpireAt).fromNow();
+                  // isSameOrAfter
+                  text += `انتهاء الكود: *${expiry}*\n\n`;
+                }
+
+                text += `📍 الموقع:\n`;
+                text += `${resturnat.location}\n\n`;
+
+                if (resturnat.ShowSocialMediaLinkes) {
+                  if (resturnat.instagram) {
+                    text += `*انستقرام*\n`;
+                    text += `${resturnat.instagram}\n`;
+                  }
+                  if (resturnat.snapchat) {
+                    text += `*سناب شات*\n`;
+                    text += `${resturnat.snapchat}\n`;
+                  }
+                  if (resturnat.twitter) {
+                    text += `*تويتر*\n`;
+                    text += `${resturnat.twitter}\n`;
+                  }
+                  text += `\n`;
+                }
+
+                text += `للإقتراحات و الشكاوي ارسل 🅰️\n\n`;
+                text += `*🥷🏼Z*`;
+
+                await Code.create({
+                  user: resturnat.id,
+                  code,
+                });
+
+                //Update to total engagement
+                await User.findOneAndUpdate(
+                  { _id: resturnat.id },
+                  { $inc: { totalEngagement: 1 } }
+                );
+
+                await sendMessage(
+                  text,
+                  chatId,
+                  null,
+                  instanceId,
+                  instanceToken
+                );
+                await redisdel(redisChatId);
               }
-
-              text += `📍 الموقع:\n`;
-              text += `${resturnat.location}\n\n`;
-
-              if (resturnat.ShowSocialMediaLinkes) {
-                if (resturnat.instagram) {
-                  text += `*انستقرام*\n`;
-                  text += `${resturnat.instagram}\n`;
-                }
-                if (resturnat.snapchat) {
-                  text += `*سناب شات*\n`;
-                  text += `${resturnat.snapchat}\n`;
-                }
-                if (resturnat.twitter) {
-                  text += `*تويتر*\n`;
-                  text += `${resturnat.twitter}\n`;
-                }
-                text += `\n`;
-              }
-
-              text += `للإقتراحات و الشكاوي ارسل 🅰️\n\n`;
-              text += `*🥷🏼Z*`;
-
-              await Code.create({
-                user: resturnat.id,
-                code,
-              });
-
-              //Update to total engagement
-              await User.findOneAndUpdate(
-                { _id: resturnat.id },
-                { $inc: { totalEngagement: 1 } }
-              );
-
-              await sendMessage(text, chatId, null, instanceId, instanceToken);
-              await redisdel(redisChatId);
             }
 
             if (req.body.messageData.typeMessage === "locationMessage") {
