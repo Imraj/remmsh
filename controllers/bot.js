@@ -1152,7 +1152,7 @@ const botWebhook = async (req, res) => {
 
   const clientPhone = "966576808049";
 
-  console.log(req.body.typeWebhook);
+  console.log(req.body);
   try {
     if (
       req.body.typeWebhook === "incomingMessageReceived" ||
@@ -1162,7 +1162,7 @@ const botWebhook = async (req, res) => {
       const instanceToken = process.env.INCTANCE_TOKEN;
       const chatId = req.body.senderData.chatId;
       const redisChatId = clientPhone + chatId;
-      const textMessage = req.body.messageData.textMessageData.textMessage;
+      const textMessage = req.body.messageData?.textMessageData.textMessage;
       const pendingExists = await redisExists(redisChatId);
       let isPending = pendingExists ? true : false;
       let pendingReservation = await redisHgetAll(redisChatId);
