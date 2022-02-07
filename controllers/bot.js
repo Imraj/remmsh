@@ -1263,6 +1263,7 @@ const botWebhook = async (req, res) => {
               );
 
               await sendMessage(text, chatId, null, instanceId, instanceToken);
+              await redisdel(redisChatId);
             }
           } else {
             let text2 = `\u202B`;
@@ -1276,7 +1277,6 @@ const botWebhook = async (req, res) => {
             await redisHmset(redisChatId, "chatId", chatId);
             await redisHmset(redisChatId, "serviceQSend", true);
             await redisExpire(redisChatId, 86400);
-            await redisdel(redisChatId);
           }
         } else if (
           req.body.typeWebhook === "outgoingMessageReceived" &&
