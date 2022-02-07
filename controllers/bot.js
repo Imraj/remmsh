@@ -1359,7 +1359,6 @@ const botWebhook = async (req, res) => {
                 );
                 await redisdel(redisChatId);
               }
-              await redisdel(redisChatId);
             }
           }
         } else {
