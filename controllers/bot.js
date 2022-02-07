@@ -1279,7 +1279,7 @@ const botWebhook = async (req, res) => {
                 text += `*- مطعم البيك*\n`;
                 text += `*- مطعم الطازج*\n`;
                 text += `\n`;
-                text += `*زورو 🥷🏼*\n`;
+                text += `*زورو 🥷🏼*`;
 
                 await sendMessage(
                   text,
