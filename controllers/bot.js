@@ -1173,95 +1173,98 @@ const botWebhook = async (req, res) => {
           (!pendingReservation?.customerService ||
             pendingReservation?.customerService === "false")
         ) {
-          if (textMessage === "AA" || textMessage === "aa") {
-            let text = "Thank you for reaching out\n\n";
-            text += "*Could you please send your inquiry* ";
-            text += "and you will be hearing from us in the next 24 hours\n\n";
-            text += "Zoro";
+          if (isPending) {
+            if (textMessage === "AA" || textMessage === "aa") {
+              let text = "Thank you for reaching out\n\n";
+              text += "*Could you please send your inquiry* ";
+              text +=
+                "and you will be hearing from us in the next 24 hours\n\n";
+              text += "Zoro";
 
-            await redisHmset(redisChatId, "chatId", chatId);
-            await redisHmset(redisChatId, "lang", "2");
-            await redisExpire(redisChatId, 86400);
-            await redisHmset(redisChatId, "customerService", true);
-            //Make the instance to mark thr incoming messages as unreaded
-            await setUnreaded(instanceId, instanceToken);
+              await redisHmset(redisChatId, "chatId", chatId);
+              await redisHmset(redisChatId, "lang", "2");
+              await redisExpire(redisChatId, 86400);
+              await redisHmset(redisChatId, "customerService", true);
+              //Make the instance to mark thr incoming messages as unreaded
+              await setUnreaded(instanceId, instanceToken);
 
-            await sendMessage(text, chatId, null, instanceId, instanceToken);
-          } else if (textMessage === "A" || textMessage === "a") {
-            let text = "شكرا لك على التواصل مع خدمة العملاء\n\n";
-            text += "*الرجاء ارسال استفسارك*\n";
-            text += "وسيتم الرد عليك خلال ٢٤ ساعة\n\n";
-            text += "Zoro";
+              await sendMessage(text, chatId, null, instanceId, instanceToken);
+            } else if (textMessage === "A" || textMessage === "a") {
+              let text = "شكرا لك على التواصل مع خدمة العملاء\n\n";
+              text += "*الرجاء ارسال استفسارك*\n";
+              text += "وسيتم الرد عليك خلال ٢٤ ساعة\n\n";
+              text += "Zoro";
 
-            await redisHmset(redisChatId, "chatId", chatId);
-            await redisHmset(redisChatId, "lang", "1");
-            await redisExpire(redisChatId, 86400);
-            await redisHmset(redisChatId, "customerService", true);
-            //Make the instance to mark thr incoming messages as unreaded
-            await setUnreaded(instanceId, instanceToken);
+              await redisHmset(redisChatId, "chatId", chatId);
+              await redisHmset(redisChatId, "lang", "1");
+              await redisExpire(redisChatId, 86400);
+              await redisHmset(redisChatId, "customerService", true);
+              //Make the instance to mark thr incoming messages as unreaded
+              await setUnreaded(instanceId, instanceToken);
 
-            await sendMessage(text, chatId, null, instanceId, instanceToken);
+              await sendMessage(text, chatId, null, instanceId, instanceToken);
+            } else {
+              //Make the instance to mark the incoming messages as readed
+              await setReaded(instanceId, instanceToken);
+
+              const code = await getCode();
+
+              const resturnat = await User.findById("61e4183b441da5eb53369781");
+
+              text = `*${resturnat.nameAr}*\n\n`;
+              text += `الخصم💰: *${resturnat.discount}%*\n`;
+              text += `كود الخصم🥳: *${code}*\n\n`;
+
+              if (
+                resturnat.discountExpireAt &&
+                moment(
+                  moment
+                    .utc(resturnat.discountExpireAt)
+                    .format("YYYY-MM-DDTHH:mm")
+                ).isSameOrAfter(moment().format("YYYY-MM-DDTHH:mm"))
+              ) {
+                moment.locale("ar-ly");
+                const expiry = moment(resturnat.discountExpireAt).fromNow();
+                // isSameOrAfter
+                text += `انتهاء الكود: *${expiry}*\n\n`;
+              }
+
+              text += `📍 الموقع:\n`;
+              text += `${resturnat.location}\n\n`;
+
+              if (resturnat.ShowSocialMediaLinkes) {
+                if (resturnat.instagram) {
+                  text += `*انستقرام*\n`;
+                  text += `${resturnat.instagram}\n`;
+                }
+                if (resturnat.snapchat) {
+                  text += `*سناب شات*\n`;
+                  text += `${resturnat.snapchat}\n`;
+                }
+                if (resturnat.twitter) {
+                  text += `*تويتر*\n`;
+                  text += `${resturnat.twitter}\n`;
+                }
+                text += `\n`;
+              }
+
+              text += `للإقتراحات و الشكاوي ارسل 🅰️\n\n`;
+              text += `*🥷🏼Z*`;
+
+              await Code.create({
+                user: resturnat.id,
+                code,
+              });
+
+              //Update to total engagement
+              await User.findOneAndUpdate(
+                { _id: resturnat.id },
+                { $inc: { totalEngagement: 1 } }
+              );
+
+              await sendMessage(text, chatId, null, instanceId, instanceToken);
+            }
           } else {
-            //Make the instance to mark the incoming messages as readed
-            await setReaded(instanceId, instanceToken);
-
-            const code = await getCode();
-
-            const resturnat = await User.findById("61e4183b441da5eb53369781");
-
-            text = `*${resturnat.nameAr}*\n\n`;
-            text += `الخصم💰: *${resturnat.discount}%*\n`;
-            text += `كود الخصم🥳: *${code}*\n\n`;
-
-            if (
-              resturnat.discountExpireAt &&
-              moment(
-                moment
-                  .utc(resturnat.discountExpireAt)
-                  .format("YYYY-MM-DDTHH:mm")
-              ).isSameOrAfter(moment().format("YYYY-MM-DDTHH:mm"))
-            ) {
-              moment.locale("ar-ly");
-              const expiry = moment(resturnat.discountExpireAt).fromNow();
-              // isSameOrAfter
-              text += `انتهاء الكود: *${expiry}*\n\n`;
-            }
-
-            text += `📍 الموقع:\n`;
-            text += `${resturnat.location}\n\n`;
-
-            if (resturnat.ShowSocialMediaLinkes) {
-              if (resturnat.instagram) {
-                text += `*انستقرام*\n`;
-                text += `${resturnat.instagram}\n`;
-              }
-              if (resturnat.snapchat) {
-                text += `*سناب شات*\n`;
-                text += `${resturnat.snapchat}\n`;
-              }
-              if (resturnat.twitter) {
-                text += `*تويتر*\n`;
-                text += `${resturnat.twitter}\n`;
-              }
-              text += `\n`;
-            }
-
-            text += `للإقتراحات و الشكاوي ارسل 🅰️\n\n`;
-            text += `*🥷🏼Z*`;
-
-            await Code.create({
-              user: resturnat.id,
-              code,
-            });
-
-            //Update to total engagement
-            await User.findOneAndUpdate(
-              { _id: resturnat.id },
-              { $inc: { totalEngagement: 1 } }
-            );
-
-            await sendMessage(text, chatId, null, instanceId, instanceToken);
-
             let text2 = `\u202B`;
             text2 += `*زورو 🥷🏼*\n`;
             text2 += `*أكواد خصم لايف 🔥*\n\n`;
