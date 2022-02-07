@@ -1209,7 +1209,7 @@ const botWebhook = async (req, res) => {
               if (textMessage !== "نما") {
                 let text = `\u202B`;
                 text += `الاسم المدخل غير صحيح\n\n`;
-                text += `هل تقصد *نما*\n\n`;
+                text += `هل تقصد *نما*\n`;
 
                 await sendMessage(
                   text,
