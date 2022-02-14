@@ -1532,10 +1532,10 @@ const botWebhook = async (req, res) => {
           await sendMessage(text, chatId, null, instanceId, instanceToken);
           await redisdel(redisChatId);
         } else {
-          let text = `اهلاً..\n`;
-          text += `للحصول على خصومات مباشرة اضغط على الرابط بالاسفل\n`;
-          text += `https://zorroksa.com\n\n`;
-          text += `لإدخال كود الرجاء الضغط على زر *`;
+          let text = `https://zorroksa.com\n`;
+          text += `للخصومات أضغط على الرابط فوق⬆️\n\n`;
+          text += `- احفظ الرقم✅\n`;
+          text += `- ضعة في المثبتة 📌\n`;
 
           await sendMessage(text, chatId, null, instanceId, instanceToken);
           await redisdel(redisChatId);
