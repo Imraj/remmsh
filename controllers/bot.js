@@ -1497,7 +1497,20 @@ const botWebhook = async (req, res) => {
           }
 
           text += `📍 الموقع:\n`;
-          text += `${resturnat.location}\n\n`;
+
+          if (textMessage === "Chimix") {
+            text += `https://goo.gl/maps/wLD3f59kSc9Y2caSA\n\n`;
+          } else if (textMessage === "Chef's") {
+            text += `https://goo.gl/maps/YWfuPQJ3vhYEMUbr7\n\n`;
+          } else if (textMessage === "Epic") {
+            text += `https://goo.gl/maps/jdat29EfhWTEzFS38\n\n`;
+          } else if (textMessage === "Bandage") {
+            text += `https://g.page/Bandeg?share\n\n`;
+          } else if (textMessage === "Goloso") {
+            text += `https://goo.gl/maps/DskLgGMC56sXJx3f9\n\n`;
+          } else {
+            text += `${resturnat.location}\n\n`;
+          }
 
           if (resturnat.ShowSocialMediaLinkes) {
             if (resturnat.instagram) {
