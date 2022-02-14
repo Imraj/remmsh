@@ -1534,6 +1534,7 @@ const botWebhook = async (req, res) => {
         } else {
           let text = `https://zorroksa.com\n\n`;
           text += `للخصومات أضغط على الرابط فوق⬆️\n\n\n`;
+          text += `*تذكير*\n`;
           text += `- احفظ الرقم✅\n`;
           text += `- ضعة في المثبتة 📌`;
 
