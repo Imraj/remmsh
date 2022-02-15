@@ -1505,7 +1505,7 @@ const botWebhook = async (req, res) => {
           } else if (textMessage === "Epic") {
             text += `https://goo.gl/maps/jdat29EfhWTEzFS38\n\n`;
           } else if (textMessage === "Bandage") {
-            text += `https://g.page/Bandeg?share\n\n`;
+            text += `https://goo.gl/maps/mTM4KcNJ3GFB1Ddq8\n\n`;
           } else if (textMessage === "Goloso") {
             text += `https://goo.gl/maps/DskLgGMC56sXJx3f9\n\n`;
           } else {
