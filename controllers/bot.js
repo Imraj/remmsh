@@ -1545,7 +1545,7 @@ const botWebhook = async (req, res) => {
           await sendMessage(text, chatId, null, instanceId, instanceToken);
           await redisdel(redisChatId);
         } else {
-          let text = `https://zorroksa.com\n\n`;
+          let text = `https://remmsh.com\n\n`;
           text += `للخصومات أضغط على الرابط فوق⬆️\n\n\n`;
           text += `*تذكير*\n`;
           text += `- احفظ الرقم✅\n`;
