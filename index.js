@@ -4,7 +4,7 @@ const fs = require("fs");
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const Redis = require("redis");
+// const Redis = require("redis");
 const usersRoutes = require("./routes/users");
 const publicFiguresRoutes = require("./routes/publicFigures");
 const botRoutes = require("./routes/bot");
@@ -12,9 +12,9 @@ const botRoutes = require("./routes/bot");
 const app = express();
 
 // Create Redis Client
-let RedisClient = Redis.createClient(process.env.REDIS_URL);
+// let RedisClient = Redis.createClient(process.env.REDIS_URL);
 
-app.set("RedisClient", RedisClient);
+// app.set("RedisClient", RedisClient);
 
 app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
