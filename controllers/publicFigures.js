@@ -1,8 +1,6 @@
 const moment = require("moment");
 const PublicFigure = require("../models/PublicFigure");
-const Code = require("../models/Code");
-const Credit = require("../models/Credit");
-const generateToken = require("../utils/generateToken");
+const convertToSlug = require("../utils/convertToSlug");
 
 // @desc    Create a new public figure
 // @route   POST /api/public-figures
@@ -11,9 +9,16 @@ const createPublicFigure = async (req, res) => {
   const { name } = req.body;
 
   try {
+    const publicFigureExist = await PublicFigure.findOne({
+      name: convertToSlug(`${req.user.name}-${name}`),
+    });
+
+    if (publicFigureExist)
+      return res.status(400).json({ error: "Public figure already exists" });
+
     const publicFigure = new PublicFigure({
       user: req.user.id,
-      name,
+      name: convertToSlug(`${req.user.name}-${name}`),
     });
 
     //Save chnages
@@ -86,12 +91,14 @@ const updatePublicFigure = async (req, res) => {
 // @access  Private
 const updatePublicFigureDiscount = async (req, res) => {
   try {
-    const publicFigure = await PublicFigure.findById(req.params.id);
+    const publicFigure = await PublicFigure.findById(req.params.id).populate(
+      "user"
+    );
 
     if (!publicFigure)
       return res.status(404).json({ error: "Public figure not found" });
 
-    if (!publicFigure.user._id.toString() !== req.user._id.toString())
+    if (publicFigure.user._id.toString() !== req.user._id.toString())
       return res.status(401).json({ error: "Not authorized" });
 
     if (!req.body.discount || !req.body.discountExpireAt)
@@ -112,16 +119,17 @@ const updatePublicFigureDiscount = async (req, res) => {
     publicFigure.discount = req.body.discount;
     publicFigure.discountExpireAt = req.body.discountExpireAt;
 
-    const updatedpublicFigure = await updatedpublicFigure.save();
+    const updatedPublicFigure = await publicFigure.save();
 
     res.status(200).json({
-      _id: updatedpublicFigure._id,
-      name: updatedpublicFigure.name,
-      isActive: updatedpublicFigure.isActive,
-      discount: updatedpublicFigure.discount,
-      discountExpireAt: updatedpublicFigure.discountExpireAt,
+      _id: updatedPublicFigure._id,
+      name: updatedPublicFigure.name,
+      isActive: updatedPublicFigure.isActive,
+      discount: updatedPublicFigure.discount,
+      discountExpireAt: updatedPublicFigure.discountExpireAt,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Something went wrong" });
   }
 };
@@ -136,7 +144,7 @@ const updatePublicFigureActive = async (req, res) => {
     if (!publicFigure)
       return res.status(404).json({ error: "Public figure not found" });
 
-    if (!publicFigure.user._id.toString() !== req.user._id.toString())
+    if (publicFigure.user._id.toString() !== req.user._id.toString())
       return res.status(401).json({ error: "Not authorized" });
 
     if (!publicFigure.discount)
