@@ -6,6 +6,7 @@ import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import DashboardApp from './pages/DashboardApp';
+import Home from './pages/Home';
 import Payment from './pages/Payment';
 import NotFound from './pages/Page404';
 
@@ -30,6 +31,7 @@ export default function Router() {
       children: [
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
+        { path: 'home', element: <Home /> },
         { path: '', element: <Navigate to="/login" replace /> }
       ]
     },

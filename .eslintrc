@@ -54,7 +54,9 @@
     "react/destructuring-assignment": 0,
     "import/no-extraneous-dependencies": 0,
     "react/jsx-key": 1,
+    "react-dropzone": 0,
     "react-hooks/rules-of-hooks": 2,
+    
     "no-unused-vars": [
       1,
       {

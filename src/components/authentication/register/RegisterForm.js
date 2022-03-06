@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
@@ -20,16 +20,19 @@ import {
   Select,
   FormHelperText,
   Grid,
-  Alert
+  Alert,
+  Box
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import Dropzone, { useDropzone } from 'react-dropzone';
 import { register } from '../../../actions/userActions';
-
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+
+  const [files, setFiles] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -122,6 +125,11 @@ export default function RegisterForm() {
     isSubmitting = false;
   }
 
+  const onDrop = useCallback((acceptedFiles) => {
+    // Do something with the files
+  }, []);
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
   return (
     <FormikProvider value={formik}>
       {error && (
@@ -196,6 +204,18 @@ export default function RegisterForm() {
             </Select>
             <FormHelperText>{touched.type && errors.type}</FormHelperText>
           </FormControl>
+
+          <Box component="span" sx={{ p: 2, border: '1px dashed grey' }}>
+            <div {...getRootProps()}>
+              <input {...getInputProps()} />
+              {isDragActive ? (
+                <p>Drop the files here ...</p>
+              ) : (
+                <p>Drag 'n' drop some files here, or click to select files</p>
+              )}
+            </div>
+          </Box>
+
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <TextField
               fullWidth
