@@ -6,6 +6,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const Redis = require("redis");
 const usersRoutes = require("./routes/users");
+const publicFiguresRoutes = require("./routes/publicFigures");
 const botRoutes = require("./routes/bot");
 
 const app = express();
@@ -24,6 +25,7 @@ app.get("/api", (req, res) => {
 });
 
 app.use("/api/users", usersRoutes);
+app.use("/api/public-figures", publicFiguresRoutes);
 app.use("/api/bot", botRoutes);
 
 const CONNECTION_URL = process.env.MONGODB_URL;

@@ -11,10 +11,6 @@ const publicFigureSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    nameAr: {
-      type: String,
-      required: true,
-    },
     isActive: {
       type: Boolean,
       default: false,
