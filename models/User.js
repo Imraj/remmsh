@@ -8,6 +8,11 @@ const userSchema = mongoose.Schema(
       required: true,
       ref: "Credit",
     },
+    publicFigures: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: false,
+      ref: "PublicFigure",
+    },
     name: {
       type: String,
       required: true,
