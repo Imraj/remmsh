@@ -1,9 +1,37 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Box, Grid, Container, Typography, Alert, CircularProgress, Card } from '@mui/material';
-import { green } from '@mui/material/colors';
+import {
+  Box,
+  Grid,
+  Container,
+  Typography,
+  Alert,
+  CircularProgress,
+  Card,
+  Switch,
+  Paper,
+  Button,
+  TextField
+} from '@mui/material';
+import { green, pink } from '@mui/material/colors';
+
 import { styled } from '@mui/material/styles';
-import Page from '../components/Page';
+
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+
+import FileCopyIcon from '@mui/icons-material/FileCopy';
+import DeleteIcon from '@mui/icons-material/Delete';
+
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DateTimePicker from '@mui/lab/DateTimePicker';
+
+import { getUserDetails } from '../actions/userActions';
 import {
   AppCreditBalance,
   AppCheckCode,
@@ -11,9 +39,10 @@ import {
   AppActivateDiscount,
   AppTotalSeen,
   AppTotalEngagement,
-  AppTotalActivation
+  AppTotalActivation,
+  AppName
 } from '../components/_dashboard/app';
-import { getUserDetails } from '../actions/userActions';
+import Page from '../components/Page';
 
 // ----------------------------------------------------------------------
 
@@ -52,6 +81,8 @@ export default function DashboardApp() {
     success: userCheckCodeSuccess
   } = userCheckCode;
 
+  const [timeValue, setTimeValue] = useState(new Date());
+
   useEffect(() => {
     dispatch(getUserDetails(userInfo._id));
   }, [dispatch, userInfo, userDisccountSuccess, updateUserActiveSuccess]);
@@ -79,88 +110,191 @@ export default function DashboardApp() {
         </Grid>
 
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={4}>
-            <AppTotalSeen />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <AppTotalEngagement />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <AppTotalActivation />
-          </Grid>
-        </Grid>
-        <ActionsDashboardStyle>
-          <Grid container spacing={3}>
+          <Grid item xs={12} md={6}>
             {!userCheckCodeLoading && (
-              <Grid item xs={12} md={4}>
-                <AppCheckCode
-                  userCheckCodeError={userCheckCodeError}
-                  userCheckCodeSuccess={userCheckCodeSuccess}
-                />
-              </Grid>
+              <AppCheckCode
+                userCheckCodeError={userCheckCodeError}
+                userCheckCodeSuccess={userCheckCodeSuccess}
+              />
             )}
+          </Grid>
 
-            {userCheckCodeLoading && (
-              <Grid
-                item
-                xs={12}
-                md={4}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                height="262px"
-              >
-                <CircularProgress size={50} color="info" />
-              </Grid>
-            )}
-            {loading && (
-              <>
-                <Grid
-                  item
-                  xs={12}
-                  md={4}
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                  height="262px"
-                >
-                  <CircularProgress size={50} color="info" />
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={4}
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                  height="262px"
-                >
-                  <CircularProgress size={50} color="info" />
-                </Grid>
-              </>
-            )}
-
+          <Grid item xs={12} md={6}>
             {userDetails && (
               <>
-                <Grid item xs={12} md={4}>
-                  <AppDiscount
-                    discount={userDetails.discount}
-                    discountExpireAt={userDetails.discountExpireAt}
-                    userInfo={userInfo}
-                    userDisccountError={userDisccountError}
-                  />
-                </Grid>
-                <Grid item xs={12} md={4}>
-                  <AppActivateDiscount
-                    countdownTimestamp={userDetails.activeTimer}
-                    isActive={userDetails.isActive}
-                    userInfo={userInfo}
-                  />
-                </Grid>
+                <AppName
+                  discount={userDetails.discount}
+                  discountExpireAt={userDetails.discountExpireAt}
+                  userInfo={userInfo}
+                  userDisccountError={userDisccountError}
+                />
               </>
             )}
           </Grid>
-        </ActionsDashboardStyle>
+        </Grid>
+
+        <>
+          <Box component="span">
+            <Button>Sample</Button>
+          </Box>
+
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Total Seen</TableCell>
+                  <TableCell>Total Engagement</TableCell>
+                  <TableCell>Total activation</TableCell>
+                  <TableCell>% Rate</TableCell>
+                  <TableCell>Exp. Date</TableCell>
+                  <TableCell>Copy Link</TableCell>
+                  <TableCell>Offline</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell component="th" scope="row">
+                    88
+                  </TableCell>
+                  <TableCell>56</TableCell>
+                  <TableCell>10</TableCell>
+                  <TableCell>
+                    <TextField value="%20" />
+                  </TableCell>
+                  <TableCell>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <DateTimePicker
+                        renderInput={(props) => <TextField {...props} />}
+                        label="Expiration date"
+                        value={timeValue}
+                        onChange={(newValue) => {
+                          setTimeValue(newValue);
+                        }}
+                      />
+                    </LocalizationProvider>
+                  </TableCell>
+                  <TableCell>
+                    <Button>
+                      <FileCopyIcon />
+                    </Button>
+                  </TableCell>
+                  <TableCell>
+                    <Switch defaultChecked />
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
+        <br />
+
+        <>
+          <Box component="span">
+            <Button>Student</Button>
+            <Button variant="danger">
+              <DeleteIcon sx={{ color: pink[500] }} />
+            </Button>
+          </Box>
+
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Total Engagement</TableCell>
+                  <TableCell>Total activation</TableCell>
+                  <TableCell>% Rate</TableCell>
+                  <TableCell>Exp. Date</TableCell>
+                  <TableCell>Copy Link</TableCell>
+                  <TableCell>Offline</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell>56</TableCell>
+                  <TableCell>10</TableCell>
+                  <TableCell>
+                    <TextField value="%20" />
+                  </TableCell>
+                  <TableCell>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <DateTimePicker
+                        renderInput={(props) => <TextField {...props} />}
+                        label="Expiration date"
+                        value={timeValue}
+                        onChange={(newValue) => {
+                          setTimeValue(newValue);
+                        }}
+                      />
+                    </LocalizationProvider>
+                  </TableCell>
+                  <TableCell>
+                    <Button>
+                      <FileCopyIcon />
+                    </Button>
+                  </TableCell>
+                  <TableCell>
+                    <Switch defaultChecked />
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
+        <br />
+
+        <>
+          <Box component="span" sx={{ p: 1, border: '1px solid grey' }}>
+            <Button>Executive</Button>
+            <Button variant="danger">
+              <DeleteIcon sx={{ color: pink[500] }} />
+            </Button>
+          </Box>
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Total Engagement</TableCell>
+                  <TableCell>Total activation</TableCell>
+                  <TableCell>% Rate</TableCell>
+                  <TableCell>Exp. Date</TableCell>
+                  <TableCell>Copy Link</TableCell>
+                  <TableCell>Offline</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell>56</TableCell>
+                  <TableCell>10</TableCell>
+                  <TableCell>
+                    <TextField value="%20" />
+                  </TableCell>
+                  <TableCell>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <DateTimePicker
+                        renderInput={(props) => <TextField {...props} />}
+                        label="Expiration date"
+                        value={timeValue}
+                        onChange={(newValue) => {
+                          setTimeValue(newValue);
+                        }}
+                      />
+                    </LocalizationProvider>
+                  </TableCell>
+                  <TableCell>
+                    <Button>
+                      <FileCopyIcon />
+                    </Button>
+                  </TableCell>
+                  <TableCell>
+                    <Switch defaultChecked />
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
+
+        <ActionsDashboardStyle />
       </StyledContainer>
     </Page>
   );

@@ -11,7 +11,10 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-export const regiserUser = (userInfo) => API.post('/users/register', userInfo);
+console.log('API::API', API, process.env.REACT_APP_BACKEND_URL);
+
+export const regiserUser = (formData) =>
+  API.post('/users/register', formData, { headers: { 'Content-Type': `multipart/form-data` } });
 export const loginUser = (userInfo) => API.post('/users/login', userInfo);
 export const userDetails = (id) => API.get(`/users/${id}`);
 export const updateUser = (id, data) => API.patch(`/users/${id}`, data);

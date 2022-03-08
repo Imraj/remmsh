@@ -5,5 +5,6 @@ export { default as AppActivateDiscount } from './AppActivateDiscount';
 export { default as AppTotalSeen } from './AppTotalSeen';
 export { default as AppTotalEngagement } from './AppTotalEngagement';
 export { default as AppTotalActivation } from './AppTotalActivation';
+export { default as AppName } from './AppName';
 
 export { default as CountDownTimer } from './CountDownTimer';

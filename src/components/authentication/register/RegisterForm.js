@@ -24,20 +24,19 @@ import {
   Box
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import Dropzone, { useDropzone } from 'react-dropzone';
 import { register } from '../../../actions/userActions';
+import Uploader from './Uploader';
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
-  const [files, setFiles] = useState([]);
-
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
   const { error, userInfo } = userLogin;
+  const [afiles, setAFiles] = useState(['hello']);
 
   useEffect(() => {
     if (userInfo) {
@@ -100,21 +99,31 @@ export default function RegisterForm() {
       snapchat,
       twitter
     }) => {
-      dispatch(
-        register(
-          name,
-          nameAr,
-          email,
-          password,
-          type,
-          location,
-          district,
-          districtAr,
-          instagram,
-          snapchat,
-          twitter
-        )
-      );
+      const config = {
+        headers: {
+          'Content-Type': `multipart/form-data`
+        }
+      };
+      const formData = new FormData();
+
+      formData.append('name', name);
+      formData.append('nameAr', nameAr);
+      formData.append('email', email);
+      formData.append('password', password);
+      formData.append('type', type);
+      formData.append('location', location);
+      formData.append('district', district);
+      formData.append('districtAr', districtAr);
+      formData.append('instagram', instagram);
+      formData.append('snapchat', snapchat);
+      formData.append('twitter', twitter);
+      for (let i = 0; i < afiles.length; i += 1) {
+        formData.append('image[]', afiles[i]);
+      }
+
+      dispatch(register(formData));
+
+      // upload file
     }
   });
 
@@ -124,11 +133,6 @@ export default function RegisterForm() {
   if (error) {
     isSubmitting = false;
   }
-
-  const onDrop = useCallback((acceptedFiles) => {
-    // Do something with the files
-  }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
     <FormikProvider value={formik}>
@@ -206,14 +210,7 @@ export default function RegisterForm() {
           </FormControl>
 
           <Box component="span" sx={{ p: 2, border: '1px dashed grey' }}>
-            <div {...getRootProps()}>
-              <input {...getInputProps()} />
-              {isDragActive ? (
-                <p>Drop the files here ...</p>
-              ) : (
-                <p>Drag 'n' drop some files here, or click to select files</p>
-              )}
-            </div>
+            <Uploader afiles={afiles} setAFiles={setAFiles} />
           </Box>
 
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
