@@ -4,6 +4,8 @@ const fs = require("fs");
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+
+
 // const Redis = require("redis");
 const usersRoutes = require("./routes/users");
 const publicFiguresRoutes = require("./routes/publicFigures");
@@ -18,6 +20,8 @@ const app = express();
 
 app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
+
+
 app.use(cors());
 
 app.get("/api", (req, res) => {

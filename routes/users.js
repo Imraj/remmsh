@@ -13,7 +13,10 @@ const { auth } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-router.post("/register", registerUser);
+const multer = require('multer');
+const upload = multer();
+
+router.post("/register", upload.any(), registerUser);
 router.post("/login", authUser);
 router.post("/logout", auth, logout);
 router.get("/:id", auth, getUser);

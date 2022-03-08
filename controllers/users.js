@@ -3,6 +3,9 @@ const User = require("../models/User");
 const Code = require("../models/Code");
 const Credit = require("../models/Credit");
 const generateToken = require("../utils/generateToken");
+const Plan = require("../models/Plan");
+const upload = require("../middleware/upload");
+
 
 // @desc    Auth User
 // @route   POST /api/users/admin/login
@@ -55,11 +58,30 @@ const registerUser = async (req, res) => {
     twitter,
   } = req.body;
 
+  
+  //const files = req.files
+
   try {
     const userExists = await User.findOne({ email });
+    console.log("userExists::", userExists)
+    console.log("req.body:::", req.body);
+    console.log("req.files:::", req.files);
 
     if (userExists)
       return res.status(400).json({ error: "User already exists" });
+
+      if (req.files.length <= 0) {
+        return res
+          .status(400)
+          .send({ message: "You must select at least 1 file." });
+      }
+
+      console.log("req.files::", req.files);
+
+    let images = []
+    req.files.forEach((image) => {
+       images.push(image.originalname);
+    })
 
     const user = new User({
       name,
@@ -68,6 +90,7 @@ const registerUser = async (req, res) => {
       password,
       type,
       location,
+      images,
       district,
       districtAr,
       instagram,
@@ -88,6 +111,8 @@ const registerUser = async (req, res) => {
     await user.save();
     await credit.save();
 
+    await upload(req, res);
+
     res.status(201).json({
       _id: user._id,
       name: user.name,
@@ -95,8 +120,15 @@ const registerUser = async (req, res) => {
       token,
     });
   } catch (error) {
+
     console.log(error);
+    if (error.code === "LIMIT_UNEXPECTED_FILE") {
+      return res.status(400).send({
+        message: "Too many files to upload.",
+      });
+    }
     res.status(500).json({ error: "Something went wrong" });
+
   }
 };
 
@@ -118,6 +150,8 @@ const getUser = async (req, res) => {
     res.status(500).json({ error: "Something went wrong" });
   }
 };
+
+
 
 // @desc    Logout user
 // @route   POST /api/logout
