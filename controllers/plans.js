@@ -6,7 +6,7 @@ const Plan = require("../models/Plan");
 // @desc    Register a new user
 // @route   POST /api/users
 // @access  Public
-const addUserPlan = async(req, res) => {
+const createUserPlan = async(req, res) => {
     const {name} = req.params;
 
     try{
@@ -102,6 +102,7 @@ const updateUserPlan = async(req,res) => {
 }
 
 module.exports = {
+	createUserPlan,
     getUserPlans,
     updateUserPlan
 }
