@@ -9,6 +9,7 @@ import DashboardApp from './pages/DashboardApp';
 import Home from './pages/Home';
 import Payment from './pages/Payment';
 import NotFound from './pages/Page404';
+import Admin from './pages/Admin';
 
 // ----------------------------------------------------------------------
 
@@ -32,6 +33,7 @@ export default function Router() {
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
         { path: 'home', element: <Home /> },
+        { path: 'admin', element: <Admin /> },
         { path: '', element: <Navigate to="/login" replace /> }
       ]
     },

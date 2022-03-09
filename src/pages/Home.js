@@ -28,6 +28,7 @@ import TabsListUnstyled from '@mui/base/TabsListUnstyled';
 import TabPanelUnstyled from '@mui/base/TabPanelUnstyled';
 import { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
 import TabUnstyled, { tabUnstyledClasses } from '@mui/base/TabUnstyled';
+import { useDispatch, useSelector } from 'react-redux';
 import ResItem from '../components/ResItem';
 import Header from '../components/home/Header';
 
@@ -142,6 +143,17 @@ export default function Home() {
     setAnchorEl(null);
   };
 
+  const filter = () => {};
+
+  const getRestaurantsStore = useSelector((state) => state.getRestaurants);
+  const {
+    restaurants,
+    error: userDisccountError,
+    success: userDisccountSuccess
+  } = getRestaurantsStore;
+
+  const [search, setSearch] = useState('');
+
   return (
     <>
       <Header />
@@ -163,12 +175,12 @@ export default function Home() {
             'aria-labelledby': 'basic-button'
           }}
         >
-          <MenuItem onClick={handleClose}>Cheap</MenuItem>
-          <MenuItem onClick={handleClose}>Expensive</MenuItem>
+          <MenuItem onClick={filter(1)}>Cheap</MenuItem>
+          <MenuItem onClick={filter(2)}>Expensive</MenuItem>
         </Menu>
         <br />
 
-        <TextField fullWidth placeholder="What are you looking for?" />
+        <TextField fullWidth value={search} placeholder="What are you looking for?" />
         <br />
         <br />
 
@@ -181,7 +193,18 @@ export default function Home() {
           <TabPanel value={value} index={0}>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
               <Grid item xs={12} md={6}>
-                <ResItem />
+                {restaurants
+                  ? restaurants.map((res) => (
+                      <ResItem
+                        name={res.name}
+                        expirationDate={res.expirationDate}
+                        timeOpen={res.name}
+                        id={res._id}
+                        distance={res.name}
+                        images={['https://picsum.photos/id/1']}
+                      />
+                    ))
+                  : ''}
               </Grid>
             </Grid>
           </TabPanel>

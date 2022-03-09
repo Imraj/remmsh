@@ -40,7 +40,8 @@ import {
   AppTotalSeen,
   AppTotalEngagement,
   AppTotalActivation,
-  AppName
+  AppName,
+  AppDashboardTable
 } from '../components/_dashboard/app';
 import Page from '../components/Page';
 
@@ -132,6 +133,8 @@ export default function DashboardApp() {
             )}
           </Grid>
         </Grid>
+
+        <AppDashboardTable />
 
         <>
           <Box component="span">
@@ -243,7 +246,7 @@ export default function DashboardApp() {
         <br />
 
         <>
-          <Box component="span" sx={{ p: 1, border: '1px solid grey' }}>
+          <Box component="span">
             <Button>Executive</Button>
             <Button variant="danger">
               <DeleteIcon sx={{ color: pink[500] }} />

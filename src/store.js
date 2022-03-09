@@ -7,7 +7,11 @@ import {
   userDetailsReducer,
   updateUserDisccountReducer,
   updateUserActiveReducer,
-  userCheckCodeReducer
+  userCheckCodeReducer,
+  createPlanReducer,
+  getPlansReducer,
+  updatePlanReducer,
+  getRestaurantsReducer
 } from './reducers/userReducers';
 
 const reducer = combineReducers({
@@ -16,7 +20,11 @@ const reducer = combineReducers({
   userDetails: userDetailsReducer,
   updateUserDisccount: updateUserDisccountReducer,
   updateUserActive: updateUserActiveReducer,
-  userCheckCode: userCheckCodeReducer
+  userCheckCode: userCheckCodeReducer,
+  createPlan: createPlanReducer,
+  getPlans: getPlansReducer,
+  updatePlan: updatePlanReducer,
+  getRestaurants: getRestaurantsReducer
 });
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
@@ -24,7 +32,9 @@ const userInfoFromStorage = localStorage.getItem('userInfo')
   : null;
 
 const initialState = {
-  userLogin: { userInfo: userInfoFromStorage }
+  userLogin: { userInfo: userInfoFromStorage },
+  getPlans: [],
+  getRestaurants: []
 };
 
 const middleware = [thunk];

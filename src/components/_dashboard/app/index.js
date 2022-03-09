@@ -7,4 +7,6 @@ export { default as AppTotalEngagement } from './AppTotalEngagement';
 export { default as AppTotalActivation } from './AppTotalActivation';
 export { default as AppName } from './AppName';
 
+export { default as AppDashboardTable } from './AppDashboardTable';
+
 export { default as CountDownTimer } from './CountDownTimer';

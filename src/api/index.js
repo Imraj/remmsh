@@ -21,3 +21,9 @@ export const updateUser = (id, data) => API.patch(`/users/${id}`, data);
 export const updateUserDisccount = (id, data) => API.patch(`/users/${id}/discount`, data);
 export const updateUserActive = (id) => API.patch(`/users/${id}/activate`);
 export const userCheckcode = (codeData) => API.post(`/users/checkcode`, codeData);
+
+export const createPlan = (planData) => API.post(`/users/create_plan`, planData);
+export const getPlans = (id) => API.get(`/users/${id}/get_plans`);
+export const updatePlan = (uid, pid, data) => API.patch(`/users/${uid}/plan/${pid}`, data);
+
+export const getRestaurants = () => API.get(`/restaurants`);

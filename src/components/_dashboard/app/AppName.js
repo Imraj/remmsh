@@ -4,7 +4,7 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import { styled } from '@mui/material/styles';
 import { Stack, TextField, Card, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { userCheckcode } from '../../../actions/userActions';
+import { addPlan } from '../../../actions/userActions';
 import { USER_CHECK_CODE_RESET } from '../../../constants/userConstants';
 
 // ----------------------------------------------------------------------
@@ -31,9 +31,14 @@ const LoadingButtonStyled = styled(LoadingButton)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function AppName({ userCheckCodeError, userCheckCodeSuccess }) {
+  const userDetailsStore = useSelector((state) => state.userDetails);
+  const { loading, userDetails } = userDetailsStore;
+
+  console.log('AppName User Details', userDetails);
+
   const dispatch = useDispatch();
 
-  const CheckCodeSchema = Yup.object().shape({
+  const CheckNameSchema = Yup.object().shape({
     name: Yup.string().required('Name is required')
   });
 
@@ -41,9 +46,9 @@ export default function AppName({ userCheckCodeError, userCheckCodeSuccess }) {
     initialValues: {
       name: ''
     },
-    validationSchema: CheckCodeSchema,
+    validationSchema: CheckNameSchema,
     onSubmit: ({ name }, actions) => {
-      dispatch(userCheckcode({ name }));
+      dispatch(addPlan({ name }));
       actions.resetForm({
         values: {
           name: ''

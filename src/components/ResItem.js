@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
 
-function MyCarousel() {
+function MyCarousel({ images }) {
   return (
     <Carousel navButtonsAlwaysVisible>
       <div style={{ position: 'relative' }}>
@@ -54,23 +54,27 @@ function MyCarousel() {
   );
 }
 
-export default function ResItem(props) {
+export default function ResItem({ name, expirationDate, timeOpen, distance, id, images }) {
+  const navTo = (id) => {
+    console.log('navTo::navTo');
+  };
+
   return (
     <Card sx={{ maxWidth: 600 }}>
-      <CardMedia children={<MyCarousel />} />
+      <CardMedia children={<MyCarousel images={images} />} />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          Epic Coffee
+          {name}
         </Typography>
         <Typography gutterBottom variant="h6" color="text.secondary">
-          Ends 12/12/2023
+          Ends {expirationDate}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          10:00PM - 11:00 PM . 0.4 mil
+          {timeOpen} {distance}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button variant="outlined" size="medium">
+        <Button variant="outlined" onClick={navTo(id)} size="medium">
           Click here
         </Button>
       </CardActions>

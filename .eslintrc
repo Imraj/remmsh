@@ -24,6 +24,14 @@
       "impliedStrict": true
     }
   },
+  "settings": {
+	"import/resolver": {
+		"node": {
+			"paths": ['src'],
+			"extensions": ['.js','.ts','.d.ts', '.tsx']
+		}
+	},
+  },
   "rules": {
     "import": 0,
     "max-len": 0,
@@ -50,6 +58,7 @@
     "react/require-default-props": 0,
     "react/no-unescaped-entities": 0,
     "import/prefer-default-export": 0,
+	"import/no-named-as-default": 0,
     "react/jsx-props-no-spreading": 0,
     "react/jsx-filename-extension": 0,
     "react/destructuring-assignment": 0,

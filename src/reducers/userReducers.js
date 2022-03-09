@@ -21,7 +21,23 @@ import {
   USER_CHECK_CODE_REQUEST,
   USER_CHECK_CODE_SUCCESS,
   USER_CHECK_CODE_FAIL,
-  USER_CHECK_CODE_RESET
+  USER_CHECK_CODE_RESET,
+  USER_CREATE_PLAN,
+  USER_CREATE_PLAN_SUCCESS,
+  USER_CREATE_PLAN_FAIL,
+  USER_CREATE_PLAN_RESET,
+  USER_PLANS_REQUEST,
+  USER_PLANS_REQUEST_SUCCESS,
+  USER_PLANS_REQUEST_FAIL,
+  USER_PLANS_REQUEST_RESET,
+  USER_UPDATE_PLAN_REQUEST,
+  USER_UPDATE_PLAN_REQUEST_SUCCESS,
+  USER_UPDATE_PLAN_REQUEST_FAIL,
+  USER_UPDATE_PLAN_REQUEST_RESET,
+  RESTAURANTS_REQUEST,
+  RESTAURANTS_REQUEST_SUCCESS,
+  RESTAURANTS_REQUEST_FAIL,
+  RESTAURANTS_REQUEST_RESET
 } from '../constants/userConstants';
 
 export const userRegisterReducer = (state = {}, action) => {
@@ -108,6 +124,66 @@ export const userCheckCodeReducer = (state = {}, action) => {
     case USER_CHECK_CODE_FAIL:
       return { loading: false, error: action.payload };
     case USER_CHECK_CODE_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const createPlanReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_CREATE_PLAN:
+      return { loading: true };
+    case USER_CREATE_PLAN_SUCCESS:
+      return { loading: false, success: true, plan: action.payload };
+    case USER_CREATE_PLAN_FAIL:
+      return { loading: false, error: action.payload };
+    case USER_CREATE_PLAN_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const getPlansReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_PLANS_REQUEST:
+      return { loading: true };
+    case USER_PLANS_REQUEST_SUCCESS:
+      return { loading: false, success: true, userPlans: action.payload };
+    case USER_PLANS_REQUEST_FAIL:
+      return { loading: false, error: action.payload };
+    case USER_PLANS_REQUEST_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const updatePlanReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_UPDATE_PLAN_REQUEST:
+      return { loading: true };
+    case USER_UPDATE_PLAN_REQUEST_SUCCESS:
+      return { loading: false, success: true };
+    case USER_UPDATE_PLAN_REQUEST_FAIL:
+      return { loading: false, error: action.payload };
+    case USER_UPDATE_PLAN_REQUEST_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const getRestaurantsReducer = (state = {}, action) => {
+  switch (action.type) {
+    case RESTAURANTS_REQUEST:
+      return { loading: true };
+    case RESTAURANTS_REQUEST_SUCCESS:
+      return { loading: false, success: true, restaurants: action.payload };
+    case RESTAURANTS_REQUEST_FAIL:
+      return { loading: false, error: action.payload };
+    case RESTAURANTS_REQUEST_RESET:
       return {};
     default:
       return state;
