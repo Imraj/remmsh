@@ -32,7 +32,16 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
 
+import {
+  updatePlanDiscount,
+  updatePlanActivate,
+  updatePlanExpirationDate
+} from '../../../actions/userActions';
+
 export default function AppDashboardTable() {
+  const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.userLogin.userInfo);
+
   const userDetailsStore = useSelector((state) => state.userDetails);
   const { loading, userDetails } = userDetailsStore;
 
@@ -41,82 +50,76 @@ export default function AppDashboardTable() {
 
   const [timeValue, setTimeValue] = useState(new Date());
 
+  const [suserPlans, setUserPlans] = useState(userPlans);
+
   const deletePlan = (id) => {};
 
   const copyPlanUrl = (id) => {};
 
-  console.log('My User Details');
-  console.log(userDetails);
+  console.log('My User Details', userPlans);
 
-  console.log('userPlansStore', userPlansStore);
+  /* const uD = JSON.stringify(userDetails);
+  console.log('uD::::uD', userDetails);
+  console.log('userPlansStore', userPlans, userPlansStore); */
+
+  // const [aUserDetails, setAUserDetails] = useState({});
+
+  useEffect(() => {
+    // setAUserDetails(JSON.parse(uD));
+    setUserPlans(userPlans);
+  }, [userDetails, userPlans]);
+
+  /*
+  const updateFieldChanged = index => e => {
+	  console.log('index: ' + index);
+	  console.log('property name: '+ e.target.name);
+	  let newArr = [...data]; // copying the old datas array
+	  newArr[index] = e.target.value; // replace e.target.value with whatever you want to change it to
+
+	  setData(newArr);
+	}
+  */
+
+  const discountChanged = (index, id) => (e) => {
+    console.log('eee::', e.target.value);
+    const newArr = [...suserPlans];
+    newArr[index].discount = e.target.value;
+    setUserPlans(newArr);
+    if (e.target.value !== null && e.target.value !== '' && parseInt(e.target.value, 10) >= 0) {
+      dispatch(updatePlanDiscount(id, e.target.value));
+    }
+  };
+
+  const dateTimeChanged = (newValue, index, id) => () => {
+    console.log('dateTimeChanged:::', newValue);
+    const newArr = [...suserPlans];
+    newArr[index].discountExpireAt = newValue;
+    setUserPlans(newArr);
+    // setTimeValue();
+    dispatch(updatePlanExpirationDate(id, newValue));
+  };
+
+  const switchChanged = (index, id) => (e) => {
+    console.log('SC::::', e.target.checked);
+    dispatch(updatePlanActivate(id, e.target.checked));
+  };
 
   return (
     <>
-      {userDetails ? (
-        <>
-          <Box component="span">{loading && <Button>{userDetails[0].name}</Button>}</Box>
-
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Total Seen</TableCell>
-                  <TableCell>Total Engagement</TableCell>
-                  <TableCell>Total activation</TableCell>
-                  <TableCell>% Rate</TableCell>
-                  <TableCell>Exp. Date</TableCell>
-                  <TableCell>Copy Link</TableCell>
-                  <TableCell>Offline</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow>
-                  <TableCell>{userDetails.totalSeen}</TableCell>
-                  <TableCell>{userDetails.totalEngagement}</TableCell>
-                  <TableCell>{userDetails.totalActivation}</TableCell>
-                  <TableCell>
-                    <TextField value={userDetails.discount} />
-                  </TableCell>
-                  <TableCell>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                      <DateTimePicker
-                        renderInput={(props) => <TextField {...props} />}
-                        label="Expiration date"
-                        value={timeValue}
-                        onChange={(newValue) => {
-                          setTimeValue(newValue);
-                        }}
-                      />
-                    </LocalizationProvider>
-                  </TableCell>
-                  <TableCell>
-                    <Button>
-                      <FileCopyIcon onClick={copyPlanUrl(userDetails.id)} />
-                    </Button>
-                  </TableCell>
-                  <TableCell>
-                    <Switch defaultChecked />
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </>
-      ) : (
-        ''
-      )}
-
-      {userPlans
-        ? userPlans.map((plan) => (
+      {suserPlans
+        ? suserPlans.map((plan, index) => (
             <>
               <Box component="span">
-                <Button>{plan.name}</Button>
+                <Typography variant="h4" align="center">
+                  {plan.name}
+                </Typography>
               </Box>
 
               <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                   <TableHead>
                     <TableRow>
+                      {userInfo.name === plan.name ? <TableCell>Total Seen</TableCell> : ''}
                       <TableCell>Total Engagement</TableCell>
                       <TableCell>Total activation</TableCell>
                       <TableCell>% Rate</TableCell>
@@ -127,30 +130,37 @@ export default function AppDashboardTable() {
                   </TableHead>
                   <TableBody>
                     <TableRow>
+                      {userInfo.name === plan.name ? <TableCell>{plan.totalSeen}</TableCell> : ''}
                       <TableCell>{plan.totalEngagement}</TableCell>
                       <TableCell>{plan.totalActivation}</TableCell>
                       <TableCell>
-                        <TextField value={plan.discount} />
+                        <TextField
+                          value={plan.discount}
+                          onChange={discountChanged(index, plan._id)}
+                        />
                       </TableCell>
                       <TableCell>
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                           <DateTimePicker
                             renderInput={(props) => <TextField {...props} />}
                             label="Expiration date"
-                            value={timeValue}
+                            value={plan.discountExpireAt}
                             onChange={(newValue) => {
-                              setTimeValue(newValue);
+                              const newArr = [...suserPlans];
+                              newArr[index].discountExpireAt = newValue;
+                              setUserPlans(newArr);
+                              dispatch(updatePlanExpirationDate(plan._id, newValue));
                             }}
                           />
                         </LocalizationProvider>
                       </TableCell>
                       <TableCell>
                         <Button>
-                          <FileCopyIcon onClick={copyPlanUrl(plan.id)} />
+                          <FileCopyIcon onClick={copyPlanUrl(plan._id)} />
                         </Button>
                       </TableCell>
                       <TableCell>
-                        <Switch defaultChecked />
+                        <Switch onchange={switchChanged(index, plan._id)} defaultChecked />
                       </TableCell>
                     </TableRow>
                   </TableBody>

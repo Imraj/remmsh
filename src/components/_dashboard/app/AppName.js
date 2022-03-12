@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles';
 import { Stack, TextField, Card, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { addPlan } from '../../../actions/userActions';
-import { USER_CHECK_CODE_RESET } from '../../../constants/userConstants';
+import { USER_CREATE_PLAN_RESET } from '../../../constants/userConstants';
 
 // ----------------------------------------------------------------------
 
@@ -30,11 +30,9 @@ const LoadingButtonStyled = styled(LoadingButton)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function AppName({ userCheckCodeError, userCheckCodeSuccess }) {
+export default function AppName() {
   const userDetailsStore = useSelector((state) => state.userDetails);
   const { loading, userDetails } = userDetailsStore;
-
-  console.log('AppName User Details', userDetails);
 
   const dispatch = useDispatch();
 
@@ -44,25 +42,27 @@ export default function AppName({ userCheckCodeError, userCheckCodeSuccess }) {
 
   const formik = useFormik({
     initialValues: {
-      name: ''
+      name: '',
+      uid: userDetails._id
     },
     validationSchema: CheckNameSchema,
-    onSubmit: ({ name }, actions) => {
-      dispatch(addPlan({ name }));
+    onSubmit: ({ name, uid }, actions) => {
+      dispatch(addPlan({ name, uid: userDetails._id }));
       actions.resetForm({
         values: {
-          name: ''
+          name: '',
+          uid: ''
         }
       });
     }
   });
 
   const { errors, touched, handleSubmit, getFieldProps } = formik;
-  let { isSubmitting } = formik;
 
-  if (userCheckCodeError || userCheckCodeSuccess) {
+  const { isSubmitting } = formik;
+  /* if (userCheckNameError || userCheckNameSuccess) {
     isSubmitting = false;
-  }
+  } */
 
   return (
     <RootStyle>
@@ -71,13 +71,13 @@ export default function AppName({ userCheckCodeError, userCheckCodeSuccess }) {
       </Typography>
       <FormikProvider value={formik}>
         <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-          <Stack spacing={3} height="74px">
+          <Stack spacing={3} height="36px">
             <TextField
               sx={{ width: '80%', mx: 'auto' }}
               size="small"
               type="text"
               label="Name"
-              {...getFieldProps('code')}
+              {...getFieldProps('name')}
               error={Boolean(touched.name && errors.name)}
               helperText={touched.name && errors.name}
               color="info"

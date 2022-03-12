@@ -18,6 +18,10 @@ import {
   USER_UPDATE_ACTIVE_SUCCESS,
   USER_UPDATE_ACTIVE_FAIL,
   USER_UPDATE_ACTIVE_RESET,
+  USER_UPDATE_EXPIRATION_DATE_REQUEST,
+  USER_UPDATE_EXPIRATION_DATE_SUCCESS,
+  USER_UPDATE_EXPIRATION_DATE_FAIL,
+  USER_UPDATE_EXPIRATION_DATE_RESET,
   USER_CHECK_CODE_REQUEST,
   USER_CHECK_CODE_SUCCESS,
   USER_CHECK_CODE_FAIL,
@@ -26,6 +30,10 @@ import {
   USER_CREATE_PLAN_SUCCESS,
   USER_CREATE_PLAN_FAIL,
   USER_CREATE_PLAN_RESET,
+  USER_DELETE_PLAN,
+  USER_DELETE_PLAN_SUCCESS,
+  USER_DELETE_PLAN_FAIL,
+  USER_DELETE_PLAN_RESET,
   USER_PLANS_REQUEST,
   USER_PLANS_REQUEST_SUCCESS,
   USER_PLANS_REQUEST_FAIL,
@@ -37,7 +45,23 @@ import {
   RESTAURANTS_REQUEST,
   RESTAURANTS_REQUEST_SUCCESS,
   RESTAURANTS_REQUEST_FAIL,
-  RESTAURANTS_REQUEST_RESET
+  RESTAURANTS_REQUEST_RESET,
+  ADMIN_EDIT_RESTAURANT_REQUEST,
+  ADMIN_EDIT_RESTAURANT_FAIL,
+  ADMIN_EDIT_RESTAURANT_SUCCESS,
+  ADMIN_EDIT_RESTAURANT_RESET,
+  ADMIN_UPDATE_RESTAURANT_REQUEST,
+  ADMIN_UPDATE_RESTAURANT_SUCCESS,
+  ADMIN_UPDATE_RESTAURANT_FAIL,
+  ADMIN_UPDATE_RESTAURANT_RESET,
+  ADMIN_UPDATE_RESTAURANT_STATUS_REQUEST,
+  ADMIN_UPDATE_RESTAURANT_STATUS_SUCCESS,
+  ADMIN_UPDATE_RESTAURANT_STATUS_FAIL,
+  ADMIN_UPDATE_RESTAURANT_STATUS_RESET,
+  ADMIN_DELETE_RESTAURANT_REQUEST,
+  ADMIN_DELETE_RESTAURANT_SUCCESS,
+  ADMIN_DELETE_RESTAURANT_FAIL,
+  ADMIN_DELETE_RESTAURANT_RESET
 } from '../constants/userConstants';
 
 export const userRegisterReducer = (state = {}, action) => {
@@ -115,6 +139,21 @@ export const updateUserActiveReducer = (state = {}, action) => {
   }
 };
 
+export const updateUserExpirationDateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_UPDATE_EXPIRATION_DATE_REQUEST:
+      return { loading: true };
+    case USER_UPDATE_EXPIRATION_DATE_SUCCESS:
+      return { loading: false, success: true };
+    case USER_UPDATE_EXPIRATION_DATE_FAIL:
+      return { loading: false, error: action.payload };
+    case USER_UPDATE_EXPIRATION_DATE_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
 export const userCheckCodeReducer = (state = {}, action) => {
   switch (action.type) {
     case USER_CHECK_CODE_REQUEST:
@@ -145,12 +184,28 @@ export const createPlanReducer = (state = {}, action) => {
   }
 };
 
-export const getPlansReducer = (state = {}, action) => {
+export const deletePlanReducer = (state = { userPlans: [] }, action) => {
+  switch (action.type) {
+    case USER_DELETE_PLAN:
+      return { loading: true };
+    case USER_DELETE_PLAN_SUCCESS:
+      return { loading: false, success: true, userPlans: action.payload };
+    case USER_DELETE_PLAN_FAIL:
+      return { loading: false, error: action.payload };
+    case USER_DELETE_PLAN_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const getPlansReducer = (state = { userPlans: [] }, action) => {
   switch (action.type) {
     case USER_PLANS_REQUEST:
       return { loading: true };
     case USER_PLANS_REQUEST_SUCCESS:
-      return { loading: false, success: true, userPlans: action.payload };
+      console.log('userReducers:::getsPlansReducer');
+      return { userPlans: action.payload };
     case USER_PLANS_REQUEST_FAIL:
       return { loading: false, error: action.payload };
     case USER_PLANS_REQUEST_RESET:
@@ -175,7 +230,7 @@ export const updatePlanReducer = (state = {}, action) => {
   }
 };
 
-export const getRestaurantsReducer = (state = {}, action) => {
+export const getRestaurantsReducer = (state = { restaurants: [] }, action) => {
   switch (action.type) {
     case RESTAURANTS_REQUEST:
       return { loading: true };
@@ -184,6 +239,66 @@ export const getRestaurantsReducer = (state = {}, action) => {
     case RESTAURANTS_REQUEST_FAIL:
       return { loading: false, error: action.payload };
     case RESTAURANTS_REQUEST_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const adminEditRestaurantReducer = (state = { restaurant: {} }, action) => {
+  switch (action.type) {
+    case ADMIN_EDIT_RESTAURANT_REQUEST:
+      return { loading: true };
+    case ADMIN_EDIT_RESTAURANT_SUCCESS:
+      return { loading: false, success: true, restaurant: action.payload };
+    case ADMIN_EDIT_RESTAURANT_FAIL:
+      return { loading: false, error: action.payload };
+    case ADMIN_EDIT_RESTAURANT_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const adminUpdateRestaurantReducer = (state = { restaurants: [] }, action) => {
+  switch (action.type) {
+    case ADMIN_UPDATE_RESTAURANT_REQUEST:
+      return { loading: true };
+    case ADMIN_UPDATE_RESTAURANT_SUCCESS:
+      return { loading: false, success: true, restaurants: action.payload };
+    case ADMIN_UPDATE_RESTAURANT_FAIL:
+      return { loading: false, error: action.payload };
+    case ADMIN_UPDATE_RESTAURANT_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const adminUpdateRestaurantStatusReducer = (state = { restaurants: [] }, action) => {
+  switch (action.type) {
+    case ADMIN_UPDATE_RESTAURANT_STATUS_REQUEST:
+      return { loading: true };
+    case ADMIN_UPDATE_RESTAURANT_STATUS_SUCCESS:
+      return { loading: false, success: true, restaurants: action.payload };
+    case ADMIN_UPDATE_RESTAURANT_STATUS_FAIL:
+      return { loading: false, error: action.payload };
+    case ADMIN_UPDATE_RESTAURANT_STATUS_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const adminDeleteRestaurantReducer = (state = { restaurants: [] }, action) => {
+  switch (action.type) {
+    case ADMIN_DELETE_RESTAURANT_REQUEST:
+      return { loading: true };
+    case ADMIN_DELETE_RESTAURANT_SUCCESS:
+      return { loading: false, success: true, restaurants: action.payload };
+    case ADMIN_DELETE_RESTAURANT_FAIL:
+      return { loading: false, error: action.payload };
+    case ADMIN_DELETE_RESTAURANT_RESET:
       return {};
     default:
       return state;

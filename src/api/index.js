@@ -22,8 +22,18 @@ export const updateUserDisccount = (id, data) => API.patch(`/users/${id}/discoun
 export const updateUserActive = (id) => API.patch(`/users/${id}/activate`);
 export const userCheckcode = (codeData) => API.post(`/users/checkcode`, codeData);
 
-export const createPlan = (planData) => API.post(`/users/create_plan`, planData);
-export const getPlans = (id) => API.get(`/users/${id}/get_plans`);
-export const updatePlan = (uid, pid, data) => API.patch(`/users/${uid}/plan/${pid}`, data);
+export const createPlan = (planData) => API.post(`/public-figures`, planData);
+export const deletePlan = (id) => API.delete(`/public-figures/${id}`);
+export const getPlans = (id) => API.get(`/public-figures`);
+export const updatePlanDiscount = (id, planData) =>
+  API.patch(`/public-figures/${id}/discount`, { discount: planData });
+export const updatePlanExpirationDate = (id, planData) =>
+  API.patch(`/public-figures/${id}/expirationdate`, { discountExpireAt: planData });
+export const updatePlanActivate = (id) => API.patch(`/public-figures/${id}/activate`);
 
 export const getRestaurants = () => API.get(`/restaurants`);
+export const adminEditRestaurant = (id) => API.get(`/restaurants/${id}`);
+export const adminUpdateRestaurant = (id, data) => API.patch(`/restaurants/${id}`, data);
+export const adminUpdateRestaurantStatus = (id, data) =>
+  API.patch(`/restaurants/${id}/status`, data);
+export const adminDeleteRestaurant = (id) => API.delete(`/restaurants/${id}`);

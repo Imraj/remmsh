@@ -6,12 +6,18 @@ import {
   userRegisterReducer,
   userDetailsReducer,
   updateUserDisccountReducer,
+  updateUserExpirationDateReducer,
   updateUserActiveReducer,
   userCheckCodeReducer,
   createPlanReducer,
+  deletePlanReducer,
   getPlansReducer,
   updatePlanReducer,
-  getRestaurantsReducer
+  getRestaurantsReducer,
+  adminEditRestaurantReducer,
+  adminUpdateRestaurantReducer,
+  adminUpdateRestaurantStatusReducer,
+  adminDeleteRestaurantReducer
 } from './reducers/userReducers';
 
 const reducer = combineReducers({
@@ -22,19 +28,25 @@ const reducer = combineReducers({
   updateUserActive: updateUserActiveReducer,
   userCheckCode: userCheckCodeReducer,
   createPlan: createPlanReducer,
+  deletePlan: deletePlanReducer,
   getPlans: getPlansReducer,
   updatePlan: updatePlanReducer,
-  getRestaurants: getRestaurantsReducer
+  getRestaurants: getRestaurantsReducer,
+  adminEditRestaurant: adminEditRestaurantReducer,
+  adminUpdateRestaurant: adminUpdateRestaurantReducer,
+  adminUpdateRestaurantStatus: adminUpdateRestaurantStatusReducer,
+  adminDeleteRestaurant: adminDeleteRestaurantReducer
 });
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
   ? JSON.parse(localStorage.getItem('userInfo'))
   : null;
 
+// 0816 772 7692
 const initialState = {
-  userLogin: { userInfo: userInfoFromStorage },
-  getPlans: [],
-  getRestaurants: []
+  userLogin: { userInfo: userInfoFromStorage }
+  // getPlans: ['hello', 'world'],
+  // getRestaurants: []
 };
 
 const middleware = [thunk];

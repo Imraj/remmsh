@@ -61,12 +61,12 @@ export default function AppNewUsers({ userCheckCodeError, userCheckCodeSuccess }
 
   return (
     <RootStyle>
-      <Typography variant="h6" sx={{ opacity: 0.72, mb: '20px' }}>
+      <Typography variant="h6" sx={{ opacity: 0.72, mb: '10px' }}>
         Check code
       </Typography>
       <FormikProvider value={formik}>
         <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-          <Stack spacing={3} height="74px">
+          <Stack spacing={3} height="38px">
             <TextField
               sx={{ width: '80%', mx: 'auto' }}
               size="small"

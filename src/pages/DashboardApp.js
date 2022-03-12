@@ -31,7 +31,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
 
-import { getUserDetails } from '../actions/userActions';
+import { getUserDetails, getPlans } from '../actions/userActions';
 import {
   AppCreditBalance,
   AppCheckCode,
@@ -86,6 +86,7 @@ export default function DashboardApp() {
 
   useEffect(() => {
     dispatch(getUserDetails(userInfo._id));
+    dispatch(getPlans(userInfo._id));
   }, [dispatch, userInfo, userDisccountSuccess, updateUserActiveSuccess]);
 
   return (
@@ -123,179 +124,13 @@ export default function DashboardApp() {
           <Grid item xs={12} md={6}>
             {userDetails && (
               <>
-                <AppName
-                  discount={userDetails.discount}
-                  discountExpireAt={userDetails.discountExpireAt}
-                  userInfo={userInfo}
-                  userDisccountError={userDisccountError}
-                />
+                <AppName />
               </>
             )}
           </Grid>
         </Grid>
 
         <AppDashboardTable />
-
-        <>
-          <Box component="span">
-            <Button>Sample</Button>
-          </Box>
-
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Total Seen</TableCell>
-                  <TableCell>Total Engagement</TableCell>
-                  <TableCell>Total activation</TableCell>
-                  <TableCell>% Rate</TableCell>
-                  <TableCell>Exp. Date</TableCell>
-                  <TableCell>Copy Link</TableCell>
-                  <TableCell>Offline</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow>
-                  <TableCell component="th" scope="row">
-                    88
-                  </TableCell>
-                  <TableCell>56</TableCell>
-                  <TableCell>10</TableCell>
-                  <TableCell>
-                    <TextField value="%20" />
-                  </TableCell>
-                  <TableCell>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                      <DateTimePicker
-                        renderInput={(props) => <TextField {...props} />}
-                        label="Expiration date"
-                        value={timeValue}
-                        onChange={(newValue) => {
-                          setTimeValue(newValue);
-                        }}
-                      />
-                    </LocalizationProvider>
-                  </TableCell>
-                  <TableCell>
-                    <Button>
-                      <FileCopyIcon />
-                    </Button>
-                  </TableCell>
-                  <TableCell>
-                    <Switch defaultChecked />
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </>
-        <br />
-
-        <>
-          <Box component="span">
-            <Button>Student</Button>
-            <Button variant="danger">
-              <DeleteIcon sx={{ color: pink[500] }} />
-            </Button>
-          </Box>
-
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Total Engagement</TableCell>
-                  <TableCell>Total activation</TableCell>
-                  <TableCell>% Rate</TableCell>
-                  <TableCell>Exp. Date</TableCell>
-                  <TableCell>Copy Link</TableCell>
-                  <TableCell>Offline</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow>
-                  <TableCell>56</TableCell>
-                  <TableCell>10</TableCell>
-                  <TableCell>
-                    <TextField value="%20" />
-                  </TableCell>
-                  <TableCell>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                      <DateTimePicker
-                        renderInput={(props) => <TextField {...props} />}
-                        label="Expiration date"
-                        value={timeValue}
-                        onChange={(newValue) => {
-                          setTimeValue(newValue);
-                        }}
-                      />
-                    </LocalizationProvider>
-                  </TableCell>
-                  <TableCell>
-                    <Button>
-                      <FileCopyIcon />
-                    </Button>
-                  </TableCell>
-                  <TableCell>
-                    <Switch defaultChecked />
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </>
-        <br />
-
-        <>
-          <Box component="span">
-            <Button>Executive</Button>
-            <Button variant="danger">
-              <DeleteIcon sx={{ color: pink[500] }} />
-            </Button>
-          </Box>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Total Engagement</TableCell>
-                  <TableCell>Total activation</TableCell>
-                  <TableCell>% Rate</TableCell>
-                  <TableCell>Exp. Date</TableCell>
-                  <TableCell>Copy Link</TableCell>
-                  <TableCell>Offline</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow>
-                  <TableCell>56</TableCell>
-                  <TableCell>10</TableCell>
-                  <TableCell>
-                    <TextField value="%20" />
-                  </TableCell>
-                  <TableCell>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                      <DateTimePicker
-                        renderInput={(props) => <TextField {...props} />}
-                        label="Expiration date"
-                        value={timeValue}
-                        onChange={(newValue) => {
-                          setTimeValue(newValue);
-                        }}
-                      />
-                    </LocalizationProvider>
-                  </TableCell>
-                  <TableCell>
-                    <Button>
-                      <FileCopyIcon />
-                    </Button>
-                  </TableCell>
-                  <TableCell>
-                    <Switch defaultChecked />
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </>
 
         <ActionsDashboardStyle />
       </StyledContainer>

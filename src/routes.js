@@ -26,14 +26,14 @@ export default function Router() {
         { path: 'payment', element: <Payment /> }
       ]
     },
+    { path: '/home', element: <Home /> },
+    { path: '/admin', element: <Admin /> },
     {
       path: '/',
       element: !isLoggedIn ? <LogoOnlyLayout /> : <Navigate to="/dashboard" />,
       children: [
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
-        { path: 'home', element: <Home /> },
-        { path: 'admin', element: <Admin /> },
         { path: '', element: <Navigate to="/login" replace /> }
       ]
     },
