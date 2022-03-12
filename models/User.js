@@ -80,6 +80,13 @@ const userSchema = mongoose.Schema(
     twitter: {
       type: String,
     },
+	approved: {
+	  type: Boolean,
+	  default: false,
+	},
+	notes: {
+		type: String
+	},
     tokens: [
       {
         token: {

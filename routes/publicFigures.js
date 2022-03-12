@@ -6,6 +6,7 @@ const {
   updatePublicFigure,
   updatePublicFigureDiscount,
   updatePublicFigureActive,
+  updatePublicFigureExpirationDate
 } = require("../controllers/publicFigures");
 const { auth } = require("../middleware/authMiddleware");
 
@@ -17,5 +18,6 @@ router.get("/:id", auth, getPublicFigure);
 router.patch("/:id", auth, updatePublicFigure);
 router.patch("/:id/discount", auth, updatePublicFigureDiscount);
 router.patch("/:id/activate", auth, updatePublicFigureActive);
+router.patch("/:id/expirationdate", auth, updatePublicFigureExpirationDate);
 
 module.exports = router;

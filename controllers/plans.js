@@ -1,16 +1,15 @@
 const moment = require("moment");
 const User = require("../models/User");
 const generateToken = require("../utils/generateToken");
-const Plan = require("../models/Plan");
+
 
 // @desc    Register a new user
 // @route   POST /api/users
 // @access  Public
 const createUserPlan = async(req, res) => {
-    const {name} = req.params;
+    const {name, uid} = req.body;
 
     try{
-
         const userExists = await Plan.findOne({ name });
         console.log("userExists::", userExists)
         console.log("req.body:::", req.body);
@@ -18,16 +17,16 @@ const createUserPlan = async(req, res) => {
         if (userExists)
             return res.status(400).json({ error: "Plan already exists" });
 
-        const user = new User({
+        const plan = new Plan({
             name,
+			user: uid
         });
 
-        await user.save();
+        await plan.save();
 
         res.status(201).json({
-            _id: user._id,
-            name: user.name,
-            token,
+            id: uid,
+            name: name
         });
 
     }catch(error){

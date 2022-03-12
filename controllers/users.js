@@ -4,8 +4,12 @@ const Code = require("../models/Code");
 const Credit = require("../models/Credit");
 const generateToken = require("../utils/generateToken");
 const Plan = require("../models/Plan");
+const PublicFigure = require("../models/PublicFigure");
 const upload = require("../middleware/upload");
 
+const Image = require("../models/Image");
+
+const convertToSlug = require("../utils/convertToSlug");
 
 // @desc    Auth User
 // @route   POST /api/users/admin/login
@@ -66,6 +70,7 @@ const registerUser = async (req, res) => {
     console.log("userExists::", userExists)
     console.log("req.body:::", req.body);
     console.log("req.files:::", req.files);
+	console.log("req.user:::", req.user);
 
     if (userExists)
       return res.status(400).json({ error: "User already exists" });
@@ -77,12 +82,8 @@ const registerUser = async (req, res) => {
       }
 
       console.log("req.files::", req.files);
-
-    let images = []
-    req.files.forEach((image) => {
-       images.push(image.originalname);
-    })
-
+	
+    let discountExpireAt = moment().add(24,"hours").toString()
     const user = new User({
       name,
       nameAr,
@@ -90,19 +91,43 @@ const registerUser = async (req, res) => {
       password,
       type,
       location,
-      images,
       district,
       districtAr,
       instagram,
       snapchat,
       twitter,
+	  discount: 0,
+	  discountExpireAt: discountExpireAt,
     });
+	
+    req.files.forEach((image) => {
+       images.push(
+			fs.readFileSync(path.join(__dirname + '/uploads' + image.filename))
+	   );	
+	});
+	user.images = images
+    
+	
+	
 
     //Create credits record and attchet to the user
     const credit = new Credit({
       user: user._id,
     });
     user.credits = credit._id;
+	
+	const publicFigure = new PublicFigure({
+		user: user._id,
+		name: convertToSlug(`${name}`),
+		isActive: false,
+		discount: 0,
+		discountExpireAt: discountExpireAt,
+		totalSeen: 0,
+		totalEngagement: 0,
+		totalActivation: 0
+	});
+
+	user.publicFigures = publicFigure._id;
 
     const token = generateToken(user._id);
     user.tokens = user.tokens.concat({ token });
@@ -110,8 +135,11 @@ const registerUser = async (req, res) => {
     //Save chnages
     await user.save();
     await credit.save();
-
-    await upload(req, res);
+	await publicFigure.save();
+	
+	
+	
+    //await upload(req, res);
 
     res.status(201).json({
       _id: user._id,
@@ -130,7 +158,7 @@ const registerUser = async (req, res) => {
     res.status(500).json({ error: "Something went wrong" });
 
   }
-};
+}; 
 
 // @desc    Get user
 // @route   get /api/users/:id
@@ -193,7 +221,10 @@ const updateUser = async (req, res) => {
     user.instagram = req.body.instagram || user.instagram;
     user.snapchat = req.body.snapchat || user.snapchat;
     user.twitter = req.body.twitter || user.twitter;
-    if (req.body.password) {
+	
+	user.notes = req.body.notes || user.notes;
+    
+	if (req.body.password) {
       user.password = req.body.password;
     }
 
@@ -212,6 +243,7 @@ const updateUser = async (req, res) => {
       instagram: updatedUser.instagram,
       snapchat: updatedUser.snapchat,
       twitter: updatedUser.twitter,
+	  notes: updatedUser.notes
     });
   } catch (error) {
     res.status(500).json({ error: "Something went wrong" });
