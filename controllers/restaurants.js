@@ -6,9 +6,7 @@ const getAllRestaurants = async(req, res) => {
 
 	try{
 		
-		const restaurants = await User.find({}).populate(
-			"publicFigures"
-		);;
+		const restaurants = await User.find({}).populate("publicFigures").populate("images");
 		
 		//console.log("getttingAllRestaurants::::", restaurants)
 		res.status(201).json(restaurants);
