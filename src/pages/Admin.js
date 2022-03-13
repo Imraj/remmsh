@@ -69,108 +69,37 @@ export default function Admin() {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const [arestaurants, setRestaurants] = useState(restaurants);
+
   console.log('ALL::Restaurants::', restaurants, restaurant, userInfo);
 
   const deleteItem = (id) => {
     console.log('delete::', id);
   };
 
-  const [editForm, setEditForm] = useState({});
+  const [editForm, setEditForm] = useState({ name: 'test' });
 
   useEffect(() => {
-    //  setEditForm(restaurant);
+    // setRestaurants(restaurants);
     dispatch(getRestaurants());
-  }, []);
+  }, [dispatch]);
 
   console.log('editForm::editForm::', editForm);
 
   const [open, setOpen] = React.useState(false);
-  const handleOpen = (id) => {
+  const handleOpen = (index, id) => {
+    setEditForm(restaurants[index]);
     setOpen(true);
-    console.log('handleOpen::', id);
-    dispatch(adminEditRestaurant(id));
-    setEditForm(restaurant);
+    console.log('handleOpen::', index, id, restaurants[index]);
+    // dispatch(adminEditRestaurant(id));
   };
   const handleClose = () => setOpen(false);
 
-  const RegisterSchema = Yup.object().shape({
-    name: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('English name is required'),
-    nameAr: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Arabic name is required'),
-    type: Yup.string().required('Type is required'),
-    location: Yup.string().required('Location is required'),
-    district: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('English district is required'),
-    districtAr: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Arabic district is required'),
-    instagram: Yup.string(),
-    snapchat: Yup.string(),
-    twitter: Yup.string()
-  });
+  const handleSubmit = () => {
+    console.log('handleSubmit');
+  };
 
-  const formik = useFormik({
-    initialValues: {
-      name: '',
-      nameAr: '',
-      type: '',
-      location: '',
-      district: '',
-      districtAr: '',
-      notes: '',
-      instagram: '',
-      snapchat: '',
-      twitter: ''
-    },
-    validationSchema: RegisterSchema,
-    onSubmit: ({
-      name,
-      nameAr,
-      email,
-      password,
-      type,
-      location,
-      district,
-      districtAr,
-      instagram,
-      snapchat,
-      twitter
-    }) => {
-      const config = {
-        headers: {
-          'Content-Type': `multipart/form-data`
-        }
-      };
-      const formData = new FormData();
-
-      formData.append('name', name);
-      formData.append('nameAr', nameAr);
-      formData.append('email', email);
-      formData.append('password', password);
-      formData.append('type', type);
-      formData.append('location', location);
-      formData.append('district', district);
-      formData.append('districtAr', districtAr);
-      formData.append('instagram', instagram);
-      formData.append('snapchat', snapchat);
-      formData.append('twitter', twitter);
-
-      dispatch(adminUpdateRestaurant(formData));
-
-      // upload file
-    }
-  });
-
-  const { errors, touched, values, handleSubmit, getFieldProps } = formik;
-  const { isSubmitting } = formik;
+  // const { errors, touched, values, handleSubmit, getFieldProps } = formik;
 
   return (
     <Container>
@@ -186,8 +115,8 @@ export default function Admin() {
           </TableHead>
           <TableBody>
             {restaurants
-              ? restaurants.map((res) => (
-                  <TableRow>
+              ? restaurants.map((res, index) => (
+                  <TableRow key={index}>
                     <TableCell>{res.name}</TableCell>
 
                     <TableCell>
@@ -195,13 +124,13 @@ export default function Admin() {
                     </TableCell>
 
                     <TableCell>
-                      <IconButton onClick={handleOpen(res._id)}>
+                      <IconButton onClick={() => handleOpen(index, res._id)}>
                         <EditIcon />
                       </IconButton>
                     </TableCell>
 
                     <TableCell>
-                      <IconButton onClick={deleteItem(res._id)}>
+                      <IconButton onClick={() => deleteItem(res._id)}>
                         <DeleteIcon />
                       </IconButton>
                     </TableCell>
@@ -220,113 +149,59 @@ export default function Admin() {
           aria-describedby="modal-modal-description"
         >
           <Box sx={modalStyle}>
-            <FormikProvider value={formik}>
-              {error && (
-                <Grid item xs={12} style={{ marginBottom: '16px' }}>
-                  <Alert variant="outlined" severity="error">
-                    {error}
-                  </Alert>
-                </Grid>
-              )}
-              <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                <Stack spacing={3}>
-                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                    <TextField
-                      fullWidth
-                      label="English name"
-                      error={Boolean(touched.name && errors.name)}
-                      helperText={touched.name && errors.name}
-                    />
-                    <TextField
-                      dir="rtl"
-                      fullWidth
-                      label="Arabic name"
-                      {...getFieldProps('nameAr')}
-                      error={Boolean(touched.nameAr && errors.nameAr)}
-                      helperText={touched.nameAr && errors.nameAr}
-                    />
-                  </Stack>
-
+            <div>
+              <Stack spacing={3}>
+                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                   <TextField
                     fullWidth
-                    label="Location URL"
-                    {...getFieldProps('location')}
-                    error={Boolean(touched.location && errors.location)}
-                    helperText={touched.location && errors.location}
+                    label="English name"
+                    value={editForm.name}
+                    onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
                   />
-
-                  <TextField
-                    fullWidth
-                    label="Notes"
-                    {...getFieldProps('notes')}
-                    error={Boolean(touched.notes && errors.notes)}
-                    helperText={touched.notes && errors.notes}
-                  />
-
-                  <FormControl fullWidth error={Boolean(touched.type && errors.type)}>
-                    <InputLabel>Type</InputLabel>
-                    <Select label="Type" {...getFieldProps('type')}>
-                      <MenuItem value="resturant">Resturant</MenuItem>
-                      <MenuItem value="coffee">Coffee</MenuItem>
-                      <MenuItem value="lounge">Lounge</MenuItem>
-                    </Select>
-                    <FormHelperText>{touched.type && errors.type}</FormHelperText>
-                  </FormControl>
-
-                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                    <TextField
-                      fullWidth
-                      label="English district"
-                      {...getFieldProps('district')}
-                      error={Boolean(touched.district && errors.district)}
-                      helperText={touched.district && errors.district}
-                    />
-                    <TextField
-                      dir="rtl"
-                      fullWidth
-                      label="Arabic district"
-                      {...getFieldProps('districtAr')}
-                      error={Boolean(touched.districtAr && errors.districtAr)}
-                      helperText={touched.districtAr && errors.districtAr}
-                    />
-                  </Stack>
-
-                  <TextField
-                    fullWidth
-                    label="Instagram"
-                    {...getFieldProps('instagram')}
-                    error={Boolean(touched.instagram && errors.instagram)}
-                    helperText={touched.instagram && errors.instagram}
-                  />
-
-                  <TextField
-                    fullWidth
-                    label="Snapchat"
-                    {...getFieldProps('snapchat')}
-                    error={Boolean(touched.snapchat && errors.snapchat)}
-                    helperText={touched.snapchat && errors.snapchat}
-                  />
-
-                  <TextField
-                    fullWidth
-                    label="Twitter"
-                    {...getFieldProps('twitter')}
-                    error={Boolean(touched.twitter && errors.twitter)}
-                    helperText={touched.twitter && errors.twitter}
-                  />
-
-                  <LoadingButton
-                    fullWidth
-                    size="large"
-                    type="submit"
-                    variant="contained"
-                    loading={isSubmitting}
-                  >
-                    Update
-                  </LoadingButton>
+                  <TextField dir="rtl" fullWidth label="Arabic name" value={editForm.nameAr} />
                 </Stack>
-              </Form>
-            </FormikProvider>
+
+                <TextField fullWidth label="Location URL" value={editForm.location} />
+
+                <TextField fullWidth label="Notes" value={editForm.notes} />
+
+                <FormControl fullWidth>
+                  <InputLabel>Type</InputLabel>
+                  <Select label="Type">
+                    <MenuItem value="resturant">Resturant</MenuItem>
+                    <MenuItem value="coffee">Coffee</MenuItem>
+                    <MenuItem value="lounge">Lounge</MenuItem>
+                  </Select>
+                  <FormHelperText />
+                </FormControl>
+
+                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                  <TextField fullWidth label="English district" value={editForm.district} />
+                  <TextField
+                    dir="rtl"
+                    fullWidth
+                    label="Arabic district"
+                    value={editForm.districtAr}
+                  />
+                </Stack>
+
+                <TextField fullWidth label="Instagram" value={editForm.instagram} />
+
+                <TextField fullWidth label="Snapchat" value={editForm.snapchat} />
+
+                <TextField fullWidth label="Twitter" value={editForm.twitter} />
+
+                <LoadingButton
+                  fullWidth
+                  size="large"
+                  type="submit"
+                  variant="contained"
+                  onSubmit={() => handleSubmit}
+                >
+                  Update
+                </LoadingButton>
+              </Stack>
+            </div>
           </Box>
         </Modal>
       </div>

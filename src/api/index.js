@@ -17,6 +17,7 @@ export const regiserUser = (formData) =>
   API.post('/users/register', formData, { headers: { 'Content-Type': `multipart/form-data` } });
 export const loginUser = (userInfo) => API.post('/users/login', userInfo);
 export const userDetails = (id) => API.get(`/users/${id}`);
+
 export const updateUser = (id, data) => API.patch(`/users/${id}`, data);
 export const updateUserDisccount = (id, data) => API.patch(`/users/${id}/discount`, data);
 export const updateUserActive = (id) => API.patch(`/users/${id}/activate`);
@@ -32,6 +33,7 @@ export const updatePlanExpirationDate = (id, planData) =>
 export const updatePlanActivate = (id) => API.patch(`/public-figures/${id}/activate`);
 
 export const getRestaurants = () => API.get(`/restaurants`);
+export const searchRestaurants = (query) => API.get(`/restaurants/search`, query);
 export const adminEditRestaurant = (id) => API.get(`/restaurants/${id}`);
 export const adminUpdateRestaurant = (id, data) => API.patch(`/restaurants/${id}`, data);
 export const adminUpdateRestaurantStatus = (id, data) =>

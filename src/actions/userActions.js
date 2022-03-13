@@ -55,7 +55,10 @@ import {
   ADMIN_DELETE_RESTAURANT_REQUEST,
   ADMIN_DELETE_RESTAURANT_SUCCESS,
   ADMIN_DELETE_RESTAURANT_FAIL,
-  ADMIN_DELETE_RESTAURANT_RESET
+  ADMIN_DELETE_RESTAURANT_RESET,
+  USER_SEARCH_REQUEST,
+  USER_SEARCH_SUCCESS,
+  USER_SEARCH_FAIL
 } from '../constants/userConstants';
 
 export const register = (formData) => async (dispatch) => {
@@ -535,6 +538,27 @@ export const adminDeleteRestaurant = (id) => async (dispatch) => {
       error.response && error.response.data.error ? error.response.data.error : error.message,
       'error'
     );
+  }
+};
+
+export const search = (query) => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER_SEARCH_REQUEST
+    });
+
+    const { data } = await api.searchRestaurants(query);
+
+    dispatch({
+      type: USER_SEARCH_SUCCESS,
+      payload: data
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_SEARCH_FAIL,
+      payload:
+        error.response && error.response.data.error ? error.response.data.error : error.message
+    });
   }
 };
 

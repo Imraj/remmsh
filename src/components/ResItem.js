@@ -17,30 +17,22 @@ import Carousel from 'react-material-ui-carousel';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CircleIcon from '@mui/icons-material/Circle';
 
-import { green, pink } from '@mui/material/colors';
+import { green } from '@mui/material/colors';
+import Countdown from 'react-countdown';
+
+// import Blink from 'react-blink';
+import { Blink } from '@bdchauvette/react-blink';
 
 function MyCarousel({ images, discount }) {
   return (
     <Carousel navButtonsAlwaysVisible>
-      <div style={{ position: 'relative' }}>
-        {images
-          ? images.map((image) => (
-              <>
-                <Paper variant="outlined">
-                  <Box
-                    component="img"
-                    sx={{
-                      width: 750
-                    }}
-                    alt="remmsh restaurant images"
-                    src={image}
-                  />
-                </Paper>
-              </>
-            ))
-          : ''}
-      </div>
-      }
+      {images
+        ? images.map((image) => (
+            <Paper>
+              <img src={image} width="600" height="300" alt="remmsh" />
+            </Paper>
+          ))
+        : ''}
     </Carousel>
   );
 }
@@ -60,15 +52,15 @@ export default function ResItem({
   };
 
   const [showElement, setShowElement] = useState(true);
-  useEffect(() => {
+  /* useEffect(() => {
     setTimeout(() => {
       setShowElement(false);
     }, 2000);
-  }, []);
+  }); */
 
   return (
     <Card sx={{ maxWidth: 600 }}>
-      <CardMedia children={<MyCarousel images={images} />} />
+      <CardMedia children={<MyCarousel images={images} discount={discount} />} />
       <CardContent>
         <Grid container spacing={2}>
           <Grid item xs={10}>
@@ -77,13 +69,9 @@ export default function ResItem({
             </Typography>
           </Grid>
           <Grid item xs={2}>
-            {showElement === true ? (
-              <IconButton>
-                <CircleIcon size="small" color="success" />
-              </IconButton>
-            ) : (
-              <></>
-            )}
+            <Blink>
+              <CircleIcon size="small" color="success" />
+            </Blink>
           </Grid>
         </Grid>
 
@@ -103,12 +91,16 @@ export default function ResItem({
         <Grid container spacing={2}>
           <Grid item xs={8}>
             <Typography gutterBottom variant="subtitle2" color="text.secondary">
-              Ends {expirationDate}
+              {new Date(expirationDate).getTime() - Date.now() > 60 * 60 * 24 * 1000 ? (
+                <>Ends {expirationDate}</>
+              ) : (
+                <Countdown date={Date.now() + (new Date(expirationDate).getTime() - Date.now())} />
+              )}
             </Typography>
           </Grid>
           <Grid item xs={4}>
             <Button variant="outlined" align="right" startIcon={<LocationOnIcon />}>
-              {distance}
+              {distance} mi
             </Button>
           </Grid>
         </Grid>

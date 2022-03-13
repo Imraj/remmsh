@@ -34,7 +34,7 @@ import { usePosition } from 'use-position';
 import ResItem from '../components/ResItem';
 import Header from '../components/home/Header';
 
-import { getRestaurants } from '../actions/userActions';
+import { getRestaurants, search } from '../actions/userActions';
 
 function a11yProps(index) {
   return {
@@ -117,12 +117,19 @@ const TabsList = styled(TabsListUnstyled)`
 `;
 
 export default function Home() {
+  const [searchQuery, setSearchQuery] = useState('');
   const dispatch = useDispatch();
+  const getRestaurantsStore = useSelector((state) => {state.getRestaurants});
+  let { restaurants } = getRestaurantsStore;
+
+  // console.log(loading, success);
+
   const [value, setValue] = useState(0);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+        
   const center = { lat: -34.397, lng: 150.644 };
   const zoom = 4;
 
@@ -135,17 +142,14 @@ export default function Home() {
     setAnchorEl(null);
   };
 
-  const getRestaurantsStore = useSelector((state) => state.getRestaurants);
-  let { restaurants } = getRestaurantsStore;
-
   const restaurantsContainer = restaurants;
-
-  const [search, setSearch] = useState('');
 
   const watch = true;
   const { latitude, longitude, speed, timestamp, accuracy, heading, error } = usePosition(watch, {
     enableHighAccuracy: true
   });
+
+  const [arestaurants, setRestaurants] = useState(restaurants);
 
   const toRad = (degree) => (degree * Math.PI) / 180;
 
@@ -158,13 +162,19 @@ export default function Home() {
       Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     const d = R * c; // Distance in km
-    return d;
+    const KM_TO_MILES = 0.621371;
+    return parseInt(d * KM_TO_MILES, 10);
   };
 
   useEffect(() => {
     dispatch(getRestaurants());
+    setRestaurants(restaurants);
+    console.log('ARES:::ARES:', arestaurants);
   }, []);
 
+  // console.log('Home:::restaurants:', restaurants);
+
+  // let frestaurants = restaurants;
   const filter = (num) => {
     if (restaurants !== undefined) {
       if (num === 1) {
@@ -177,6 +187,41 @@ export default function Home() {
       } else if (num === 3) {
         restaurants = restaurants.filter((restaurant) => restaurant.publicFigures.discount <= 20);
       }
+    }
+  };
+
+  const fetchDistance = (url) => {
+    if (url.includes('@')) {
+      const urlSplit = url.split('@');
+      const ll = urlSplit[1].split(',');
+      const latitude0 = ll[0];
+      const longitude0 = ll[1];
+      const distance = calculateDistance(longitude, latitude, longitude0, latitude0);
+      console.log('distance::', distance);
+      return distance;
+    }
+  };
+
+  const filterByLocation = () => {
+    restaurants = restaurants.filter((restaurant) => fetchDistance(restaurant.location) < 0.5);
+    console.log('filterByLocation:::', restaurants);
+  };
+
+  const search = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      // console.log('Input value', e.target.value);
+      // dispatch(search(e.target.value));
+      restaurants = restaurants.filter(
+        (restaurant) =>
+          restaurant.name === searchQuery ||
+          restaurant.nameAr === searchQuery ||
+          restaurant.notes === searchQuery ||
+          restaurant.district === searchQuery ||
+          restaurant.districtAr === searchQuery
+      );
+
+      console.log('restaurants:::', restaurants);
     }
   };
 
@@ -203,9 +248,7 @@ export default function Home() {
     console.log('OnlyCoffee::', restaurants);
   };
 
-  const longitude0 = 0;
-  const latitude0 = 0;
-  calculateDistance(longitude0, latitude0, longitude, latitude);
+  console.log('LatLong::', longitude, latitude);
 
   return (
     <>
@@ -213,7 +256,7 @@ export default function Home() {
       <br />
       <Container>
         <Box>
-          <Button variant="outlined" onClick={handleClick} startIcon={<FilterListIcon />}>
+          <Button variant="outlined" onClick={() => handleClick} startIcon={<FilterListIcon />}>
             Filter
           </Button>
         </Box>
@@ -222,23 +265,23 @@ export default function Home() {
           id="basic-menu"
           anchorEl={anchorEl}
           open={open}
-          onClose={handleClose}
+          onClose={() => handleClose}
           MenuListProps={{
             'aria-labelledby': 'basic-button'
           }}
         >
-          <MenuItem onClick={filter(1)}>
+          <MenuItem onClick={() => filter(1)}>
             <IconButton>
               <MonetizationOnIcon />
             </IconButton>
           </MenuItem>
-          <MenuItem onClick={filter(2)}>
+          <MenuItem onClick={() => filter(2)}>
             <IconButton>
               <MonetizationOnIcon />
               <MonetizationOnIcon />
             </IconButton>
           </MenuItem>
-          <MenuItem onClick={filter(3)}>
+          <MenuItem onClick={() => filter(3)}>
             <IconButton>
               <MonetizationOnIcon />
               <MonetizationOnIcon />
@@ -249,21 +292,27 @@ export default function Home() {
         <br />
 
         <Box>
-          <IconButton variant="outlined" onClick={handleClick}>
+          <IconButton variant="outlined" onClick={() => filterByLocation()}>
             <LocationOnIcon />
           </IconButton>
         </Box>
         <>
           <ButtonGroup fullWidth variant="outlined" size="large" aria-label="outlined button group">
-            <Button onClick={allRestaurants}>All</Button>
-            <Button onClick={onlyRestaurants}>Restaurant</Button>
-            <Button onClick={onlyCoffee}>Coffee</Button>
-            <Button onClick={onlyLounges}>Lounge</Button>
+            <Button onClick={() => allRestaurants()}>All</Button>
+            <Button onClick={() => onlyRestaurants()}>Restaurant</Button>
+            <Button onClick={() => onlyCoffee()}>Coffee</Button>
+            <Button onClick={() => onlyLounges()}>Lounge</Button>
           </ButtonGroup>
           <br />
           <br />
 
-          <TextField fullWidth value={search} placeholder="What are you looking for?" />
+          <TextField
+            fullWidth
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyPress={search}
+            placeholder="What are you looking for?"
+          />
           <br />
           <br />
 
@@ -274,15 +323,15 @@ export default function Home() {
                     <Grid key={res._id} item xs={12} md={6}>
                       <ResItem
                         name={res.name}
-                        expirationDate={res.createdAt}
+                        expirationDate={res.publicFigures.discountExpireAt}
                         id={res._id}
-                        distance="0.4"
+                        distance={fetchDistance(res.location)}
                         notes={res.notes}
                         district={res.district}
-                        discount="0.4"
+                        discount={res.publicFigures.discount}
                         images={[
-                          'https://picsum.photos/id/237/900/900',
-                          'https://picsum.photos/id/237/200/300'
+                          'https://picsum.photos/id/1/200/300',
+                          'https://picsum.photos/id/37/200/300'
                         ]}
                       />
                     </Grid>

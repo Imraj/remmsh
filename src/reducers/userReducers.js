@@ -61,7 +61,19 @@ import {
   ADMIN_DELETE_RESTAURANT_REQUEST,
   ADMIN_DELETE_RESTAURANT_SUCCESS,
   ADMIN_DELETE_RESTAURANT_FAIL,
-  ADMIN_DELETE_RESTAURANT_RESET
+  ADMIN_DELETE_RESTAURANT_RESET,
+  USER_SEARCH_REQUEST,
+  USER_SEARCH_SUCCESS,
+  USER_SEARCH_FAIL,
+  USER_SEARCH_RESET,
+  ONLY_RESTAURANTS_REQUEST,
+  ONLY_COFFEE_REQUEST,
+  ONLY_LOUNGES_REQUEST,
+  SEARCH_REQUEST,
+  FILTER_BY_LOCATION,
+  FILTER_ONE,
+  FILTER_TWO,
+  FILTER_THREE
 } from '../constants/userConstants';
 
 export const userRegisterReducer = (state = {}, action) => {
@@ -73,6 +85,21 @@ export const userRegisterReducer = (state = {}, action) => {
     case USER_REGISTER_FAIL:
       return { loading: false, error: action.payload };
     case USER_LOGOUT:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const userSearchReducer = (state = { searchResult: {} }, action) => {
+  switch (action.type) {
+    case USER_SEARCH_REQUEST:
+      return { loading: true };
+    case USER_SEARCH_SUCCESS:
+      return { loading: false, searchResult: action.payload };
+    case USER_SEARCH_FAIL:
+      return { loading: false, error: action.payload };
+    case USER_SEARCH_RESET:
       return {};
     default:
       return state;
@@ -235,7 +262,7 @@ export const getRestaurantsReducer = (state = { restaurants: [] }, action) => {
     case RESTAURANTS_REQUEST:
       return { loading: true };
     case RESTAURANTS_REQUEST_SUCCESS:
-      return { loading: false, success: true, restaurants: action.payload };
+      return { ...state, loading: false, success: true, restaurants: action.payload };
     case RESTAURANTS_REQUEST_FAIL:
       return { loading: false, error: action.payload };
     case RESTAURANTS_REQUEST_RESET:

@@ -69,17 +69,6 @@ export default function AppDashboardTable() {
     setUserPlans(userPlans);
   }, [userDetails, userPlans]);
 
-  /*
-  const updateFieldChanged = index => e => {
-	  console.log('index: ' + index);
-	  console.log('property name: '+ e.target.name);
-	  let newArr = [...data]; // copying the old datas array
-	  newArr[index] = e.target.value; // replace e.target.value with whatever you want to change it to
-
-	  setData(newArr);
-	}
-  */
-
   const discountChanged = (index, id) => (e) => {
     console.log('eee::', e.target.value);
     const newArr = [...suserPlans];

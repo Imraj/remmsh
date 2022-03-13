@@ -143,7 +143,7 @@ export default function RegisterForm() {
           </Alert>
         </Grid>
       )}
-      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+      <Form autoComplete="on" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <TextField
@@ -194,6 +194,7 @@ export default function RegisterForm() {
           <TextField
             fullWidth
             label="Location URL"
+            placeholder="https://www.google.com/maps/@6.5306624,3.3783808,12z"
             {...getFieldProps('location')}
             error={Boolean(touched.location && errors.location)}
             helperText={touched.location && errors.location}

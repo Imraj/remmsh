@@ -17,13 +17,15 @@ import {
   adminEditRestaurantReducer,
   adminUpdateRestaurantReducer,
   adminUpdateRestaurantStatusReducer,
-  adminDeleteRestaurantReducer
+  adminDeleteRestaurantReducer,
+  userSearchReducer
 } from './reducers/userReducers';
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
+  userSearch: userSearchReducer,
   updateUserDisccount: updateUserDisccountReducer,
   updateUserActive: updateUserActiveReducer,
   userCheckCode: userCheckCodeReducer,
@@ -42,7 +44,6 @@ const userInfoFromStorage = localStorage.getItem('userInfo')
   ? JSON.parse(localStorage.getItem('userInfo'))
   : null;
 
-// 0816 772 7692
 const initialState = {
   userLogin: { userInfo: userInfoFromStorage }
   // getPlans: ['hello', 'world'],
