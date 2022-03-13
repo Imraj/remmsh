@@ -13,7 +13,6 @@ var storage = new GridFsStorage({
       console.log("filename:::filename::storage", filename)
       return filename;
     }
-    console.log("filename:::filename::storage", filename)
     return {
       bucketName: process.env.BUCKET,
       filename: `${Date.now()}-remmsh-${file.originalname}`
@@ -21,6 +20,6 @@ var storage = new GridFsStorage({
   }
 });
 
-var uploadFiles = multer({ storage: storage }).array("file", 10);
+var uploadFiles = multer({ storage: storage }).array("image[]", 15);
 var uploadFilesMiddleware = util.promisify(uploadFiles);
 module.exports = uploadFilesMiddleware;

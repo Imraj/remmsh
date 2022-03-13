@@ -6,24 +6,12 @@ const getAllRestaurants = async(req, res) => {
 
 	try{
 		
-		const restaurants = await User.find({});
-		/*let res = []
-		for(var i =0; i< restaurants.length; i++){
-			let aRestaurant = restaurants[i];
-			let id = aRestaurant._id;
-			let name = aRestaurant.name;
-			let pf = PublicFigure.find({user: id, name: name});
-			res.push({
-				_id: aRestaurant._id,
-				name: aRestaurant.name,
-				
-				
-				discount: pf.discount,
-				discountExpiresAt: pf.discountExpiresAt
-			})
-		}*/
-		console.log("getttingAllRestaurants::::", restaurants)
-		res.status(200).json(restaurants);
+		const restaurants = await User.find({}).populate(
+			"publicFigures"
+		);;
+		
+		//console.log("getttingAllRestaurants::::", restaurants)
+		res.status(201).json(restaurants);
 	}catch(error){
 		console.log("errors:::errors", error);
 		res.status(500).json({ error: "Something went wrong" });
@@ -37,7 +25,14 @@ const searchRestaurants = async(req, res) => {
 	
     var query = req.query.search;
     try{
-		const result = await User.find({name: query});
+		const result = await User.find({
+							$or: [ 
+								{name: query}, 
+								{nameAr: query}, 
+								{notes: query},
+								{district: query},
+								{districtAr:query}
+							]});
 		res.status(200).json(result)
 	}catch(error){
 		res.status(500).json({ error: "Something went wrong" });

@@ -9,19 +9,13 @@ const {
   updateUserActive,
   userCheckCode,
 } = require("../controllers/users.js");
-
-/*const {
-	createUserPlan,
-	getUserPlans,
-	updateUserPlan
-} = require("../controllers/plans.js");
-*/
-
+const multer = require("multer");
 const { auth } = require("../middleware/authMiddleware");
+const uploadFilesMiddleware = require("../middleware/upload");
 
 const router = express.Router();
 
-const multer = require("multer");
+
 const storage = multer.diskStorage({
 	destination: (req, res) => {
 		cb(null, 'uploads')
@@ -30,10 +24,9 @@ const storage = multer.diskStorage({
 			cb(null, file.fieldname + '-' + Date.now())
 	}
 });
-
 const upload = multer({storage: storage});
 
-router.post("/register", upload.array('pictures'), registerUser);
+router.post("/register", uploadFilesMiddleware, registerUser);
 router.post("/login", authUser);
 router.post("/logout", auth, logout);
 router.get("/:id", auth, getUser);

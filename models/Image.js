@@ -8,7 +8,8 @@ const ImageSchema = mongoose.Schema(
       ref: "User",
     },
 	img: {
-		type: [Buffer]
+		type: [Buffer],
+		
 	}
   },
   {

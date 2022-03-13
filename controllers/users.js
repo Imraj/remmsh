@@ -1,4 +1,6 @@
 const moment = require("moment");
+const fs = require('fs');
+const path = require('path');
 const User = require("../models/User");
 const Code = require("../models/Code");
 const Credit = require("../models/Credit");
@@ -100,16 +102,18 @@ const registerUser = async (req, res) => {
 	  discountExpireAt: discountExpireAt,
     });
 	
+	const image = new Image({
+		user: user._id
+	})
+	
+	let images = []
     req.files.forEach((image) => {
        images.push(
-			fs.readFileSync(path.join(__dirname + '/uploads' + image.filename))
+			fs.readFileSync(path.join(__dirname + '/uploads' + image.originalname))
 	   );	
 	});
 	user.images = images
     
-	
-	
-
     //Create credits record and attchet to the user
     const credit = new Credit({
       user: user._id,
