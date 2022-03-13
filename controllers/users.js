@@ -106,14 +106,14 @@ const registerUser = async (req, res) => {
 		user: user._id
 	})
 	
-	let images = []
+	/*let images = []
     req.files.forEach((image) => {
        images.push(
-			fs.readFileSync(path.join(__dirname + '/uploads' + image.originalname))
+			fs.readFileSync(path.join(image.path + '/' + image.originalname))
 	   );	
 	});
 	user.images = images
-    
+    */
     //Create credits record and attchet to the user
     const credit = new Credit({
       user: user._id,
