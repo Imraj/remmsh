@@ -119,7 +119,7 @@ const TabsList = styled(TabsListUnstyled)`
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const dispatch = useDispatch();
-  const getRestaurantsStore = useSelector((state) => {state.getRestaurants});
+  const getRestaurantsStore = useSelector((state) => state.getRestaurants);
   let { restaurants } = getRestaurantsStore;
 
   // console.log(loading, success);
@@ -129,7 +129,7 @@ export default function Home() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-        
+
   const center = { lat: -34.397, lng: 150.644 };
   const zoom = 4;
 
