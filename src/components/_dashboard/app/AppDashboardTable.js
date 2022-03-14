@@ -9,7 +9,8 @@ import {
   Switch,
   Paper,
   Button,
-  TextField
+  TextField,
+  IconButton
 } from '@mui/material';
 import { Icon } from '@iconify/react';
 import checkCircleFilled from '@iconify/icons-ant-design/check-circle-filled';
@@ -35,7 +36,8 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 import {
   updatePlanDiscount,
   updatePlanActivate,
-  updatePlanExpirationDate
+  updatePlanExpirationDate,
+  deletePlan
 } from '../../../actions/userActions';
 
 export default function AppDashboardTable() {
@@ -52,20 +54,11 @@ export default function AppDashboardTable() {
 
   const [suserPlans, setUserPlans] = useState(userPlans);
 
-  const deletePlan = (id) => {};
-
   const copyPlanUrl = (id) => {};
 
   console.log('My User Details', userPlans);
 
-  /* const uD = JSON.stringify(userDetails);
-  console.log('uD::::uD', userDetails);
-  console.log('userPlansStore', userPlans, userPlansStore); */
-
-  // const [aUserDetails, setAUserDetails] = useState({});
-
   useEffect(() => {
-    // setAUserDetails(JSON.parse(uD));
     setUserPlans(userPlans);
   }, [userDetails, userPlans]);
 
@@ -93,15 +86,26 @@ export default function AppDashboardTable() {
     dispatch(updatePlanActivate(id, e.target.checked));
   };
 
+  const deletePlan = (id) => {
+    dispatch(deletePlan(id));
+  };
+
   return (
     <>
-      {suserPlans
-        ? suserPlans.map((plan, index) => (
+      {userPlans
+        ? userPlans.map((plan, index) => (
             <>
               <Box component="span">
                 <Typography variant="h4" align="center">
                   {plan.name}
                 </Typography>
+                {userInfo.name === plan.name ? (
+                  <></>
+                ) : (
+                  <IconButton>
+                    <DeleteIcon onClick={deletePlan(plan._id)} />
+                  </IconButton>
+                )}
               </Box>
 
               <TableContainer component={Paper}>

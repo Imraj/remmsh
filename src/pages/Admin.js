@@ -71,16 +71,13 @@ export default function Admin() {
 
   const [arestaurants, setRestaurants] = useState(restaurants);
 
-  console.log('ALL::Restaurants::', restaurants, restaurant, userInfo);
-
   const deleteItem = (id) => {
-    console.log('delete::', id);
+    dispatch(adminDeleteRestaurant(id));
   };
 
   const [editForm, setEditForm] = useState({ name: 'test' });
 
   useEffect(() => {
-    // setRestaurants(restaurants);
     dispatch(getRestaurants());
   }, [dispatch]);
 
@@ -90,16 +87,15 @@ export default function Admin() {
   const handleOpen = (index, id) => {
     setEditForm(restaurants[index]);
     setOpen(true);
-    console.log('handleOpen::', index, id, restaurants[index]);
-    // dispatch(adminEditRestaurant(id));
+  };
+  const statusChanged = (index, id) => {
+    dispatch(adminUpdateRestaurantStatus(id));
   };
   const handleClose = () => setOpen(false);
 
-  const handleSubmit = () => {
-    console.log('handleSubmit');
+  const handleSubmit = (id) => {
+    dispatch(adminUpdateRestaurant(editForm));
   };
-
-  // const { errors, touched, values, handleSubmit, getFieldProps } = formik;
 
   return (
     <Container>
@@ -120,7 +116,11 @@ export default function Admin() {
                     <TableCell>{res.name}</TableCell>
 
                     <TableCell>
-                      <Switch value={res.isActive} defaultChecked />
+                      <Switch
+                        value={res.isActive}
+                        onChange={() => statusChanged(res._id)}
+                        defaultChecked
+                      />
                     </TableCell>
 
                     <TableCell>
@@ -161,9 +161,19 @@ export default function Admin() {
                   <TextField dir="rtl" fullWidth label="Arabic name" value={editForm.nameAr} />
                 </Stack>
 
-                <TextField fullWidth label="Location URL" value={editForm.location} />
+                <TextField
+                  fullWidth
+                  label="Location URL"
+                  value={editForm.location}
+                  onChange={(e) => setEditForm({ ...editForm, nameAr: e.target.value })}
+                />
 
-                <TextField fullWidth label="Notes" value={editForm.notes} />
+                <TextField
+                  fullWidth
+                  label="Notes"
+                  value={editForm.notes}
+                  onChange={(e) => setEditForm({ ...editForm, notes: e.target.value })}
+                />
 
                 <FormControl fullWidth>
                   <InputLabel>Type</InputLabel>
@@ -176,27 +186,48 @@ export default function Admin() {
                 </FormControl>
 
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                  <TextField fullWidth label="English district" value={editForm.district} />
+                  <TextField
+                    fullWidth
+                    label="English district"
+                    value={editForm.district}
+                    onChange={(e) => setEditForm({ ...editForm, district: e.target.value })}
+                  />
                   <TextField
                     dir="rtl"
                     fullWidth
                     label="Arabic district"
                     value={editForm.districtAr}
+                    onChange={(e) => setEditForm({ ...editForm, districtAr: e.target.value })}
                   />
                 </Stack>
 
-                <TextField fullWidth label="Instagram" value={editForm.instagram} />
+                <TextField
+                  fullWidth
+                  label="Instagram"
+                  value={editForm.instagram}
+                  onChange={(e) => setEditForm({ ...editForm, instagram: e.target.value })}
+                />
 
-                <TextField fullWidth label="Snapchat" value={editForm.snapchat} />
+                <TextField
+                  fullWidth
+                  label="Snapchat"
+                  value={editForm.snapchat}
+                  onChange={(e) => setEditForm({ ...editForm, snapchat: e.target.value })}
+                />
 
-                <TextField fullWidth label="Twitter" value={editForm.twitter} />
+                <TextField
+                  fullWidth
+                  label="Twitter"
+                  value={editForm.twitter}
+                  onChange={(e) => setEditForm({ ...editForm, twitter: e.target.value })}
+                />
 
                 <LoadingButton
                   fullWidth
                   size="large"
                   type="submit"
                   variant="contained"
-                  onSubmit={() => handleSubmit}
+                  onSubmit={() => handleSubmit(editForm._id)}
                 >
                   Update
                 </LoadingButton>

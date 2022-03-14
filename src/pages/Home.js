@@ -118,18 +118,48 @@ const TabsList = styled(TabsListUnstyled)`
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
-  const dispatch = useDispatch();
-  const getRestaurantsStore = useSelector((state) => {state.getRestaurants});
-  let { restaurants } = getRestaurantsStore;
 
-  // console.log(loading, success);
+  const [allRes, setAllRes] = useState(true);
+  const [onlyRes, setOnlyRes] = useState(false);
+  const [onlyCof, setOnlyCoffee] = useState(false);
+  const [onlyLou, setOnlyLounge] = useState(false);
+  const [fOne, setFone] = useState(false);
+  const [fTwo, setFtwo] = useState(false);
+  const [fThree, setFthree] = useState(false);
+  const [fLoc, setFloc] = useState(false);
+  const [fsearch, setFsearch] = useState(false);
+
+  const dispatch = useDispatch();
+  const getRestaurantsStore = useSelector((state) => {
+    if (allRes === true) {
+      return state.getRestaurants;
+    }
+    if (onlyRes === true) {
+      if (state.getRestaurants) {
+        return Object.values(state.getRestaurants).filter(
+          (res) => res.type.toString() === 'resturant'.toString()
+        );
+      }
+    }
+    if (onlyCof === true) {
+      return Object.values(state.getRestaurants).filter(
+        (res) => res.type.toString() === 'coffee'.toString()
+      );
+    }
+    if (onlyLou === true) {
+      return Object.values(state.getRestaurants).filter(
+        (res) => res.type.toString() === 'lounge'.toString()
+      );
+    }
+  });
+  let { restaurants } = getRestaurantsStore;
 
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-        
+
   const center = { lat: -34.397, lng: 150.644 };
   const zoom = 4;
 
@@ -143,6 +173,8 @@ export default function Home() {
   };
 
   const restaurantsContainer = restaurants;
+
+  console.log('R:::R:::R', restaurants);
 
   const watch = true;
   const { latitude, longitude, speed, timestamp, accuracy, heading, error } = usePosition(watch, {
@@ -169,12 +201,8 @@ export default function Home() {
   useEffect(() => {
     dispatch(getRestaurants());
     setRestaurants(restaurants);
-    console.log('ARES:::ARES:', arestaurants);
   }, []);
 
-  // console.log('Home:::restaurants:', restaurants);
-
-  // let frestaurants = restaurants;
   const filter = (num) => {
     if (restaurants !== undefined) {
       if (num === 1) {
@@ -210,8 +238,6 @@ export default function Home() {
   const search = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      // console.log('Input value', e.target.value);
-      // dispatch(search(e.target.value));
       restaurants = restaurants.filter(
         (restaurant) =>
           restaurant.name === searchQuery ||
@@ -230,20 +256,29 @@ export default function Home() {
   };
 
   const allRestaurants = () => {
-    restaurants = restaurantsContainer;
+    // restaurants = restaurantsContainer;
+    setAllRes(true);
   };
 
   const onlyRestaurants = () => {
-    restaurants = restaurants.filter((res) => res.type === 'resturant');
-    console.log('OnlyRestaurants::', restaurants);
+    setAllRes(false);
+    setOnlyRes(true);
+    setOnlyCoffee(false);
+    setOnlyLounge(false);
+    console.log('OnlyRestaurants::onlyRestaurants', restaurants);
   };
 
   const onlyLounges = () => {
+    setOnlyLounge(true);
+    setAllRes(false);
+    setOnlyRes(false);
+    setOnlyCoffee(false);
     restaurants = restaurants.filter((res) => res.type === 'lounge');
     console.log('OnlyLounges::', restaurants);
   };
 
   const onlyCoffee = () => {
+    setOnlyCoffee(true);
     restaurants = restaurants.filter((res) => res.type === 'coffee');
     console.log('OnlyCoffee::', restaurants);
   };
@@ -323,16 +358,17 @@ export default function Home() {
                     <Grid key={res._id} item xs={12} md={6}>
                       <ResItem
                         name={res.name}
-                        expirationDate={res.publicFigures.discountExpireAt}
+                        expirationDate={res.publicFigures ? res.publicFigures.discountExpireAt : ''}
                         id={res._id}
                         distance={fetchDistance(res.location)}
                         notes={res.notes}
                         district={res.district}
                         discount={res.publicFigures.discount}
-                        images={[
-                          'https://picsum.photos/id/1/200/300',
-                          'https://picsum.photos/id/37/200/300'
-                        ]}
+                        images={
+                          res.images
+                            ? res.images
+                            : ['622de86f25809aec5bfff7db', '622de86f25809aec5bfff7dc']
+                        }
                       />
                     </Grid>
                   ))

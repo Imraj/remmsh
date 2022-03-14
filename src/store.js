@@ -45,9 +45,9 @@ const userInfoFromStorage = localStorage.getItem('userInfo')
   : null;
 
 const initialState = {
-  userLogin: { userInfo: userInfoFromStorage }
+  userLogin: { userInfo: userInfoFromStorage },
+  getRestaurants: []
   // getPlans: ['hello', 'world'],
-  // getRestaurants: []
 };
 
 const middleware = [thunk];

@@ -11,8 +11,6 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-console.log('API::API', API, process.env.REACT_APP_BACKEND_URL);
-
 export const regiserUser = (formData) =>
   API.post('/users/register', formData, { headers: { 'Content-Type': `multipart/form-data` } });
 export const loginUser = (userInfo) => API.post('/users/login', userInfo);
@@ -35,7 +33,6 @@ export const updatePlanActivate = (id) => API.patch(`/public-figures/${id}/activ
 export const getRestaurants = () => API.get(`/restaurants`);
 export const searchRestaurants = (query) => API.get(`/restaurants/search`, query);
 export const adminEditRestaurant = (id) => API.get(`/restaurants/${id}`);
-export const adminUpdateRestaurant = (id, data) => API.patch(`/restaurants/${id}`, data);
-export const adminUpdateRestaurantStatus = (id, data) =>
-  API.patch(`/restaurants/${id}/status`, data);
+export const adminUpdateRestaurant = (id, rdata) => API.patch(`/restaurants/${id}`, rdata);
+export const adminUpdateRestaurantStatus = (id) => API.patch(`/restaurants/${id}/status`);
 export const adminDeleteRestaurant = (id) => API.delete(`/restaurants/${id}`);

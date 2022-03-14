@@ -37,6 +37,7 @@
     "max-len": 0,
     "no-alert": 0,
     "no-new": 0,
+	"eqeqeq": 0,
     "no-shadow": 0,
     "no-console": 0,
     "comma-dangle": 0,

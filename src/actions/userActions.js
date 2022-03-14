@@ -58,7 +58,10 @@ import {
   ADMIN_DELETE_RESTAURANT_RESET,
   USER_SEARCH_REQUEST,
   USER_SEARCH_SUCCESS,
-  USER_SEARCH_FAIL
+  USER_SEARCH_FAIL,
+  DELETE_PLAN_REQUEST,
+  DELETE_PLAN_SUCCESS,
+  DELETE_PLAN_FAIL
 } from '../constants/userConstants';
 
 export const register = (formData) => async (dispatch) => {
@@ -463,18 +466,19 @@ export const adminEditRestaurant = (id) => async (dispatch) => {
   }
 };
 
-export const adminUpdateRestaurant = (id) => async (dispatch) => {
+export const adminUpdateRestaurant = (id, rdata) => async (dispatch) => {
   try {
     dispatch({
       type: ADMIN_UPDATE_RESTAURANT_REQUEST
     });
 
-    const { data } = await api.adminUpdateRestaurant(id);
+    const { data } = await api.adminUpdateRestaurant(id, rdata);
 
     dispatch({
       type: ADMIN_UPDATE_RESTAURANT_SUCCESS,
       payload: data
     });
+    showToast('restaurant updated succesfully', 'success');
   } catch (error) {
     dispatch({
       type: ADMIN_UPDATE_RESTAURANT_FAIL,
@@ -501,6 +505,7 @@ export const adminUpdateRestaurantStatus = (id) => async (dispatch) => {
       type: ADMIN_UPDATE_RESTAURANT_STATUS_SUCCESS,
       payload: data
     });
+    showToast('restaurant status updated succesfully', 'success');
   } catch (error) {
     dispatch({
       type: ADMIN_UPDATE_RESTAURANT_STATUS_FAIL,
@@ -527,6 +532,7 @@ export const adminDeleteRestaurant = (id) => async (dispatch) => {
       type: ADMIN_DELETE_RESTAURANT_SUCCESS,
       payload: data
     });
+    showToast('restaurant deleted succesfully', 'success');
   } catch (error) {
     dispatch({
       type: ADMIN_DELETE_RESTAURANT_FAIL,
