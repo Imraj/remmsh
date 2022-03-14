@@ -35,7 +35,7 @@ const userSchema = mongoose.Schema(
       required: true,
     },
     images: {
-      type: [mongoose.Schema.Types.ObjectId],
+      type: [String],
     },
     district: {
       type: String,

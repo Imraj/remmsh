@@ -5,7 +5,8 @@ const {
 	updateRestaurant,
 	updateRestaurantStatus,
 	deleteRestaurant,
-    searchRestaurants
+    searchRestaurants,
+	fetchImageBins
 } = require("../controllers/restaurants.js")
 
 const router = express.Router();
@@ -16,5 +17,6 @@ router.patch('/:id', updateRestaurant);
 router.patch('/:id/status', updateRestaurantStatus);
 router.delete('/:id', deleteRestaurant);
 router.get('/search', searchRestaurants);
+router.get('/images', fetchImageBins);
 
 module.exports = router;

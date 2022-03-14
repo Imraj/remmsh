@@ -16,6 +16,9 @@ const restaurantsRoutes = require("./routes/restaurants");
 
 const app = express();
 
+app.use(express.static("tmp"));
+app.use(express.static("uploads"));
+
 // Create Redis Client
 // let RedisClient = Redis.createClient(process.env.REDIS_URL);
 
@@ -23,6 +26,7 @@ const app = express();
 
 app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
+
 
 
 

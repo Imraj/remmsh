@@ -109,7 +109,7 @@ const registerUser = async (req, res) => {
 	let images = []
     req.files.forEach((image) => {
        images.push(
-			image.id
+			image.filename
 	   );	
 	});
 	user.images = images

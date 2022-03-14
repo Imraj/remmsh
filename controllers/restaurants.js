@@ -39,7 +39,7 @@ const searchRestaurants = async(req, res) => {
 }
 
 const editRestaurant = async(req,res) => {
-	var id = req.body.id
+	var id = req.params.id
 	try{
 		const restaurant = await User.find({_id: id});
 		res.status(200).json(restaurant)
@@ -49,7 +49,11 @@ const editRestaurant = async(req,res) => {
 }
 
 const updateRestaurant = async(req,res) => {
-	var id = req.body.id;
+	
+	console.log("req.params::", req.params, "req.body::", req.body);
+	
+	
+	var id = req.params.id;
 	const {
 		name,
 		nameAr,
@@ -102,11 +106,11 @@ const updateRestaurant = async(req,res) => {
 }
 
 const updateRestaurantStatus = async(req,res) => {
-	var id = req.body.id;
+	var id = req.params.id;
 	var data = req.body.data;
 	try{
 		const restaurant = await User.find({_id: id});
-		restaurant.isActive = data;
+		restaurant.isActive = !restaurant.isActive;
 		const updatedRestaurant = restaurant.save();
 		res.status(200).json({
 		  _id: updatedUser._id,
@@ -139,9 +143,29 @@ const deleteRestaurant = async(req, res)=>{
 	}
 }
 
+const fetchImageBins = async(req,res)=>{
+	
+	let images = req.body.images;
+	console.log("fetchImageBins::", images);
+	
+	
+    try{
+		//let bins = []
+		/*images.forEach((img)=>{
+			let bin = photos.chunks.find({file_id: img});
+			bins.push(bin);
+		})*/
+		res.status(200).json({success: "Hello World"})
+	}catch(error){
+		res.status(500).json({ hi: "HelloWorld",error: "Something went wrong", msg: error });
+	}
+	
+}
+
 module.exports = {
     getAllRestaurants,
     searchRestaurants,
+	fetchImageBins,
 	editRestaurant,
 	updateRestaurant,
 	updateRestaurantStatus,
