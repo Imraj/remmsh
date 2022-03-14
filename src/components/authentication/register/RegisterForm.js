@@ -75,6 +75,7 @@ export default function RegisterForm() {
       name: '',
       nameAr: '',
       type: '',
+      notes: '',
       email: '',
       password: '',
       location: '',
@@ -92,6 +93,7 @@ export default function RegisterForm() {
       email,
       password,
       type,
+      notes,
       location,
       district,
       districtAr,
@@ -111,6 +113,7 @@ export default function RegisterForm() {
       formData.append('email', email);
       formData.append('password', password);
       formData.append('type', type);
+      formData.append('notes', notes);
       formData.append('location', location);
       formData.append('district', district);
       formData.append('districtAr', districtAr);
@@ -191,6 +194,7 @@ export default function RegisterForm() {
             error={Boolean(touched.password && errors.password)}
             helperText={touched.password && errors.password}
           />
+          <span>https://www.google.com/maps/@6.5306624,3.3783808,12z</span>
           <TextField
             fullWidth
             label="Location URL"
@@ -209,6 +213,15 @@ export default function RegisterForm() {
             </Select>
             <FormHelperText>{touched.type && errors.type}</FormHelperText>
           </FormControl>
+
+          <TextField
+            fullWidth
+            label="Notes"
+            placeholder="Sea food"
+            {...getFieldProps('notes')}
+            error={Boolean(touched.notes && errors.notes)}
+            helperText={touched.notes && errors.notes}
+          />
 
           <Box component="span" sx={{ p: 2, border: '1px dashed grey' }}>
             <Uploader afiles={afiles} setAFiles={setAFiles} />
