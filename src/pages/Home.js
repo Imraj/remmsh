@@ -31,6 +31,7 @@ import { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
 import TabUnstyled, { tabUnstyledClasses } from '@mui/base/TabUnstyled';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePosition } from 'use-position';
+import { createSelector } from 'reselect';
 import ResItem from '../components/ResItem';
 import Header from '../components/home/Header';
 
@@ -129,25 +130,84 @@ export default function Home() {
   const [fLoc, setFloc] = useState(false);
   const [fsearch, setFsearch] = useState(false);
 
-  const dispatch = useDispatch();
-  const getRestaurantsStore = useSelector((state) => {
-    if (allRes === true) {
-      return state.getRestaurants;
-    }
-    if (onlyRes === true) {
-      if (state.getRestaurants) {
-        return Object.values(state.getRestaurants).filter((res) => res.type === 'resturant');
-      }
-    }
-    if (onlyCof === true) {
-      return Object.values(state.getRestaurants).filter((res) => res.type === 'coffee');
-    }
-    if (onlyLou === true) {
-      return Object.values(state.getRestaurants).filter((res) => res.type === 'lounge');
-    }
+  const watch = true;
+  const { latitude, longitude, speed, timestamp, accuracy, heading, error } = usePosition(watch, {
+    enableHighAccuracy: true
   });
 
-  let { restaurants } = getRestaurantsStore;
+  const calculateDistance = (lon1, lat1, lon2, lat2) => {
+    const R = 6371; // Radius of the earth in km
+    const dLat = toRad(lat2 - lat1); // Javascript functions in radians
+    const dLon = toRad(lon2 - lon1);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const d = R * c; // Distance in km
+    const KM_TO_MILES = 0.621371;
+    return parseInt(d * KM_TO_MILES, 10);
+  };
+
+  const fetchDistance = (url) => {
+    if (url.includes('@')) {
+      const urlSplit = url.split('@');
+      const ll = urlSplit[1].split(',');
+      const latitude0 = ll[0];
+      const longitude0 = ll[1];
+      const distance = calculateDistance(longitude, latitude, longitude0, latitude0);
+      console.log('distance::', distance);
+      return distance;
+    }
+  };
+
+  const dispatch = useDispatch();
+  let restaurants = useSelector((state) => {
+    if (allRes === true) {
+      return state.getRestaurants.restaurants;
+    }
+    if (onlyRes === true && state.getRestaurants && state.getRestaurants.restaurants) {
+      if (state.getRestaurants) {
+        return state.getRestaurants.restaurants.filter((res) => res.type === 'resturant');
+      }
+    }
+    if (onlyCof === true && state.getRestaurants && state.getRestaurants.restaurants) {
+      return state.getRestaurants.restaurants.filter((res) => res.type === 'coffee');
+    }
+    if (onlyLou === true && state.getRestaurants && state.getRestaurants.restaurants) {
+      return state.getRestaurants.restaurants.filter((res) => res.type === 'lounge');
+    }
+    if (fOne === true && state.getRestaurants && state.getRestaurants.restaurants) {
+      return state.getRestaurants.restaurants.filter(
+        (restaurant) => restaurant.publicFigures.discount >= 70
+      );
+    }
+    if (fTwo === true && state.getRestaurants && state.getRestaurants.restaurants) {
+      return state.getRestaurants.restaurants.filter(
+        (restaurant) =>
+          restaurant.publicFigures.discount >= 50 && restaurant.publicFigures.discount < 70
+      );
+    }
+    if (fThree === true && state.getRestaurants && state.getRestaurants.restaurants) {
+      return state.getRestaurants.restaurants.filter(
+        (restaurant) => restaurant.publicFigures.discount <= 20
+      );
+    }
+    if (fLoc === true && state.getRestaurants && state.getRestaurants.restaurants) {
+      return state.getRestaurants.restaurants.filter(
+        (restaurant) => fetchDistance(restaurant.location) < 50
+      );
+    }
+    if (fsearch === true && state.getRestaurants && state.getRestaurants.restaurants) {
+      return state.getRestaurants.restaurants.filter(
+        (restaurant) =>
+          restaurant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          restaurant.nameAr.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          restaurant.notes.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          restaurant.district.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          restaurant.districtAr.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+  });
 
   const [value, setValue] = useState(0);
 
@@ -169,29 +229,11 @@ export default function Home() {
 
   const restaurantsContainer = restaurants;
 
-  console.log('R:::R:::R', restaurants);
-
-  const watch = true;
-  const { latitude, longitude, speed, timestamp, accuracy, heading, error } = usePosition(watch, {
-    enableHighAccuracy: true
-  });
+  console.log('R:::R:::R', typeof restaurants);
 
   const [arestaurants, setRestaurants] = useState(restaurants);
 
   const toRad = (degree) => (degree * Math.PI) / 180;
-
-  const calculateDistance = (lon1, lat1, lon2, lat2) => {
-    const R = 6371; // Radius of the earth in km
-    const dLat = toRad(lat2 - lat1); // Javascript functions in radians
-    const dLon = toRad(lon2 - lon1);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const d = R * c; // Distance in km
-    const KM_TO_MILES = 0.621371;
-    return parseInt(d * KM_TO_MILES, 10);
-  };
 
   useEffect(() => {
     dispatch(getRestaurants());
@@ -199,33 +241,18 @@ export default function Home() {
   }, []);
 
   const filter = (num) => {
-    if (restaurants !== undefined) {
-      if (num === 1) {
-        restaurants = restaurants.filter((restaurant) => restaurant.publicFigures.discount >= 70);
-      } else if (num === 2) {
-        restaurants = restaurants.filter(
-          (restaurant) =>
-            restaurant.publicFigures.discount >= 50 && restaurant.publicFigures.discount < 70
-        );
-      } else if (num === 3) {
-        restaurants = restaurants.filter((restaurant) => restaurant.publicFigures.discount <= 20);
-      }
-    }
-  };
-
-  const fetchDistance = (url) => {
-    if (url.includes('@')) {
-      const urlSplit = url.split('@');
-      const ll = urlSplit[1].split(',');
-      const latitude0 = ll[0];
-      const longitude0 = ll[1];
-      const distance = calculateDistance(longitude, latitude, longitude0, latitude0);
-      console.log('distance::', distance);
-      return distance;
-    }
+    if (num === 1) setFone(true);
+    else if (num === 2) setFtwo(true);
+    else if (num === 3) setFthree(true);
   };
 
   const filterByLocation = () => {
+    setFloc(true);
+    setFsearch(false);
+    setAllRes(false);
+    setOnlyRes(false);
+    setOnlyCoffee(false);
+    setOnlyLounge(false);
     restaurants = restaurants.filter((restaurant) => fetchDistance(restaurant.location) < 0.5);
     console.log('filterByLocation:::', restaurants);
   };
@@ -233,16 +260,11 @@ export default function Home() {
   const search = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      restaurants = restaurants.filter(
-        (restaurant) =>
-          restaurant.name === searchQuery ||
-          restaurant.nameAr === searchQuery ||
-          restaurant.notes === searchQuery ||
-          restaurant.district === searchQuery ||
-          restaurant.districtAr === searchQuery
-      );
-
-      console.log('restaurants:::', restaurants);
+      setFsearch(true);
+      setAllRes(false);
+      setOnlyRes(false);
+      setOnlyCoffee(false);
+      setOnlyLounge(false);
     }
   };
 
@@ -273,14 +295,12 @@ export default function Home() {
 
   const onlyCoffee = () => {
     setOnlyCoffee(true);
-	setOnlyLounge(false);
+    setOnlyLounge(false);
     setAllRes(false);
     setOnlyRes(false);
-    
+
     console.log('OnlyCoffee::', restaurants);
   };
-
-  console.log('LatLong::', longitude, latitude);
 
   return (
     <>

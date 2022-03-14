@@ -51,7 +51,7 @@ function MyCarousel({ images, discount }) {
                 }}
               >
                 {' '}
-                <Typography variant="contained">{discount}% Off</Typography>
+                <Button variant="contained">20% Off</Button>
               </div>
             </div>
           ))
