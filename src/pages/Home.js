@@ -241,9 +241,38 @@ export default function Home() {
   }, []);
 
   const filter = (num) => {
-    if (num === 1) setFone(true);
-    else if (num === 2) setFtwo(true);
-    else if (num === 3) setFthree(true);
+    console.log('filter::::num:::', num);
+    if (num === 1) {
+      setFone(true);
+      setFtwo(false);
+      setFthree(false);
+      setFloc(false);
+      setFsearch(false);
+      setAllRes(false);
+      setOnlyRes(false);
+      setOnlyCoffee(false);
+      setOnlyLounge(false);
+    } else if (num === 2) {
+      setFtwo(true);
+      setFone(false);
+      setFthree(false);
+      setFloc(false);
+      setFsearch(false);
+      setAllRes(false);
+      setOnlyRes(false);
+      setOnlyCoffee(false);
+      setOnlyLounge(false);
+    } else if (num === 3) {
+      setFthree(true);
+      setFone(false);
+      setFthree(false);
+      setFloc(false);
+      setFsearch(false);
+      setAllRes(false);
+      setOnlyRes(false);
+      setOnlyCoffee(false);
+      setOnlyLounge(false);
+    }
   };
 
   const filterByLocation = () => {
@@ -308,7 +337,7 @@ export default function Home() {
       <br />
       <Container>
         <Box>
-          <Button variant="outlined" onClick={() => handleClick} startIcon={<FilterListIcon />}>
+          <Button variant="outlined" onClick={handleClick} startIcon={<FilterListIcon />}>
             Filter
           </Button>
         </Box>
@@ -317,7 +346,7 @@ export default function Home() {
           id="basic-menu"
           anchorEl={anchorEl}
           open={open}
-          onClose={() => handleClose}
+          onClose={handleClose}
           MenuListProps={{
             'aria-labelledby': 'basic-button'
           }}
