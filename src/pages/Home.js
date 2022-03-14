@@ -273,10 +273,10 @@ export default function Home() {
 
   const onlyCoffee = () => {
     setOnlyCoffee(true);
-	setOnlyLounge(false);
+    setOnlyLounge(false);
     setAllRes(false);
     setOnlyRes(false);
-    
+
     console.log('OnlyCoffee::', restaurants);
   };
 
