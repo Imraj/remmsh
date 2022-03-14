@@ -94,13 +94,13 @@ export default function ResItem({
         </Grid>
 
         <Grid container spacing={2}>
-          <Grid item xs={6}>
+          <Grid item xs={10}>
             <Typography gutterBottom variant="h6" color="text.secondary">
               {notes}
             </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <Typography gutterBottom align="right" variant="h6" color="text.secondary">
+          <Grid item xs={2}>
+            <Typography gutterBottom variant="h6" color="text.secondary">
               {district}
             </Typography>
           </Grid>
@@ -117,9 +117,10 @@ export default function ResItem({
             </Typography>
           </Grid>
           <Grid item xs={3}>
-            <IconButton variant="outlined" align="right" startIcon={<LocationOnIcon />}>
-              {distance} mi
+            <IconButton variant="outlined">
+              <LocationOnIcon />
             </IconButton>
+            {distance} mi
           </Grid>
         </Grid>
       </CardContent>

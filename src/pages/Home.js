@@ -152,6 +152,7 @@ export default function Home() {
       );
     }
   });
+
   let { restaurants } = getRestaurantsStore;
 
   const [value, setValue] = useState(0);
