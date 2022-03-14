@@ -136,20 +136,14 @@ export default function Home() {
     }
     if (onlyRes === true) {
       if (state.getRestaurants) {
-        return Object.values(state.getRestaurants).filter(
-          (res) => res.type.toString() === 'resturant'.toString()
-        );
+        return Object.values(state.getRestaurants).filter((res) => res.type === 'resturant');
       }
     }
     if (onlyCof === true) {
-      return Object.values(state.getRestaurants).filter(
-        (res) => res.type.toString() === 'coffee'.toString()
-      );
+      return Object.values(state.getRestaurants).filter((res) => res.type === 'coffee');
     }
     if (onlyLou === true) {
-      return Object.values(state.getRestaurants).filter(
-        (res) => res.type.toString() === 'lounge'.toString()
-      );
+      return Object.values(state.getRestaurants).filter((res) => res.type === 'lounge');
     }
   });
 
