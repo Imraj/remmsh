@@ -268,13 +268,15 @@ export default function Home() {
     setAllRes(false);
     setOnlyRes(false);
     setOnlyCoffee(false);
-    restaurants = restaurants.filter((res) => res.type === 'lounge');
     console.log('OnlyLounges::', restaurants);
   };
 
   const onlyCoffee = () => {
     setOnlyCoffee(true);
-    restaurants = restaurants.filter((res) => res.type === 'coffee');
+	setOnlyLounge(false);
+    setAllRes(false);
+    setOnlyRes(false);
+    
     console.log('OnlyCoffee::', restaurants);
   };
 
