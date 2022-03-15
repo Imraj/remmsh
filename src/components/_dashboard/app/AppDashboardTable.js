@@ -92,8 +92,8 @@ export default function AppDashboardTable() {
 
   return (
     <>
-      {userPlans
-        ? userPlans.map((plan, index) => (
+      {suserPlans
+        ? suserPlans.map((plan, index) => (
             <>
               <Box component="span">
                 <Typography variant="h4" align="center">
@@ -103,7 +103,7 @@ export default function AppDashboardTable() {
                   <></>
                 ) : (
                   <IconButton>
-                    <DeleteIcon onClick={deletePlan(plan._id)} />
+                    <DeleteIcon onClick={() => deletePlan(plan._id)} />
                   </IconButton>
                 )}
               </Box>
@@ -129,7 +129,7 @@ export default function AppDashboardTable() {
                       <TableCell>
                         <TextField
                           value={plan.discount}
-                          onChange={discountChanged(index, plan._id)}
+                          onChange={() => discountChanged(index, plan._id)}
                         />
                       </TableCell>
                       <TableCell>
@@ -149,11 +149,11 @@ export default function AppDashboardTable() {
                       </TableCell>
                       <TableCell>
                         <Button>
-                          <FileCopyIcon onClick={copyPlanUrl(plan._id)} />
+                          <FileCopyIcon onClick={() => copyPlanUrl(plan._id)} />
                         </Button>
                       </TableCell>
                       <TableCell>
-                        <Switch onchange={switchChanged(index, plan._id)} defaultChecked />
+                        <Switch onChange={() => switchChanged(index, plan._id)} defaultChecked />
                       </TableCell>
                     </TableRow>
                   </TableBody>
