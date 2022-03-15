@@ -16,8 +16,8 @@ const restaurantsRoutes = require("./routes/restaurants");
 
 const app = express();
 
-app.use(express.static("tmp"));
-app.use(express.static("uploads"));
+//app.use(express.static("tmp"));
+//app.use(express.static("uploads"));
 
 // Create Redis Client
 // let RedisClient = Redis.createClient(process.env.REDIS_URL);
@@ -27,19 +27,20 @@ app.use(express.static("uploads"));
 app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
 
-
-
-
 app.use(cors());
 
 app.get("/api", (req, res) => {
   res.send("Got it");
 });
 
+app.use("/uploads", express.static('public/uploads'))
+
 app.use("/api/users", usersRoutes);
 app.use("/api/public-figures", publicFiguresRoutes);
 app.use("/api/bot", botRoutes);
 app.use("/api/restaurants",restaurantsRoutes);
+
+
 
 const CONNECTION_URL = process.env.MONGODB_URL;
 const PORT = process.env.PORT || 5000;
