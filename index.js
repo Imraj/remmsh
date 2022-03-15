@@ -33,7 +33,7 @@ app.get("/api", (req, res) => {
   res.send("Got it");
 });
 
-app.use("/uploads", express.static('public/uploads'))
+app.use("/api/uploads", express.static('public/uploads'))
 
 app.use("/api/users", usersRoutes);
 app.use("/api/public-figures", publicFiguresRoutes);
