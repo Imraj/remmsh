@@ -35,7 +35,7 @@ function MyCarousel({ images, discount }) {
             <div style={{ position: 'relative' }}>
               <Paper>
                 <img
-                  src={`${process.env.REACT_APP_BACKEND_URL}/uploads/${image}`}
+                  src={`${process.env.REACT_APP_BACKEND_URL}/api/uploads/${image}`}
                   width="600"
                   height="300"
                   alt={image}
@@ -81,12 +81,12 @@ export default function ResItem({
       <CardMedia children={<MyCarousel images={images} discount={discount} />} />
       <CardContent>
         <Grid container spacing={2}>
-          <Grid item xs={8}>
+          <Grid item xs={10}>
             <Typography gutterBottom align="center" variant="h3" component="div">
               {name}
             </Typography>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={2}>
             <Blink>
               <CircleIcon size="small" color="success" />
             </Blink>
@@ -94,12 +94,12 @@ export default function ResItem({
         </Grid>
 
         <Grid container spacing={2}>
-          <Grid item xs={8}>
+          <Grid item xs={10}>
             <Typography gutterBottom variant="h6" color="text.secondary">
               {notes}
             </Typography>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={2}>
             <Typography gutterBottom variant="h6" color="text.secondary">
               {district}
             </Typography>
@@ -107,7 +107,7 @@ export default function ResItem({
         </Grid>
 
         <Grid container spacing={2}>
-          <Grid item xs={8}>
+          <Grid item xs={9}>
             <Typography gutterBottom variant="subtitle2" color="text.secondary">
               {new Date(expirationDate).getTime() - Date.now() > 60 * 60 * 24 * 1000 ? (
                 <>Ends {expirationDate}</>
@@ -116,7 +116,7 @@ export default function ResItem({
               )}
             </Typography>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={3}>
             <IconButton variant="outlined">
               <LocationOnIcon />
             </IconButton>
