@@ -376,11 +376,6 @@ export default function Home() {
           </MenuItem>
         </Menu>
 
-        <Box>
-          <IconButton variant="outlined" onClick={() => filterByLocation()}>
-            <LocationOnIcon />
-          </IconButton>
-        </Box>
         <>
           <Grid container spacing={0}>
             <Grid item xs={3}>
