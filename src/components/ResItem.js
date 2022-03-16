@@ -85,13 +85,13 @@ export default function ResItem({
     <Card sx={{ maxWidth: 600 }}>
       <CardMedia children={<MyCarousel images={images} discount={discount} />} />
       <CardContent style={{ marginTop: '0px' }}>
-        <Grid container spacing={2}>
-          <Grid item xs={9}>
+        <Grid container spacing={1}>
+          <Grid item xs={10}>
             <Typography gutterBottom align="center" variant="h3" component="div">
               {name}
             </Typography>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2}>
             <LineLoader />
           </Grid>
         </Grid>
