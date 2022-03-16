@@ -6,7 +6,8 @@ const {
   updatePublicFigure,
   updatePublicFigureDiscount,
   updatePublicFigureActive,
-  updatePublicFigureExpirationDate
+  updatePublicFigureExpirationDate,
+  deletePlan
 } = require("../controllers/publicFigures");
 const { auth } = require("../middleware/authMiddleware");
 
@@ -16,6 +17,7 @@ router.post("/", auth, createPublicFigure);
 router.get("/", auth, getPublicFigures);
 router.get("/:id", auth, getPublicFigure);
 router.patch("/:id", auth, updatePublicFigure);
+router.delete('/:id', auth, deletePlan);
 router.patch("/:id/discount", auth, updatePublicFigureDiscount);
 router.patch("/:id/activate", auth, updatePublicFigureActive);
 router.patch("/:id/expirationdate", auth, updatePublicFigureExpirationDate);

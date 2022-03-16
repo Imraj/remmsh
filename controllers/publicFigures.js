@@ -236,6 +236,16 @@ const updatePublicFigureExpirationDate = async (req, res) => {
   }
 };
 
+const deletePlan = async(req, res)=>{
+	try{
+		const plan = await PublicFigure.findById(req.params.id);
+		plan.delete();
+		res.status(200).json({msg: "successful"})
+	}catch(error){
+		res.status(500).json({ error: "Something went wrong" });
+	}
+}
+
 module.exports = {
   createPublicFigure,
   getPublicFigures,
@@ -243,5 +253,6 @@ module.exports = {
   updatePublicFigure,
   updatePublicFigureDiscount,
   updatePublicFigureActive,
-  updatePublicFigureExpirationDate
+  updatePublicFigureExpirationDate,
+  deletePlan
 };

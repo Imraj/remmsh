@@ -6,7 +6,7 @@ const getAllRestaurants = async(req, res) => {
 
 	try{
 		
-		const restaurants = await User.find({}).populate("publicFigures").populate("images");
+		const restaurants = await User.find({isActive: true}).populate("publicFigures");
 		
 		//console.log("getttingAllRestaurants::::", restaurants)
 		res.status(201).json(restaurants);
@@ -15,7 +15,21 @@ const getAllRestaurants = async(req, res) => {
 		res.status(500).json({ error: "Something went wrong" });
 	}
     
+}
 
+const adminGetAllRestaurants = async(req, res) => {
+
+	try{
+		
+		const restaurants = await User.find({}).populate("publicFigures");
+		
+		//console.log("getttingAllRestaurants::::", restaurants)
+		res.status(201).json(restaurants);
+	}catch(error){
+		console.log("errors:::errors", error);
+		res.status(500).json({ error: "Something went wrong" });
+	}
+    
 }
 
 const searchRestaurants = async(req, res) => {
@@ -50,9 +64,6 @@ const editRestaurant = async(req,res) => {
 
 const updateRestaurant = async(req,res) => {
 	
-	console.log("req.params::", req.params, "req.body::", req.body);
-	
-	
 	var id = req.params.id;
 	const {
 		name,
@@ -67,22 +78,21 @@ const updateRestaurant = async(req,res) => {
 		twitter,
 		approved,
 		notes,
-	} = req.body.data;
+		images
+	} = req.body;
 	
 	try{
-		const user = await User.find({_id: id});
-		user.name = req.body.name || user.name;
-		user.nameAr = req.body.nameAr || user.nameAr;
-		user.email = req.body.email || user.email;
-		user.phone = req.body.phone || user.phone;
-		user.type = req.body.type || user.type;
-		user.isActive = req.body.isActive || user.isActive;
-		user.location = req.body.location || user.location;
-		user.discount = req.body.discount || user.discount;
-		user.instagram = req.body.instagram || user.instagram;
-		user.snapchat = req.body.snapchat || user.snapchat;
-		user.twitter = req.body.twitter || user.twitter;
-	    user.notes = req.body.notes || user.notes;
+		const user = await User.findById(req.params.id);
+		user.name = name;
+		user.nameAr = nameAr;
+		user.email = email;
+		user.type = type;
+		user.location = location;
+		user.instagram = instagram;
+		user.snapchat = snapchat;
+		user.twitter = twitter;
+	    user.notes = notes;
+		user.images = images || user.images;
 		
 		const updatedUser = await user.save();
 		res.status(200).json({
@@ -90,10 +100,8 @@ const updateRestaurant = async(req,res) => {
 		  name: updatedUser.name,
 		  nameAr: updatedUser.nameAr,
 		  type: updatedUser.type,
-		  phone: updatedUser.phone,
 		  email: updatedUser.email,
 		  isActive: updatedUser.isActive,
-		  discount: updatedUser.discount,
 		  location: updatedUser.location,
 		  instagram: updatedUser.instagram,
 		  snapchat: updatedUser.snapchat,
@@ -107,11 +115,11 @@ const updateRestaurant = async(req,res) => {
 
 const updateRestaurantStatus = async(req,res) => {
 	var id = req.params.id;
-	var data = req.body.data;
+	console.log("ID::req.params.id")
 	try{
-		const restaurant = await User.find({_id: id});
+		const restaurant = await User.findById(req.params.id);
 		restaurant.isActive = !restaurant.isActive;
-		const updatedRestaurant = restaurant.save();
+		const updatedUser = restaurant.save();
 		res.status(200).json({
 		  _id: updatedUser._id,
 		  name: updatedUser.name,
@@ -133,10 +141,21 @@ const updateRestaurantStatus = async(req,res) => {
 }
 
 const deleteRestaurant = async(req, res)=>{
-	var id = req.body.id
 	try{
-		const restaurant = await User.find({_id: id});
+		const restaurant = await User.findById(req.params.id);
 		restaurant.delete();
+		res.status(200).json(restaurant)
+	}catch(error){
+		res.status(500).json({ error: "Something went wrong" });
+	}
+}
+
+const deactivateRestaurant = async(req, res)=>{
+	
+	try{
+		const restaurant = await User.findById(req.params.id);
+		restaurant.isActive = false
+		restaurant.save();
 		res.status(200).json(restaurant)
 	}catch(error){
 		res.status(500).json({ error: "Something went wrong" });
@@ -164,10 +183,12 @@ const fetchImageBins = async(req,res)=>{
 
 module.exports = {
     getAllRestaurants,
+	adminGetAllRestaurants,
     searchRestaurants,
 	fetchImageBins,
 	editRestaurant,
 	updateRestaurant,
 	updateRestaurantStatus,
 	deleteRestaurant,
+	deactivateRestaurant
 }
