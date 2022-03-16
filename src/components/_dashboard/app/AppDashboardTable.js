@@ -37,7 +37,9 @@ import {
   updatePlanDiscount,
   updatePlanActivate,
   updatePlanExpirationDate,
-  deletePlan
+  deletePlan,
+  getPlans,
+  getUserDetails
 } from '../../../actions/userActions';
 
 export default function AppDashboardTable() {
@@ -60,7 +62,7 @@ export default function AppDashboardTable() {
 
   useEffect(() => {
     setUserPlans(userPlans);
-  }, [userDetails, userPlans]);
+  }, [dispatch, userPlans]);
 
   const discountChanged = (index, id) => (e) => {
     console.log('eee::', e.target.value);
@@ -86,26 +88,35 @@ export default function AppDashboardTable() {
     dispatch(updatePlanActivate(id, e.target.checked));
   };
 
-  const deletePlan = (id) => {
+  const delPlan = (id) => {
     dispatch(deletePlan(id));
+    setTimeout(() => {
+      dispatch(getPlans(userInfo._id));
+    }, 250);
   };
 
   return (
     <>
-      {suserPlans
-        ? suserPlans.map((plan, index) => (
+      {userPlans
+        ? userPlans.map((plan, index) => (
             <>
               <Box component="span">
-                <Typography variant="h4" align="center">
-                  {plan.name}
-                </Typography>
-                {userInfo.name === plan.name ? (
-                  <></>
-                ) : (
-                  <IconButton>
-                    <DeleteIcon onClick={() => deletePlan(plan._id)} />
-                  </IconButton>
-                )}
+                <Grid container>
+                  <Grid item>
+                    <Typography variant="h4" align="center">
+                      {plan.name}
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    {userInfo.name === plan.name ? (
+                      <></>
+                    ) : (
+                      <IconButton onClick={() => delPlan(plan._id)}>
+                        <DeleteIcon color="danger" />
+                      </IconButton>
+                    )}
+                  </Grid>
+                </Grid>
               </Box>
 
               <TableContainer component={Paper}>

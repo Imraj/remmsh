@@ -10,7 +10,9 @@ import {
   Paper,
   Box,
   IconButton,
-  Grid
+  Grid,
+  AppBar,
+  Toolbar
 } from '@mui/material';
 
 import Carousel from 'react-material-ui-carousel';
@@ -25,11 +27,11 @@ import { Blink } from '@bdchauvette/react-blink';
 
 import { getImageBinaries } from '../actions/userActions';
 
-function MyCarousel({ images, discount }) {
-  console.log('MyCarousel', images);
+import LineLoader from './home/LineLoader';
 
+function MyCarousel({ images, discount }) {
   return (
-    <Carousel navButtonsAlwaysVisible>
+    <Carousel navButtonsAlwaysVisible indicators={false}>
       {images
         ? images.map((image) => (
             <div style={{ position: 'relative' }}>
@@ -39,6 +41,7 @@ function MyCarousel({ images, discount }) {
                   width="600"
                   height="300"
                   alt={image}
+                  style={{ objectFit: 'cover' }}
                 />
               </Paper>
               <div
@@ -51,7 +54,9 @@ function MyCarousel({ images, discount }) {
                 }}
               >
                 {' '}
-                <Button variant="contained">20% Off</Button>
+                <Button style={{ backgroundColor: '#992731' }} variant="contained">
+                  {discount}% Off
+                </Button>
               </div>
             </div>
           ))
@@ -79,27 +84,25 @@ export default function ResItem({
   return (
     <Card sx={{ maxWidth: 600 }}>
       <CardMedia children={<MyCarousel images={images} discount={discount} />} />
-      <CardContent>
+      <CardContent style={{ marginTop: '0px' }}>
         <Grid container spacing={2}>
-          <Grid item xs={10}>
+          <Grid item xs={9}>
             <Typography gutterBottom align="center" variant="h3" component="div">
               {name}
             </Typography>
           </Grid>
-          <Grid item xs={2}>
-            <Blink>
-              <CircleIcon size="small" color="success" />
-            </Blink>
+          <Grid item xs={3}>
+            <LineLoader />
           </Grid>
         </Grid>
 
         <Grid container spacing={2}>
-          <Grid item xs={10}>
+          <Grid item xs={9}>
             <Typography gutterBottom variant="h6" color="text.secondary">
               {notes}
             </Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <Typography gutterBottom variant="h6" color="text.secondary">
               {district}
             </Typography>
@@ -117,16 +120,14 @@ export default function ResItem({
             </Typography>
           </Grid>
           <Grid item xs={3}>
-            <IconButton variant="outlined">
-              <LocationOnIcon />
-            </IconButton>
-            {distance} mi
+            <LocationOnIcon sx={{ fontSize: '15px', margin: '0px' }} />
+            <span sx={{ fontSize: '60px' }}>{distance} mi</span>
           </Grid>
         </Grid>
       </CardContent>
       <Box>
         <Button variant="contained" fullWidth onClick={navTo(id)} size="large">
-          Click here
+          Get Code
         </Button>
       </Box>
     </Card>

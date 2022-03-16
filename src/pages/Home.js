@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
 // material
-import { styled } from '@mui/material/styles';
+
 import {
   Box,
   Container,
@@ -17,7 +17,9 @@ import {
   TextField,
   Menu,
   MenuItem,
-  ButtonGroup
+  ButtonGroup,
+  AppBar,
+  Toolbar
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -32,6 +34,7 @@ import TabUnstyled, { tabUnstyledClasses } from '@mui/base/TabUnstyled';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePosition } from 'use-position';
 import { createSelector } from 'reselect';
+import { styled } from '@mui/material/styles';
 import ResItem from '../components/ResItem';
 import Header from '../components/home/Header';
 
@@ -98,23 +101,6 @@ const Tab = styled(TabUnstyled)`
     opacity: 0.5;
     cursor: not-allowed;
   }
-`;
-
-const TabPanel = styled(TabPanelUnstyled)`
-  width: 100%;
-  font-family: IBM Plex Sans, sans-serif;
-  font-size: 0.875rem;
-`;
-
-const TabsList = styled(TabsListUnstyled)`
-  min-width: 320px;
-  background-color: ${green[500]};
-  border-radius: 8px;
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  align-content: space-between;
 `;
 
 export default function Home() {
@@ -276,13 +262,12 @@ export default function Home() {
   };
 
   const filterByLocation = () => {
-    setFloc(true);
+    /* setFloc(true);
     setFsearch(false);
     setAllRes(false);
     setOnlyRes(false);
     setOnlyCoffee(false);
-    setOnlyLounge(false);
-    restaurants = restaurants.filter((restaurant) => fetchDistance(restaurant.location) < 0.5);
+    setOnlyLounge(false); */
     console.log('filterByLocation:::', restaurants);
   };
 
@@ -302,7 +287,6 @@ export default function Home() {
   };
 
   const allRestaurants = () => {
-    // restaurants = restaurantsContainer;
     setAllRes(true);
   };
 
@@ -333,15 +317,33 @@ export default function Home() {
 
   return (
     <>
-      <Header />
-      <br />
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar style={{ background: '#fff' }} position="static">
+          <Toolbar>
+            <IconButton
+              variant="contained"
+              size="large"
+              edge="start"
+              color="primary"
+              fontSize="large"
+              onClick={handleClick}
+            >
+              <FilterListIcon />
+            </IconButton>
+            <Typography
+              variant="h6"
+              color="danger"
+              align="center"
+              component="div"
+              style={{ color: '#992731' }}
+              sx={{ flexGrow: 1 }}
+            >
+              Remmsh
+            </Typography>
+          </Toolbar>
+        </AppBar>
+      </Box>
       <Container>
-        <Box>
-          <Button variant="outlined" onClick={handleClick} startIcon={<FilterListIcon />}>
-            Filter
-          </Button>
-        </Box>
-
         <Menu
           id="basic-menu"
           anchorEl={anchorEl}
@@ -370,7 +372,6 @@ export default function Home() {
             </IconButton>
           </MenuItem>
         </Menu>
-        <br />
 
         <Box>
           <IconButton variant="outlined" onClick={() => filterByLocation()}>
@@ -378,14 +379,56 @@ export default function Home() {
           </IconButton>
         </Box>
         <>
-          <ButtonGroup fullWidth variant="outlined" size="large" aria-label="outlined button group">
-            <Button onClick={() => allRestaurants()}>All</Button>
-            <Button onClick={() => onlyRestaurants()}>Restaurant</Button>
-            <Button onClick={() => onlyCoffee()}>Coffee</Button>
-            <Button onClick={() => onlyLounges()}>Lounge</Button>
-          </ButtonGroup>
-          <br />
-          <br />
+          <Grid container spacing={0}>
+            <Grid item xs={3}>
+              <Button
+                variant={allRes ? 'contained' : 'outlined'}
+                color="success"
+                fullWidth
+                size="large"
+                onClick={() => allRestaurants()}
+                style={{ borderRadius: '0px' }}
+              >
+                All
+              </Button>
+            </Grid>
+            <Grid item xs={3}>
+              <Button
+                variant={onlyRes ? 'contained' : 'outlined'}
+                color="success"
+                fullWidth
+                size="large"
+                onClick={() => onlyRestaurants()}
+                style={{ borderRadius: '0px' }}
+              >
+                Restaurant
+              </Button>
+            </Grid>
+            <Grid item xs={3}>
+              <Button
+                variant={onlyCof ? 'contained' : 'outlined'}
+                color="success"
+                fullWidth
+                size="large"
+                onClick={() => onlyCoffee()}
+                style={{ borderRadius: '0px' }}
+              >
+                Coffee
+              </Button>
+            </Grid>
+            <Grid item xs={3}>
+              <Button
+                variant={onlyLou ? 'contained' : 'outlined'}
+                color="success"
+                fullWidth
+                size="large"
+                onClick={() => onlyLounges()}
+                style={{ borderRadius: '0px' }}
+              >
+                Lounge
+              </Button>
+            </Grid>
+          </Grid>
 
           <TextField
             fullWidth

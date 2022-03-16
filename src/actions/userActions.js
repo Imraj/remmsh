@@ -40,6 +40,9 @@ import {
   RESTAURANTS_REQUEST,
   RESTAURANTS_REQUEST_SUCCESS,
   RESTAURANTS_REQUEST_FAIL,
+  ADMIN_GET_RESTAURANTS_REQUEST,
+  ADMIN_GET_RESTAURANTS_FAIL,
+  ADMIN_GET_RESTAURANTS_SUCCESS,
   ADMIN_EDIT_RESTAURANT_REQUEST,
   ADMIN_EDIT_RESTAURANT_FAIL,
   ADMIN_EDIT_RESTAURANT_SUCCESS,
@@ -429,6 +432,32 @@ export const getRestaurants = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: RESTAURANTS_REQUEST_FAIL,
+      payload:
+        error.response && error.response.data.error ? error.response.data.error : error.message
+    });
+
+    showToast(
+      error.response && error.response.data.error ? error.response.data.error : error.message,
+      'error'
+    );
+  }
+};
+
+export const adminGetRestaurants = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: ADMIN_GET_RESTAURANTS_REQUEST
+    });
+
+    const { data } = await api.adminGetRestaurants();
+
+    dispatch({
+      type: ADMIN_GET_RESTAURANTS_SUCCESS,
+      payload: data
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN_GET_RESTAURANTS_FAIL,
       payload:
         error.response && error.response.data.error ? error.response.data.error : error.message
     });

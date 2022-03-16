@@ -66,7 +66,7 @@ export default function AppNewUsers({ userCheckCodeError, userCheckCodeSuccess }
       </Typography>
       <FormikProvider value={formik}>
         <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-          <Stack spacing={3} height="38px">
+          <Stack spacing={3} height="48px">
             <TextField
               sx={{ width: '80%', mx: 'auto' }}
               size="small"

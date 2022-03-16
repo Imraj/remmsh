@@ -7,7 +7,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-
 import { useFormik, Form, FormikProvider } from 'formik';
 
 import {
@@ -36,9 +35,11 @@ import {
 import { LoadingButton } from '@mui/lab';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import Uploader from '../components/authentication/register/Uploader';
 
 import {
   getRestaurants,
+  adminGetRestaurants,
   adminEditRestaurant,
   adminUpdateRestaurant,
   adminUpdateRestaurantStatus,
@@ -60,8 +61,8 @@ const modalStyle = {
 export default function Admin() {
   const dispatch = useDispatch();
 
-  const getRestaurantsStore = useSelector((state) => state.getRestaurants);
-  const { restaurants, error, success } = getRestaurantsStore;
+  const adminGetRestaurantsStore = useSelector((state) => state.adminGetRestaurants);
+  const { restaurants } = adminGetRestaurantsStore;
 
   const editRestaurantStore = useSelector((state) => state.adminEditRestaurant);
   const { restaurant } = editRestaurantStore;
@@ -76,9 +77,10 @@ export default function Admin() {
   };
 
   const [editForm, setEditForm] = useState({ name: 'test' });
+  const [afiles, setAFiles] = useState('');
 
   useEffect(() => {
-    dispatch(getRestaurants());
+    dispatch(adminGetRestaurants());
   }, [dispatch]);
 
   console.log('editForm::editForm::', editForm);
@@ -88,13 +90,21 @@ export default function Admin() {
     setEditForm(restaurants[index]);
     setOpen(true);
   };
-  const statusChanged = (index, id) => {
+  const statusChanged = (id, index) => {
+    console.log('statusChanged:::', id, index);
+    restaurants[index].isActive = !restaurants[index].isActive;
     dispatch(adminUpdateRestaurantStatus(id));
   };
   const handleClose = () => setOpen(false);
 
   const handleSubmit = (id) => {
-    dispatch(adminUpdateRestaurant(editForm));
+    dispatch(adminUpdateRestaurant(id, editForm));
+    handleClose();
+  };
+
+  const deleteImage = (image, index) => {
+    setEditForm({ ...editForm, images: editForm.images.filter((im) => im !== image) });
+    // editForm.images = editForm.images.filter((im) => im !== image);
   };
 
   return (
@@ -116,11 +126,11 @@ export default function Admin() {
                     <TableCell>{res.name}</TableCell>
 
                     <TableCell>
-                      <Switch
-                        value={res.isActive}
-                        onChange={() => statusChanged(res._id)}
-                        defaultChecked
-                      />
+                      {res.isActive ? (
+                        <Switch defaultChecked onClick={() => statusChanged(res._id, index)} />
+                      ) : (
+                        <Switch onClick={() => statusChanged(res._id, index)} />
+                      )}
                     </TableCell>
 
                     <TableCell>
@@ -147,6 +157,7 @@ export default function Admin() {
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
+          style={{ overflow: 'scroll' }}
         >
           <Box sx={modalStyle}>
             <div>
@@ -184,6 +195,36 @@ export default function Admin() {
                   </Select>
                   <FormHelperText />
                 </FormControl>
+
+                <Grid container spacing={1}>
+                  {editForm.images
+                    ? editForm.images.map((image, index) => (
+                        <Grid item xs={3}>
+                          <img
+                            src={`${process.env.REACT_APP_BACKEND_URL}/api/uploads/${image}`}
+                            width="200"
+                            height="50"
+                            alt={image}
+                            style={{ objectFit: 'cover' }}
+                          />
+                          <IconButton
+                            onClick={(e) =>
+                              setEditForm({
+                                ...editForm,
+                                images: editForm.images.filter((im) => im !== image)
+                              })
+                            }
+                          >
+                            <DeleteIcon fontSize="small" />
+                          </IconButton>
+                        </Grid>
+                      ))
+                    : ''}
+                </Grid>
+
+                <Box component="span" sx={{ p: 2, border: '1px dashed grey' }}>
+                  <Uploader afiles={afiles} setAFiles={setAFiles} />
+                </Box>
 
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                   <TextField
@@ -227,7 +268,7 @@ export default function Admin() {
                   size="large"
                   type="submit"
                   variant="contained"
-                  onSubmit={() => handleSubmit(editForm._id)}
+                  onClick={() => handleSubmit(editForm._id)}
                 >
                   Update
                 </LoadingButton>

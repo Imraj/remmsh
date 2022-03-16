@@ -32,6 +32,8 @@ export const updatePlanActivate = (id) => API.patch(`/public-figures/${id}/activ
 
 export const getRestaurants = () => API.get(`/restaurants`);
 export const searchRestaurants = (query) => API.get(`/restaurants/search`, query);
+
+export const adminGetRestaurants = () => API.get(`/restaurants/all`);
 export const adminEditRestaurant = (id) => API.get(`/restaurants/${id}`);
 export const adminUpdateRestaurant = (id, rdata) => API.patch(`/restaurants/${id}`, rdata);
 export const adminUpdateRestaurantStatus = (id) => API.patch(`/restaurants/${id}/status`);

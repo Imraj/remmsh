@@ -4,7 +4,7 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import { styled } from '@mui/material/styles';
 import { Stack, TextField, Card, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { addPlan } from '../../../actions/userActions';
+import { addPlan, getPlans } from '../../../actions/userActions';
 import { USER_CREATE_PLAN_RESET } from '../../../constants/userConstants';
 
 // ----------------------------------------------------------------------
@@ -31,6 +31,8 @@ const LoadingButtonStyled = styled(LoadingButton)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function AppName() {
+  const userInfo = useSelector((state) => state.userLogin.userInfo);
+
   const userDetailsStore = useSelector((state) => state.userDetails);
   const { loading, userDetails } = userDetailsStore;
 
@@ -54,6 +56,10 @@ export default function AppName() {
           uid: ''
         }
       });
+
+      setTimeout(() => {
+        dispatch(getPlans(userInfo._id));
+      }, 250);
     }
   });
 
@@ -71,7 +77,7 @@ export default function AppName() {
       </Typography>
       <FormikProvider value={formik}>
         <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-          <Stack spacing={3} height="36px">
+          <Stack spacing={3} height="48px">
             <TextField
               sx={{ width: '80%', mx: 'auto' }}
               size="small"

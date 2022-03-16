@@ -73,7 +73,10 @@ import {
   FILTER_BY_LOCATION,
   FILTER_ONE,
   FILTER_TWO,
-  FILTER_THREE
+  FILTER_THREE,
+  ADMIN_GET_RESTAURANTS_REQUEST,
+  ADMIN_GET_RESTAURANTS_FAIL,
+  ADMIN_GET_RESTAURANTS_SUCCESS
 } from '../constants/userConstants';
 
 export const userRegisterReducer = (state = {}, action) => {
@@ -232,7 +235,7 @@ export const getPlansReducer = (state = { userPlans: [] }, action) => {
       return { loading: true };
     case USER_PLANS_REQUEST_SUCCESS:
       console.log('userReducers:::getsPlansReducer');
-      return { userPlans: action.payload };
+      return { ...state, userPlans: action.payload };
     case USER_PLANS_REQUEST_FAIL:
       return { loading: false, error: action.payload };
     case USER_PLANS_REQUEST_RESET:
@@ -267,6 +270,19 @@ export const getRestaurantsReducer = (state = { restaurants: [] }, action) => {
       return { loading: false, error: action.payload };
     case RESTAURANTS_REQUEST_RESET:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const adminGetRestaurantsReducer = (state = { restaurants: [] }, action) => {
+  switch (action.type) {
+    case ADMIN_GET_RESTAURANTS_REQUEST:
+      return { loading: true };
+    case ADMIN_GET_RESTAURANTS_SUCCESS:
+      return { restaurants: action.payload };
+    case ADMIN_GET_RESTAURANTS_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }
