@@ -386,7 +386,6 @@ export default function Home() {
             <Grid item xs={3}>
               <Button
                 variant={allRes ? 'contained' : 'outlined'}
-                color="success"
                 fullWidth
                 size="large"
                 onClick={() => allRestaurants()}
@@ -398,7 +397,6 @@ export default function Home() {
             <Grid item xs={3}>
               <Button
                 variant={onlyRes ? 'contained' : 'outlined'}
-                color="success"
                 fullWidth
                 size="large"
                 onClick={() => onlyRestaurants()}
@@ -410,7 +408,6 @@ export default function Home() {
             <Grid item xs={3}>
               <Button
                 variant={onlyCof ? 'contained' : 'outlined'}
-                color="success"
                 fullWidth
                 size="large"
                 onClick={() => onlyCoffee()}
@@ -422,7 +419,6 @@ export default function Home() {
             <Grid item xs={3}>
               <Button
                 variant={onlyLou ? 'contained' : 'outlined'}
-                color="success"
                 fullWidth
                 size="large"
                 onClick={() => onlyLounges()}
