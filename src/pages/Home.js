@@ -288,6 +288,9 @@ export default function Home() {
 
   const allRestaurants = () => {
     setAllRes(true);
+    setOnlyRes(false);
+    setOnlyCoffee(false);
+    setOnlyLounge(false);
   };
 
   const onlyRestaurants = () => {
