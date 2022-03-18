@@ -31,7 +31,7 @@ import TabsListUnstyled from '@mui/base/TabsListUnstyled';
 import TabPanelUnstyled from '@mui/base/TabPanelUnstyled';
 import { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
 import TabUnstyled, { tabUnstyledClasses } from '@mui/base/TabUnstyled';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, connect } from 'react-redux';
 import { usePosition } from 'use-position';
 import { createSelector } from 'reselect';
 import { styled } from '@mui/material/styles';
@@ -224,7 +224,7 @@ export default function Home() {
   useEffect(() => {
     dispatch(getRestaurants());
     setRestaurants(restaurants);
-  }, []);
+  }, [dispatch]);
 
   const filter = (num) => {
     console.log('filter::::num:::', num);
@@ -272,14 +272,12 @@ export default function Home() {
   };
 
   const search = (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      setFsearch(true);
-      setAllRes(false);
-      setOnlyRes(false);
-      setOnlyCoffee(false);
-      setOnlyLounge(false);
-    }
+    setSearchQuery(e.target.value);
+    setFsearch(true);
+    setAllRes(false);
+    setOnlyRes(false);
+    setOnlyCoffee(false);
+    setOnlyLounge(false);
   };
 
   const getClosest = () => {
@@ -423,13 +421,12 @@ export default function Home() {
               </Button>
             </Grid>
           </Grid>
-
+          <br />
           <TextField
             fullWidth
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyPress={search}
-            placeholder="What are you looking for?"
+            onChange={() => search}
+            placeholder="What restaurant are you searching for?"
           />
           <br />
           <br />

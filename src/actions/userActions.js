@@ -160,11 +160,6 @@ export const getUserDetails = (id) => async (dispatch) => {
       payload:
         error.response && error.response.data.error ? error.response.data.error : error.message
     });
-
-    showToast(
-      error.response && error.response.data.error ? error.response.data.error : error.message,
-      'error'
-    );
   }
 };
 
@@ -186,11 +181,6 @@ export const updateUserDisccount = (id, userData) => async (dispatch) => {
       payload:
         error.response && error.response.data.error ? error.response.data.error : error.message
     });
-
-    showToast(
-      error.response && error.response.data.error ? error.response.data.error : error.message,
-      'error'
-    );
   }
 };
 
@@ -212,11 +202,6 @@ export const updateUserActive = (id) => async (dispatch) => {
       payload:
         error.response && error.response.data.error ? error.response.data.error : error.message
     });
-
-    showToast(
-      error.response && error.response.data.error ? error.response.data.error : error.message,
-      'error'
-    );
   }
 };
 
@@ -232,19 +217,12 @@ export const userCheckcode = (codeData) => async (dispatch) => {
       type: USER_CHECK_CODE_SUCCESS,
       payload: data
     });
-
-    showToast('Code is vaild', 'success');
   } catch (error) {
     dispatch({
       type: USER_CHECK_CODE_FAIL,
       payload:
         error.response && error.response.data.error ? error.response.data.error : error.message
     });
-
-    showToast(
-      error.response && error.response.data.error ? error.response.data.error : error.message,
-      'error'
-    );
   }
 };
 
@@ -260,19 +238,12 @@ export const addPlan = (planData) => async (dispatch) => {
       type: USER_CREATE_PLAN_SUCCESS,
       payload: data
     });
-
-    showToast('name is vaild', 'success');
   } catch (error) {
     dispatch({
       type: USER_CREATE_PLAN_FAIL,
       payload:
         error.response && error.response.data.error ? error.response.data.error : error.message
     });
-
-    showToast(
-      error.response && error.response.data.error ? error.response.data.error : error.message,
-      'error'
-    );
   }
 };
 
@@ -289,18 +260,13 @@ export const deletePlan = (id) => async (dispatch) => {
       payload: data
     });
 
-    showToast('plan deleted successfully', 'success');
+    // showToast('plan deleted successfully', 'success');
   } catch (error) {
     dispatch({
       type: USER_DELETE_PLAN_FAIL,
       payload:
         error.response && error.response.data.error ? error.response.data.error : error.message
     });
-
-    showToast(
-      error.response && error.response.data.error ? error.response.data.error : error.message,
-      'error'
-    );
   }
 };
 
@@ -318,18 +284,13 @@ export const getPlans = (id) => async (dispatch) => {
       payload: data
     });
 
-    showToast('plan returned successfully', 'success');
+    // showToast('plan returned successfully', 'success');
   } catch (error) {
     dispatch({
       type: USER_PLANS_REQUEST_FAIL,
       payload:
         error.response && error.response.data.error ? error.response.data.error : error.message
     });
-
-    showToast(
-      error.response && error.response.data.error ? error.response.data.error : error.message,
-      'error'
-    );
   }
 };
 
@@ -346,18 +307,13 @@ export const updatePlanDiscount = (uid, pdata) => async (dispatch) => {
       payload: data
     });
 
-    showToast('discount updated succesfully', 'success');
+    // showToast('discount updated succesfully', 'success');
   } catch (error) {
     dispatch({
       type: USER_UPDATE_DISCOUNT_FAIL,
       payload:
         error.response && error.response.data.error ? error.response.data.error : error.message
     });
-
-    showToast(
-      error.response && error.response.data.error ? error.response.data.error : error.message,
-      'error'
-    );
   }
 };
 
@@ -373,47 +329,36 @@ export const updatePlanExpirationDate = (uid, pdata) => async (dispatch) => {
       type: USER_UPDATE_EXPIRATION_DATE_SUCCESS,
       payload: data
     });
-
-    showToast('expiration date updated succesfully', 'success');
+    // showToast('expiration date updated succesfully', 'success');
   } catch (error) {
     dispatch({
       type: USER_UPDATE_EXPIRATION_DATE_FAIL,
       payload:
         error.response && error.response.data.error ? error.response.data.error : error.message
     });
-
-    showToast(
-      error.response && error.response.data.error ? error.response.data.error : error.message,
-      'error'
-    );
   }
 };
 
-export const updatePlanActivate = (uid) => async (dispatch) => {
+export const updatePlanActivate = (uid, status) => async (dispatch) => {
   try {
     dispatch({
       type: USER_UPDATE_ACTIVE_REQUEST
     });
 
-    const { data } = await api.updatePlanActivate(uid);
+    const { data } = await api.updatePlanActivate(uid, status);
 
     dispatch({
       type: USER_UPDATE_ACTIVE_SUCCESS,
       payload: data
     });
 
-    showToast('plan state updated succesfully', 'success');
+    // showToast('plan state updated succesfully', 'success');
   } catch (error) {
     dispatch({
       type: USER_UPDATE_ACTIVE_FAIL,
       payload:
         error.response && error.response.data.error ? error.response.data.error : error.message
     });
-
-    showToast(
-      error.response && error.response.data.error ? error.response.data.error : error.message,
-      'error'
-    );
   }
 };
 
@@ -462,10 +407,10 @@ export const adminGetRestaurants = () => async (dispatch) => {
         error.response && error.response.data.error ? error.response.data.error : error.message
     });
 
-    showToast(
+    /* showToast(
       error.response && error.response.data.error ? error.response.data.error : error.message,
       'error'
-    );
+    ); */
   }
 };
 
@@ -488,10 +433,10 @@ export const adminEditRestaurant = (id) => async (dispatch) => {
         error.response && error.response.data.error ? error.response.data.error : error.message
     });
 
-    showToast(
+    /* showToast(
       error.response && error.response.data.error ? error.response.data.error : error.message,
       'error'
-    );
+    ); */
   }
 };
 
@@ -507,7 +452,8 @@ export const adminUpdateRestaurant = (id, rdata) => async (dispatch) => {
       type: ADMIN_UPDATE_RESTAURANT_SUCCESS,
       payload: data
     });
-    showToast('restaurant updated succesfully', 'success');
+
+    // showToast('restaurant updated succesfully', 'success');
   } catch (error) {
     dispatch({
       type: ADMIN_UPDATE_RESTAURANT_FAIL,
@@ -515,10 +461,10 @@ export const adminUpdateRestaurant = (id, rdata) => async (dispatch) => {
         error.response && error.response.data.error ? error.response.data.error : error.message
     });
 
-    showToast(
+    /* showToast(
       error.response && error.response.data.error ? error.response.data.error : error.message,
       'error'
-    );
+    ); */
   }
 };
 
@@ -534,7 +480,8 @@ export const adminUpdateRestaurantStatus = (id) => async (dispatch) => {
       type: ADMIN_UPDATE_RESTAURANT_STATUS_SUCCESS,
       payload: data
     });
-    showToast('restaurant status updated succesfully', 'success');
+
+    // showToast('restaurant status updated succesfully', 'success');
   } catch (error) {
     dispatch({
       type: ADMIN_UPDATE_RESTAURANT_STATUS_FAIL,
@@ -542,10 +489,10 @@ export const adminUpdateRestaurantStatus = (id) => async (dispatch) => {
         error.response && error.response.data.error ? error.response.data.error : error.message
     });
 
-    showToast(
+    /* showToast(
       error.response && error.response.data.error ? error.response.data.error : error.message,
       'error'
-    );
+    ); */
   }
 };
 
@@ -561,7 +508,7 @@ export const adminDeleteRestaurant = (id) => async (dispatch) => {
       type: ADMIN_DELETE_RESTAURANT_SUCCESS,
       payload: data
     });
-    showToast('restaurant deleted succesfully', 'success');
+    // showToast('restaurant deleted succesfully', 'success');
   } catch (error) {
     dispatch({
       type: ADMIN_DELETE_RESTAURANT_FAIL,
@@ -569,10 +516,10 @@ export const adminDeleteRestaurant = (id) => async (dispatch) => {
         error.response && error.response.data.error ? error.response.data.error : error.message
     });
 
-    showToast(
+    /* showToast(
       error.response && error.response.data.error ? error.response.data.error : error.message,
       'error'
-    );
+    ); */
   }
 };
 

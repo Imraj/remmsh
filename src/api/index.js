@@ -28,7 +28,8 @@ export const updatePlanDiscount = (id, planData) =>
   API.patch(`/public-figures/${id}/discount`, { discount: planData });
 export const updatePlanExpirationDate = (id, planData) =>
   API.patch(`/public-figures/${id}/expirationdate`, { discountExpireAt: planData });
-export const updatePlanActivate = (id) => API.patch(`/public-figures/${id}/activate`);
+export const updatePlanActivate = (id, status) =>
+  API.patch(`/public-figures/${id}/activate`, status);
 
 export const getRestaurants = () => API.get(`/restaurants`);
 export const searchRestaurants = (query) => API.get(`/restaurants/search`, query);

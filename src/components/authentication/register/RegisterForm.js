@@ -36,7 +36,7 @@ export default function RegisterForm() {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { error, userInfo } = userLogin;
-  const [afiles, setAFiles] = useState(['hello']);
+  const [afiles, setAFiles] = useState([]);
 
   useEffect(() => {
     if (userInfo) {
@@ -54,6 +54,7 @@ export default function RegisterForm() {
       .max(50, 'Too Long!')
       .required('Arabic name is required'),
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
+    phone: Yup.string().required('Contact number is required'),
     password: Yup.string().required('Password is required'),
     type: Yup.string().required('Type is required'),
     location: Yup.string().required('Location is required'),
@@ -77,6 +78,7 @@ export default function RegisterForm() {
       type: '',
       notes: '',
       email: '',
+      phone: '',
       password: '',
       location: '',
       district: '',
@@ -91,6 +93,7 @@ export default function RegisterForm() {
       name,
       nameAr,
       email,
+      phone,
       password,
       type,
       notes,
@@ -111,6 +114,7 @@ export default function RegisterForm() {
       formData.append('name', name);
       formData.append('nameAr', nameAr);
       formData.append('email', email);
+      formData.append('phone', phone);
       formData.append('password', password);
       formData.append('type', type);
       formData.append('notes', notes);
@@ -121,7 +125,7 @@ export default function RegisterForm() {
       formData.append('snapchat', snapchat);
       formData.append('twitter', twitter);
       for (let i = 0; i < afiles.length; i += 1) {
-        formData.append('image[]', afiles[i]);
+        formData.append('images[]', afiles[i]);
       }
 
       dispatch(register(formData));
@@ -178,6 +182,15 @@ export default function RegisterForm() {
 
           <TextField
             fullWidth
+            type="number"
+            label="Contact Number"
+            {...getFieldProps('phone')}
+            error={Boolean(touched.phone && errors.phone)}
+            helperText={touched.phone && errors.phone}
+          />
+
+          <TextField
+            fullWidth
             autoComplete="current-password"
             type={showPassword ? 'text' : 'password'}
             label="Password"
@@ -194,7 +207,7 @@ export default function RegisterForm() {
             error={Boolean(touched.password && errors.password)}
             helperText={touched.password && errors.password}
           />
-          <span>https://www.google.com/maps/@6.5306624,3.3783808,12z</span>
+
           <TextField
             fullWidth
             label="Location URL"

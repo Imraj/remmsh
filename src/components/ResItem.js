@@ -54,7 +54,7 @@ function MyCarousel({ images, discount }) {
                 }}
               >
                 {' '}
-                <Button style={{ backgroundColor: '#992731' }} variant="contained">
+                <Button style={{ backgroundColor: '#ffff', color: '#00AB55' }} variant="contained">
                   {discount}% Off
                 </Button>
               </div>
@@ -84,16 +84,16 @@ export default function ResItem({
   return (
     <Card sx={{ maxWidth: 600 }}>
       <CardMedia children={<MyCarousel images={images} discount={discount} />} />
-      <CardContent style={{ marginTop: '0px' }}>
-        <Grid container spacing={1}>
-          <Grid item xs={10}>
-            <Typography gutterBottom align="center" variant="h3" component="div">
-              {name}
-            </Typography>
-          </Grid>
-          <Grid item xs={2}>
+      <CardContent style={{ marginTop: '0px', paddingTop: '0px', paddingBottom: '0px' }}>
+        <Typography gutterBottom align="center" variant="h3" component="div">
+          {name}
+        </Typography>
+        <Grid container>
+          <Grid item xs={4} />
+          <Grid item xs={6}>
             <LineLoader />
           </Grid>
+          <Grid item xs={2} />
         </Grid>
 
         <Grid container spacing={2}>
@@ -115,7 +115,12 @@ export default function ResItem({
               {new Date(expirationDate).getTime() - Date.now() > 60 * 60 * 24 * 1000 ? (
                 <>Ends {expirationDate}</>
               ) : (
-                <Countdown date={Date.now() + (new Date(expirationDate).getTime() - Date.now())} />
+                <>
+                  Ends{' '}
+                  <Countdown
+                    date={Date.now() + (new Date(expirationDate).getTime() - Date.now())}
+                  />
+                </>
               )}
             </Typography>
           </Grid>

@@ -45,7 +45,6 @@ export default function Uploader({ afiles, setAFiles }) {
         )
       );
       setAFiles(acceptedFiles);
-      console.log('acceptedfiles:::acceptedfiles::uploader', acceptedFiles);
     }
   });
 

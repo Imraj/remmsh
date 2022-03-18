@@ -265,7 +265,8 @@ export const getRestaurantsReducer = (state = { restaurants: [] }, action) => {
     case RESTAURANTS_REQUEST:
       return { loading: true };
     case RESTAURANTS_REQUEST_SUCCESS:
-      return { restaurants: action.payload };
+      // return { ...state, restaurants: action.payload };
+      return { ...state, restaurants: action.payload };
     case RESTAURANTS_REQUEST_FAIL:
       return { loading: false, error: action.payload };
     case RESTAURANTS_REQUEST_RESET:
@@ -323,7 +324,7 @@ export const adminUpdateRestaurantStatusReducer = (state = { restaurants: [] }, 
     case ADMIN_UPDATE_RESTAURANT_STATUS_REQUEST:
       return { loading: true };
     case ADMIN_UPDATE_RESTAURANT_STATUS_SUCCESS:
-      return { loading: false, success: true, restaurants: action.payload };
+      return { ...state, restaurants: action.payload };
     case ADMIN_UPDATE_RESTAURANT_STATUS_FAIL:
       return { loading: false, error: action.payload };
     case ADMIN_UPDATE_RESTAURANT_STATUS_RESET:

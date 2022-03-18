@@ -106,28 +106,28 @@ export default function DashboardApp() {
               </Typography>
             </Box>
           </Grid>
-          <Grid item xs={12} sm={4} md={3} lg={2}>
-            <AppCreditBalance />
-          </Grid>
+          <Grid item xs={12} sm={4} md={3} lg={2} />
         </Grid>
 
         <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
-            {!userCheckCodeLoading && (
+          <Grid item xs={3} />
+          <Grid item xs={12} md={3}>
+            <>
               <AppCheckCode
                 userCheckCodeError={userCheckCodeError}
                 userCheckCodeSuccess={userCheckCodeSuccess}
               />
-            )}
+            </>
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={3}>
             {userDetails && (
               <>
                 <AppName />
               </>
             )}
           </Grid>
+          <Grid item xs={3} />
         </Grid>
 
         <AppDashboardTable />

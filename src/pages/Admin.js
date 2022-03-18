@@ -48,14 +48,16 @@ import {
 
 const modalStyle = {
   position: 'absolute',
-  top: '50%',
+  top: '70%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: 600,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
-  p: 4
+  p: 4,
+  marginTop: '120px',
+  marginBottom: '120px'
 };
 
 export default function Admin() {
@@ -77,7 +79,7 @@ export default function Admin() {
   };
 
   const [editForm, setEditForm] = useState({ name: 'test' });
-  const [afiles, setAFiles] = useState('');
+  const [afiles, setAFiles] = useState([]);
 
   useEffect(() => {
     dispatch(adminGetRestaurants());
@@ -160,7 +162,7 @@ export default function Admin() {
           style={{ overflow: 'scroll' }}
         >
           <Box sx={modalStyle}>
-            <div>
+            <div style={{ marginTop: '100px' }}>
               <Stack spacing={3}>
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                   <TextField
@@ -177,6 +179,13 @@ export default function Admin() {
                   label="Location URL"
                   value={editForm.location}
                   onChange={(e) => setEditForm({ ...editForm, nameAr: e.target.value })}
+                />
+
+                <TextField
+                  fullWidth
+                  label="Contact Number"
+                  value={editForm.phone}
+                  onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })}
                 />
 
                 <TextField

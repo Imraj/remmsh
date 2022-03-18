@@ -10,7 +10,9 @@ import {
   Paper,
   Button,
   TextField,
-  IconButton
+  IconButton,
+  Select,
+  MenuItem
 } from '@mui/material';
 import { Icon } from '@iconify/react';
 import checkCircleFilled from '@iconify/icons-ant-design/check-circle-filled';
@@ -28,6 +30,11 @@ import TableRow from '@mui/material/TableRow';
 
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import DeleteIcon from '@mui/icons-material/Delete';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import PercentIcon from '@mui/icons-material/Percent';
+import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
+import GroupIcon from '@mui/icons-material/Group';
 
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -39,7 +46,8 @@ import {
   updatePlanExpirationDate,
   deletePlan,
   getPlans,
-  getUserDetails
+  getUserDetails,
+  adminUpdateRestaurantStatus
 } from '../../../actions/userActions';
 
 export default function AppDashboardTable() {
@@ -64,7 +72,7 @@ export default function AppDashboardTable() {
     setUserPlans(userPlans);
   }, [dispatch, userPlans]);
 
-  const discountChanged = (index, id) => (e) => {
+  const discountChanged = (e, index, id) => {
     console.log('eee::', e.target.value);
     const newArr = [...suserPlans];
     newArr[index].discount = e.target.value;
@@ -83,9 +91,16 @@ export default function AppDashboardTable() {
     dispatch(updatePlanExpirationDate(id, newValue));
   };
 
-  const switchChanged = (index, id) => (e) => {
+  const switchChanged = (e, index, id) => {
     console.log('SC::::', e.target.checked);
+    suserPlans[index].isActive = !suserPlans[index].isActive;
     dispatch(updatePlanActivate(id, e.target.checked));
+  };
+
+  const statusChanged = (id, index) => {
+    console.log('statusChanged:::', id, index);
+    suserPlans[index].isActive = !suserPlans[index].isActive;
+    dispatch(adminUpdateRestaurantStatus(id));
   };
 
   const delPlan = (id) => {
@@ -95,84 +110,368 @@ export default function AppDashboardTable() {
     }, 250);
   };
 
+  const menuCounter = [
+    0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100
+  ];
+
   return (
-    <>
-      {userPlans
-        ? userPlans.map((plan, index) => (
+    <Container>
+      {suserPlans
+        ? suserPlans.map((plan, index) => (
             <>
-              <Box component="span">
-                <Grid container>
-                  <Grid item>
-                    <Typography variant="h4" align="center">
-                      {plan.name}
-                    </Typography>
+              <Box
+                component="div"
+                fullWidth
+                sx={{
+                  p: 2,
+                  border: '1px solid grey',
+                  borderRadius: '10px',
+                  marginBottom: '20px',
+                  marginTop: '10px',
+                  display: { xs: 'none', sm: 'none', md: 'block', lg: 'block', xl: 'block' }
+                }}
+              >
+                <>
+                  <Box component="span">
+                    <Grid container>
+                      <Grid item xs={10}>
+                        <Typography variant="h5" align="center">
+                          {plan.name}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={2}>
+                        {userInfo.name === plan.name ? (
+                          <></>
+                        ) : (
+                          <IconButton align="center" onClick={() => delPlan(plan._id)}>
+                            <DeleteIcon color="danger" />
+                          </IconButton>
+                        )}
+                      </Grid>
+                    </Grid>
+                  </Box>
+                  <br />
+
+                  <Grid container spacing={2}>
+                    <Grid item>
+                      <Typography variant="h5" align="center">
+                        Statistics
+                      </Typography>
+                      <Box
+                        sx={{
+                          p: 2,
+                          border: '1px solid grey',
+                          borderRadius: '10px',
+                          width: '345px',
+                          height: '150px'
+                        }}
+                      >
+                        <TableContainer>
+                          <Table>
+                            <TableHead>
+                              <TableRow>
+                                {userInfo.name === plan.name ? (
+                                  <TableCell>
+                                    <VisibilityIcon fontSize="large" />
+                                  </TableCell>
+                                ) : (
+                                  ''
+                                )}
+                                <TableCell>
+                                  <GroupIcon fontSize="large" />
+                                </TableCell>
+                                <TableCell>
+                                  <CheckCircleOutlinedIcon fontSize="large" />
+                                </TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              <TableRow>
+                                {userInfo.name === plan.name ? (
+                                  <TableCell>{plan.totalSeen}</TableCell>
+                                ) : (
+                                  ''
+                                )}
+                                <TableCell>{plan.totalEngagement}</TableCell>
+                                <TableCell>{plan.totalActivation}</TableCell>
+                              </TableRow>
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
+                      </Box>
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="h5" align="center">
+                        Change
+                      </Typography>
+                      <Box
+                        sx={{
+                          p: 2,
+                          border: '1px solid grey',
+                          borderRadius: '10px',
+                          width: '335px',
+                          height: '100px'
+                        }}
+                      >
+                        <TableContainer>
+                          <TableBody>
+                            <TableRow spacing={1}>
+                              <TableCell>
+                                <Select
+                                  labelId="demo-simple-select-label"
+                                  id="demo-simple-select"
+                                  value={plan.discount}
+                                  label="0%"
+                                  onChange={(e) => discountChanged(e, index, plan._id)}
+                                >
+                                  {menuCounter.map((i) => (
+                                    <MenuItem value={i}>{i}</MenuItem>
+                                  ))}
+                                </Select>
+                              </TableCell>
+                              <TableCell>
+                                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                  <DateTimePicker
+                                    renderInput={(props) => <TextField {...props} />}
+                                    label="Expiration date"
+                                    value={plan.discountExpireAt}
+                                    onChange={(newValue) => {
+                                      const newArr = [...suserPlans];
+                                      newArr[index].discountExpireAt = newValue;
+                                      setUserPlans(newArr);
+                                      dispatch(updatePlanExpirationDate(plan._id, newValue));
+                                    }}
+                                  />
+                                </LocalizationProvider>
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </TableContainer>
+                      </Box>
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="h5" align="center">
+                        Action
+                      </Typography>
+                      <Box
+                        sx={{
+                          p: 2,
+                          border: '1px solid grey',
+                          borderRadius: '10px',
+                          width: '335px',
+                          height: '100px'
+                        }}
+                      >
+                        <TableContainer>
+                          <TableBody>
+                            <TableRow>
+                              <TableCell>
+                                <Button>
+                                  <FileCopyIcon onClick={() => copyPlanUrl(plan._id)} />
+                                </Button>
+                              </TableCell>
+                              <TableCell>
+                                {plan.isActive ? (
+                                  <Switch
+                                    defaultChecked
+                                    onClick={(e) => switchChanged(e, plan._id, index)}
+                                  />
+                                ) : (
+                                  <Switch onClick={(e) => switchChanged(e, plan._id, index)} />
+                                )}
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </TableContainer>
+                      </Box>
+                    </Grid>
                   </Grid>
-                  <Grid item>
-                    {userInfo.name === plan.name ? (
-                      <></>
-                    ) : (
-                      <IconButton onClick={() => delPlan(plan._id)}>
-                        <DeleteIcon color="danger" />
-                      </IconButton>
-                    )}
-                  </Grid>
-                </Grid>
+                </>
               </Box>
 
-              <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      {userInfo.name === plan.name ? <TableCell>Total Seen</TableCell> : ''}
-                      <TableCell>Total Engagement</TableCell>
-                      <TableCell>Total activation</TableCell>
-                      <TableCell>% Rate</TableCell>
-                      <TableCell>Exp. Date</TableCell>
-                      <TableCell>Copy Link</TableCell>
-                      <TableCell>Offline</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    <TableRow>
-                      {userInfo.name === plan.name ? <TableCell>{plan.totalSeen}</TableCell> : ''}
-                      <TableCell>{plan.totalEngagement}</TableCell>
-                      <TableCell>{plan.totalActivation}</TableCell>
-                      <TableCell>
-                        <TextField
-                          value={plan.discount}
-                          onChange={() => discountChanged(index, plan._id)}
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                          <DateTimePicker
-                            renderInput={(props) => <TextField {...props} />}
-                            label="Expiration date"
-                            value={plan.discountExpireAt}
-                            onChange={(newValue) => {
-                              const newArr = [...suserPlans];
-                              newArr[index].discountExpireAt = newValue;
-                              setUserPlans(newArr);
-                              dispatch(updatePlanExpirationDate(plan._id, newValue));
-                            }}
-                          />
-                        </LocalizationProvider>
-                      </TableCell>
-                      <TableCell>
-                        <Button>
-                          <FileCopyIcon onClick={() => copyPlanUrl(plan._id)} />
-                        </Button>
-                      </TableCell>
-                      <TableCell>
-                        <Switch onChange={() => switchChanged(index, plan._id)} defaultChecked />
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </TableContainer>
+              <Box
+                component="div"
+                fullWidth
+                sx={{
+                  p: 2,
+                  borderRadius: '10px',
+                  marginBottom: '20px',
+                  marginTop: '10px',
+                  display: { xs: 'block', sm: 'block', md: 'none', lg: 'none', xl: 'none' }
+                }}
+              >
+                <>
+                  <Box component="span">
+                    <Grid container>
+                      <Grid item xs={10}>
+                        <Typography variant="h5" align="center">
+                          {plan.name}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={2}>
+                        {userInfo.name === plan.name ? (
+                          <></>
+                        ) : (
+                          <IconButton align="center" onClick={() => delPlan(plan._id)}>
+                            <DeleteIcon color="danger" />
+                          </IconButton>
+                        )}
+                      </Grid>
+                    </Grid>
+                  </Box>
+                  <br /> 9
+                  <Grid container spacing={2}>
+                    <Grid item>
+                      <Typography variant="h5" align="center">
+                        Statistics
+                      </Typography>
+                      <Box
+                        sx={{
+                          p: 2,
+                          border: '1px solid grey',
+                          borderRadius: '10px',
+                          width: '345px',
+                          height: '150px'
+                        }}
+                      >
+                        <TableContainer>
+                          <Table>
+                            <TableHead>
+                              <TableRow>
+                                {userInfo.name === plan.name ? (
+                                  <TableCell>
+                                    <VisibilityIcon fontSize="large" />
+                                  </TableCell>
+                                ) : (
+                                  ''
+                                )}
+                                <TableCell>
+                                  <GroupIcon fontSize="large" />
+                                </TableCell>
+                                <TableCell>
+                                  <CheckCircleOutlinedIcon fontSize="large" />
+                                </TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              <TableRow>
+                                {userInfo.name === plan.name ? (
+                                  <TableCell>{plan.totalSeen}</TableCell>
+                                ) : (
+                                  ''
+                                )}
+                                <TableCell>{plan.totalEngagement}</TableCell>
+                                <TableCell>{plan.totalActivation}</TableCell>
+                              </TableRow>
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
+                      </Box>
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="h5" align="center">
+                        Change
+                      </Typography>
+                      <Box
+                        sx={{
+                          p: 2,
+                          border: '1px solid grey',
+                          borderRadius: '10px',
+                          width: '335px',
+                          height: '100px'
+                        }}
+                      >
+                        <TableContainer>
+                          <TableBody>
+                            <TableRow spacing={1}>
+                              <TableCell>
+                                <Select
+                                  labelId="demo-simple-select-label"
+                                  id="demo-simple-select"
+                                  value={plan.discount}
+                                  label="0%"
+                                  onChange={(e) => discountChanged(index, plan._id)}
+                                >
+                                  {menuCounter.map((i) => (
+                                    <MenuItem value={i}>{i}</MenuItem>
+                                  ))}
+                                </Select>
+                              </TableCell>
+                              <TableCell>
+                                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                  <DateTimePicker
+                                    renderInput={(props) => <TextField {...props} />}
+                                    label="Expiration date"
+                                    value={plan.discountExpireAt}
+                                    onChange={(newValue) => {
+                                      const newArr = [...suserPlans];
+                                      newArr[index].discountExpireAt = newValue;
+                                      setUserPlans(newArr);
+                                      dispatch(updatePlanExpirationDate(plan._id, newValue));
+                                    }}
+                                  />
+                                </LocalizationProvider>
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </TableContainer>
+                      </Box>
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="h5" align="center">
+                        Action
+                      </Typography>
+                      <Box
+                        sx={{
+                          p: 2,
+                          border: '1px solid grey',
+                          borderRadius: '10px',
+                          width: '335px',
+                          height: '100px'
+                        }}
+                      >
+                        <TableContainer>
+                          <TableBody>
+                            <TableRow>
+                              <TableCell>
+                                <Button>
+                                  <FileCopyIcon onClick={() => copyPlanUrl(plan._id)} />
+                                </Button>
+                              </TableCell>
+                              {userInfo.name === plan.name ? (
+                                <TableCell>
+                                  {plan.isActive ? (
+                                    <Switch
+                                      defaultChecked
+                                      onClick={(e) => statusChanged(e, plan._id, index)}
+                                    />
+                                  ) : (
+                                    <Switch onClick={(e) => statusChanged(e, plan._id, index)} />
+                                  )}
+                                </TableCell>
+                              ) : (
+                                <TableCell>
+                                  {plan.isActive ? (
+                                    <Switch
+                                      defaultChecked
+                                      onClick={(e) => switchChanged(e, plan._id, index)}
+                                    />
+                                  ) : (
+                                    <Switch onClick={(e) => switchChanged(e, plan._id, index)} />
+                                  )}
+                                </TableCell>
+                              )}
+                            </TableRow>
+                          </TableBody>
+                        </TableContainer>
+                      </Box>
+                    </Grid>
+                  </Grid>
+                </>
+              </Box>
             </>
           ))
         : ''}
-    </>
+    </Container>
   );
 }
