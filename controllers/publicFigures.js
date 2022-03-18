@@ -12,7 +12,7 @@ const createPublicFigure = async (req, res) => {
 
   try {
     const publicFigureExist = await PublicFigure.findOne({
-      name: convertToSlug(`${req.user.name}-${name}`),
+      name: name,
     });
 
     if (publicFigureExist)
@@ -20,12 +20,12 @@ const createPublicFigure = async (req, res) => {
 
     const publicFigure = new PublicFigure({
       user: req.user.id,
-      name: convertToSlug(`${req.user.name}-${name}`),
-	  discount: 0,
-	  discountExpireAt: moment().add(24,"hours").toString(),
-	  totalSeen: 0,
-	  totalEngagement: 0,
-	  totalActivation: 0
+      name: name,
+	    discount: 0,
+	    discountExpireAt: moment().add(24,"hours").toString(),
+	    totalSeen: 0,
+	    totalEngagement: 0,
+	    totalActivation: 0
     });
 
     //Save changes
@@ -210,11 +210,11 @@ const updatePublicFigureExpirationDate = async (req, res) => {
     if (publicFigure.user._id.toString() !== req.user._id.toString())
       return res.status(401).json({ error: "Not authorized" });
 
-    if (
+    /*if (
       !moment(req.body.discountExpireAt).isSameOrAfter(
         moment().format("YYYY-MM-DDTHH:mm")
       )
-    )
+    )*/
 	 return res
         .status(400)
         .json({ error: "Date and time can not be greater then now" });

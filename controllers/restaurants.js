@@ -65,10 +65,12 @@ const editRestaurant = async(req,res) => {
 const updateRestaurant = async(req,res) => {
 	
 	var id = req.params.id;
+	console.log('restaurants:::updateRestaurant:::', req.params.id, req.body)
 	const {
 		name,
 		nameAr,
 		email,
+		phone,
 		type,
 		location,
 		district,
@@ -86,6 +88,9 @@ const updateRestaurant = async(req,res) => {
 		user.name = name;
 		user.nameAr = nameAr;
 		user.email = email;
+		user.phone = phone;
+		user.district = district;
+		user.districtAr = districtAr;
 		user.type = type;
 		user.location = location;
 		user.instagram = instagram;

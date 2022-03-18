@@ -54,6 +54,7 @@ const registerUser = async (req, res) => {
     name,
     nameAr,
     email,
+    phone,
     password,
     type,
 	notes,
@@ -67,13 +68,10 @@ const registerUser = async (req, res) => {
 
   
   //const files = req.files
+  console.log("users:::req.body",req.body)
 
   try {
     const userExists = await User.findOne({ email });
-    console.log("userExists::", userExists)
-    console.log("req.body:::", req.body);
-    console.log("req.files:::", req.files);
-	console.log("req.user:::", req.user);
 
     if (userExists)
       return res.status(400).json({ error: "User already exists" });
@@ -91,9 +89,10 @@ const registerUser = async (req, res) => {
       name,
       nameAr,
       email,
+      phone,
       password,
       type,
-	  notes,
+	    notes,
       location,
       district,
       districtAr,
@@ -124,7 +123,7 @@ const registerUser = async (req, res) => {
 	
 	const publicFigure = new PublicFigure({
 		user: user._id,
-		name: convertToSlug(`${name}`),
+		name: `${name}`,
 		isActive: false,
 		discount: 0,
 		discountExpireAt: discountExpireAt,
@@ -142,10 +141,6 @@ const registerUser = async (req, res) => {
     await user.save();
     await credit.save();
 	await publicFigure.save();
-	
-	
-	
-    //await upload(req, res);
 
     res.status(201).json({
       _id: user._id,
@@ -221,6 +216,8 @@ const updateUser = async (req, res) => {
     user.email = req.body.email || user.email;
     user.phone = req.body.phone || user.phone;
     user.type = req.body.type || user.type;
+    user.district = req.body.district || user.district;
+    user.districtAr = req.body.districtAr || user.districtAr;
     user.isActive = req.body.isActive || user.isActive;
     user.location = req.body.location || user.location;
     user.discount = req.body.discount || user.discount;
@@ -270,21 +267,21 @@ const updateUserDiscount = async (req, res) => {
     if (parseInt(req.body.discount) <= 0 || parseInt(req.body.discount) > 100)
       return res.status(400).json({ error: "Incorrect discount value" });
 
-    if (
+    /*if (
       !moment(req.body.discountExpireAt).isSameOrAfter(
         moment().format("YYYY-MM-DDTHH:mm")
       )
     )
       return res
         .status(400)
-        .json({ error: "Date and time can not be greater then now" });
+        .json({ error: "Date and time can not be greater then now" });*/
 
     const user = await User.findById(req.params.id);
 
     if (!user) return res.status(404).json({ error: "User not found" });
 
     user.discount = req.body.discount;
-    user.discountExpireAt = req.body.discountExpireAt;
+    //user.discountExpireAt = req.body.discountExpireAt;
 
     const updatedUser = await user.save();
 

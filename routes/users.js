@@ -32,7 +32,7 @@ const upload = multer({storage: storage});*/
 
 let storage = multer.diskStorage({
 	destination: function (req, file, cb) {
-		let path = `/public/uploads`;
+		let path = `./public/uploads`;
 		fs.mkdirsSync(path);
 		cb(null, path);
 	},
@@ -42,7 +42,7 @@ let storage = multer.diskStorage({
 		cb(null, Date.now() + "." + extension);
 	}
 });
-const upload = multer({ storage: storage }).array("image[]", 15);
+const upload = multer({ storage: storage }).array("images[]", 15);
 
 router.post("/register", upload, registerUser);
 router.post("/login", authUser);
