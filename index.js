@@ -37,7 +37,7 @@ app.use("/api/uploads", express.static('public/uploads'))
 
 app.use("/api/users", usersRoutes);
 app.use("/api/public-figures", publicFiguresRoutes);
-app.use("/api/bot", botRoutes);
+// app.use("/api/bot", botRoutes);
 app.use("/api/restaurants",restaurantsRoutes);
 
 
