@@ -27,7 +27,7 @@ app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
 app.get("/api", (req, res) => {
-  res.send("Zoro backend");
+  res.send("Zoro backend api");
 });
 
 app.use("/api/uploads", express.static("public/uploads"));
