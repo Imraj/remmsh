@@ -21,6 +21,5 @@ jobs:
           cache: "npm"
       - name: Dotenv Action
         uses: falti/dotenv-action@v0.2.7
-
       - run: npm ci
       - run: sudo pm2 restart "Zoro-backend"
