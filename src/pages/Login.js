@@ -30,7 +30,6 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Login() {
-  console.log('Test auto deplyment');
   return (
     <RootStyle title="Zoro | Login">
       <AuthLayout>
