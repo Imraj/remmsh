@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-        name: Create and populate .env file
+      - name: Create and populate .env file
         env:
           MONGODB_URL: ${{ secrets.MONGODB_URL }}
           REDIS_URL: ${{ secrets.REDIS_URL }}
