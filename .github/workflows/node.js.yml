@@ -19,7 +19,30 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-      - name: Dotenv Action
-        uses: falti/dotenv-action@v0.2.7
+        name: Create and populate .env file
+        env:
+          MONGODB_URL: ${{ secrets.MONGODB_URL }}
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          PORT: ${{ secrets.PORT }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          INCTANCE_ID: ${{ secrets.INCTANCE_ID }}
+          INCTANCE_TOKEN: ${{ secrets.INCTANCE_TOKEN }}
+          ENV: ${{ secrets.ENV }}
+          LANG: ${{ secrets.LANG }}
+        run: |
+          cat <<EOF > .env
+          MONGODB_URL="$MONGODB_URL"
+          REDIS_URL="$REDIS_URL"
+          PORT="$PORT"
+          JWT_SECRET="$JWT_SECRET"
+          INCTANCE_ID="$INCTANCE_ID"
+          INCTANCE_TOKEN="$INCTANCE_TOKEN"
+          ENV="$ENV"
+          LANG="$LANG"
+          EOF
+
+          echo "cat .env"
+          cat .env
+
       - run: npm ci
       - run: sudo pm2 restart "Zoro-backend"
