@@ -481,6 +481,10 @@ export const adminUpdateRestaurantStatus = (id) => async (dispatch) => {
       payload: data
     });
 
+    dispatch({
+      type: RESTAURANTS_REQUEST
+    });
+
     // showToast('restaurant status updated succesfully', 'success');
   } catch (error) {
     dispatch({

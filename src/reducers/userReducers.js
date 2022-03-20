@@ -266,7 +266,8 @@ export const getRestaurantsReducer = (state = { restaurants: [] }, action) => {
       return { loading: true };
     case RESTAURANTS_REQUEST_SUCCESS:
       // return { ...state, restaurants: action.payload };
-      return { ...state, restaurants: action.payload };
+      // Object.assign(state.restaurants, action.payload);
+      return { ...state.restaurants, restaurants: action.payload };
     case RESTAURANTS_REQUEST_FAIL:
       return { loading: false, error: action.payload };
     case RESTAURANTS_REQUEST_RESET:

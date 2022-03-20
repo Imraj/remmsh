@@ -31,7 +31,7 @@ import TabsListUnstyled from '@mui/base/TabsListUnstyled';
 import TabPanelUnstyled from '@mui/base/TabPanelUnstyled';
 import { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
 import TabUnstyled, { tabUnstyledClasses } from '@mui/base/TabUnstyled';
-import { useDispatch, useSelector, connect } from 'react-redux';
+import { useDispatch, useSelector, connect, shallowEqual } from 'react-redux';
 import { usePosition } from 'use-position';
 import { createSelector } from 'reselect';
 import { styled } from '@mui/material/styles';
@@ -47,11 +47,13 @@ function a11yProps(index) {
   };
 }
 
-/* const render = (status) => {
-  if (status === Status.LOADING) return <h3>{status} ..</h3>;
-  if (status === Status.FAILURE) return <h3>{status} ...</h3>;
-  return null;
-}; */
+/* const mapStateToProps = (state) => ({
+  todos: state
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  addTodo: (obj) => dispatch(addTodos(obj))
+}); */
 
 const green = {
   50: '#f6fff0',
@@ -213,18 +215,18 @@ export default function Home() {
     setAnchorEl(null);
   };
 
-  const restaurantsContainer = restaurants;
-
   console.log('R:::R:::R', typeof restaurants);
 
-  const [arestaurants, setRestaurants] = useState(restaurants);
+  const [arestaurants, setRestaurants] = useState([]);
 
   const toRad = (degree) => (degree * Math.PI) / 180;
 
   useEffect(() => {
-    dispatch(getRestaurants());
-    setRestaurants(restaurants);
-  }, [dispatch]);
+    setInterval(() => {
+      dispatch(getRestaurants());
+      setRestaurants(restaurants);
+    }, 60000);
+  }, []);
 
   const filter = (num) => {
     console.log('filter::::num:::', num);
