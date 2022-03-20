@@ -5,9 +5,6 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 
-
-
-
 // const Redis = require("redis");
 const usersRoutes = require("./routes/users");
 const publicFiguresRoutes = require("./routes/publicFigures");
@@ -30,17 +27,15 @@ app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
 app.get("/api", (req, res) => {
-  res.send("Got it");
+  res.send("Got it, autodeploy worked");
 });
 
-app.use("/api/uploads", express.static('public/uploads'))
+app.use("/api/uploads", express.static("public/uploads"));
 
 app.use("/api/users", usersRoutes);
 app.use("/api/public-figures", publicFiguresRoutes);
 // app.use("/api/bot", botRoutes);
-app.use("/api/restaurants",restaurantsRoutes);
-
-
+app.use("/api/restaurants", restaurantsRoutes);
 
 const CONNECTION_URL = process.env.MONGODB_URL;
 const PORT = process.env.PORT || 5000;
