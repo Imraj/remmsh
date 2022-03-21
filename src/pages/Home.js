@@ -224,10 +224,10 @@ export default function Home() {
   const toRad = (degree) => (degree * Math.PI) / 180;
 
   useEffect(() => {
-    setInterval(() => {
-      dispatch(getRestaurants());
-      setRestaurants(restaurants);
-    }, 60000);
+    // setInterval(() => {
+    dispatch(getRestaurants());
+    setRestaurants(restaurants);
+    // }, 60000);
   }, []);
 
   const filter = (num) => {
