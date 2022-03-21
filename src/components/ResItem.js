@@ -31,7 +31,15 @@ import LineLoader from './home/LineLoader';
 
 function MyCarousel({ images, discount }) {
   return (
-    <Carousel navButtonsAlwaysVisible indicators={false}>
+    <Carousel
+      indicatorContainerProps={{
+        style: {
+          marginTop: '-15px',
+          textAlign: 'center',
+          zIndex: 1
+        }
+      }}
+    >
       {images
         ? images.map((image) => (
             <div style={{ position: 'relative' }}>
@@ -39,7 +47,7 @@ function MyCarousel({ images, discount }) {
                 <img
                   src={`${process.env.REACT_APP_BACKEND_URL}/api/uploads/${image}`}
                   width="600"
-                  height="300"
+                  height="200"
                   alt={image}
                   style={{ objectFit: 'cover' }}
                 />
@@ -48,10 +56,11 @@ function MyCarousel({ images, discount }) {
                 style={{
                   position: 'absolute',
                   color: 'white',
-                  top: 10,
-                  left: '95%',
+                  top: 75,
+                  right: '68%',
                   transform: 'translateX(-50%)'
                 }}
+                sx={{ display: { xs: 'none', sm: 'none', md: 'block', lg: 'block' } }}
               >
                 {' '}
                 <Button style={{ backgroundColor: '#ffff', color: '#00AB55' }} variant="contained">
@@ -85,18 +94,21 @@ export default function ResItem({
     <Card sx={{ maxWidth: 600 }}>
       <CardMedia children={<MyCarousel images={images} discount={discount} />} />
       <CardContent style={{ marginTop: '0px', paddingTop: '0px', paddingBottom: '0px' }}>
-        <Typography gutterBottom align="center" variant="h3" component="div">
-          {name}
-        </Typography>
         <Grid container>
-          <Grid item xs={4} />
-          <Grid item xs={6}>
-            <LineLoader />
+          <Grid item xs={4}>
+            <Typography gutterBottom align="left" variant="h3" component="div">
+              {name}
+            </Typography>
           </Grid>
-          <Grid item xs={2} />
+          <Grid item xs={6} />
+          <Grid item xs={2}>
+            <Blink>
+              <CircleIcon size="small" color="success" />
+            </Blink>
+          </Grid>
         </Grid>
 
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
           <Grid item xs={9}>
             <Typography gutterBottom variant="h6" color="text.secondary">
               {notes}
@@ -109,7 +121,7 @@ export default function ResItem({
           </Grid>
         </Grid>
 
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
           <Grid item xs={9}>
             <Typography gutterBottom variant="subtitle2" color="text.secondary">
               {new Date(expirationDate).getTime() - Date.now() > 60 * 60 * 24 * 1000 ? (
@@ -118,6 +130,7 @@ export default function ResItem({
                 <>
                   Ends{' '}
                   <Countdown
+                    daysInHours
                     date={Date.now() + (new Date(expirationDate).getTime() - Date.now())}
                   />
                 </>
@@ -125,13 +138,20 @@ export default function ResItem({
             </Typography>
           </Grid>
           <Grid item xs={3}>
-            <LocationOnIcon sx={{ fontSize: '15px', margin: '0px' }} />
-            <span sx={{ fontSize: '60px' }}>{distance} mi</span>
+            <Typography gutterBottom color="text.secondary">
+              {distance}mi
+            </Typography>
           </Grid>
         </Grid>
       </CardContent>
       <Box>
-        <Button variant="contained" fullWidth onClick={navTo(id)} size="large">
+        <Button
+          variant="contained"
+          style={{ borderRadius: '35px' }}
+          fullWidth
+          onClick={navTo(id)}
+          size="large"
+        >
           Get Code
         </Button>
       </Box>

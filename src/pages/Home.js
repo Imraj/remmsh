@@ -24,6 +24,8 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import SearchIcon from '@mui/icons-material/Search';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 
 import TabsUnstyled from '@mui/base/TabsUnstyled';
@@ -323,16 +325,6 @@ export default function Home() {
       <Box sx={{ flexGrow: 1 }}>
         <AppBar style={{ background: '#fff' }} position="static">
           <Toolbar>
-            <IconButton
-              variant="contained"
-              size="large"
-              edge="start"
-              color="primary"
-              fontSize="large"
-              onClick={handleClick}
-            >
-              <FilterListIcon />
-            </IconButton>
             <Typography
               variant="h6"
               color="danger"
@@ -377,14 +369,42 @@ export default function Home() {
         </Menu>
         <br />
         <>
-          <Grid container spacing={0}>
+          <Grid container spacing={2}>
+            <Grid item xs={9} md={11}>
+              <TextField
+                fullWidth
+                value={searchQuery}
+                onChange={() => search}
+                style={{ borderRadius: '35px' }}
+                placeholder="What restaurant are you searching for?"
+                InputProps={{
+                  startAdornment: <SearchIcon />
+                }}
+              />
+            </Grid>
+            <Grid item md={1} xs={1}>
+              <Button
+                variant="contained"
+                size="large"
+                edge="start"
+                color="primary"
+                fontSize="large"
+                onClick={handleClick}
+              >
+                <FilterAltIcon />
+              </Button>
+            </Grid>
+          </Grid>
+          <br />
+
+          <Grid container spacing={1}>
             <Grid item xs={3}>
               <Button
                 variant={allRes ? 'contained' : 'outlined'}
                 fullWidth
                 size="large"
                 onClick={() => allRestaurants()}
-                style={{ borderRadius: '0px' }}
+                style={{ borderRadius: '35px' }}
               >
                 All
               </Button>
@@ -395,7 +415,7 @@ export default function Home() {
                 fullWidth
                 size="large"
                 onClick={() => onlyRestaurants()}
-                style={{ borderRadius: '0px' }}
+                style={{ borderRadius: '35px' }}
               >
                 Restaurant
               </Button>
@@ -406,7 +426,7 @@ export default function Home() {
                 fullWidth
                 size="large"
                 onClick={() => onlyCoffee()}
-                style={{ borderRadius: '0px' }}
+                style={{ borderRadius: '35px' }}
               >
                 Coffee
               </Button>
@@ -417,20 +437,12 @@ export default function Home() {
                 fullWidth
                 size="large"
                 onClick={() => onlyLounges()}
-                style={{ borderRadius: '0px' }}
+                style={{ borderRadius: '35px' }}
               >
                 Lounge
               </Button>
             </Grid>
           </Grid>
-          <br />
-          <TextField
-            fullWidth
-            value={searchQuery}
-            onChange={() => search}
-            placeholder="What restaurant are you searching for?"
-          />
-          <br />
           <br />
 
           <Box>
