@@ -1,0 +1,203 @@
+.sectionCard {
+  background-color: #fff;
+  padding-bottom: 140px;
+}
+
+.cardDiv {
+  width: 75%;
+  margin: auto;
+}
+
+.sectionCard h4 {
+  padding-top: 103px;
+  font-weight: 700;
+  font-size: 45px;
+  line-height: 68px;
+  text-align: center;
+  color: #000000;
+  font-family: "PoppinsBold";
+}
+
+.heading {
+  margin-bottom: 84px;
+}
+
+.underlineDiv {
+  width: 191px;
+  height: 8px;
+  margin: auto;
+  display: flex;
+}
+
+.underlineDiv .div {
+  width: 134px;
+  height: 8px;
+  background: #d6d6d6;
+}
+
+.underlineDiv .span {
+  width: 29px;
+  height: 8px;
+  background: #ba0143;
+}
+
+.cardBack {
+  background-color: #f5f5f5;
+  border-radius: 0px 0px 10px 10px;
+}
+
+.cardBack .image-gallery-bullets .image-gallery-bullet {
+  background: rgba(252, 252, 252, 0.55) !important;
+  border-color: rgba(252, 252, 252, 0.55) !important;
+}
+
+.cardBack .image-gallery-slide .image-gallery-image {
+  border-radius: 10px 10px 0px 0px;
+}
+
+.cardBack .image-gallery-bullets .image-gallery-bullet.active {
+  border-color: #ba0143 !important;
+  background-color: #ba0143 !important;
+}
+
+.mainDiv {
+  margin-top: 26px;
+  margin-bottom: 25px;
+}
+
+.flexDivs {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 26px;
+  padding-right: 33px;
+}
+
+.flexDivs h2 {
+  margin-bottom: 15px;
+  font-weight: 700;
+  font-size: 21.5909px;
+  line-height: 32px;
+  color: #000000;
+  font-family: "PoppinsBold";
+}
+
+.flexDivs h3 {
+  font-family: "PoppinsBold";
+  font-weight: 700;
+  font-size: 16.3356px;
+  line-height: 25px;
+  color: #646464;
+}
+
+.rest {
+  color: #ba0143 !important;
+}
+
+.dark {
+  width: 23px;
+  height: 23px;
+  background: #03ef1b;
+  border-radius: 50%;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.light {
+  width: 23px;
+  height: 23px;
+  background: #efad03;
+  border-radius: 50%;
+}
+
+.btnDiv {
+  padding: 0 26px 25px;
+}
+
+.btnDiv button {
+  cursor: pointer;
+  width: 100%;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 27px;
+  color: #ffffff;
+  font-family: "PoppinsSemiBold";
+  padding: 17px 0;
+}
+
+@media only screen and (max-width: 768px) {
+  .sectionCard {
+    padding-bottom: 48px;
+  }
+
+  .sectionCard h4 {
+    display: none;
+  }
+
+  .heading {
+    margin-bottom: 0;
+  }
+
+  .underlineDiv {
+    display: none;
+  }
+
+  .flexDivs {
+    padding-left: 18px;
+    padding-right: 23px;
+  }
+
+  .flexDivs h2 {
+    margin-bottom: 10px;
+    font-size: 15.4078px;
+    line-height: 23px;
+  }
+
+  .flexDivs h3 {
+    font-size: 11.6575px;
+    line-height: 17px;
+  }
+
+  .light {
+    width: 16.41px;
+    height: 16.41px;
+  }
+
+  .dark {
+    width: 16.41px;
+    height: 16.41px;
+  }
+
+  .btnDiv {
+    padding: 0 18px 23px;
+  }
+
+  .btnDiv button {
+    font-size: 12.8453px;
+    line-height: 19px;
+  }
+
+  .cardBack {
+    width: 309px;
+  }
+
+  .image-gallery-slide.center img {
+    width: 309px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .cardDiv {
+    width: 84%;
+  }
+}
