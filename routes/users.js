@@ -10,13 +10,11 @@ const {
   userCheckCode,
 } = require("../controllers/users.js");
 const multer = require("multer");
-let fs = require('fs-extra');
+let fs = require("fs-extra");
 const { auth } = require("../middleware/authMiddleware");
 const uploadFilesMiddleware = require("../middleware/upload");
 
-
 const router = express.Router();
-
 
 /*const storage = multer.diskStorage({
 	destination: (req, res) => {
@@ -28,19 +26,17 @@ const router = express.Router();
 });
 const upload = multer({storage: storage});*/
 
-
-
 let storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-		let path = `./public/uploads`;
-		fs.mkdirsSync(path);
-		cb(null, path);
-	},
-	filename: function (req, file, cb) {
-		let extArray = file.mimetype.split("/");
-		let extension = extArray[extArray.length - 1];
-		cb(null, Date.now() + "." + extension);
-	}
+  destination: function (req, file, cb) {
+    let path = `./public/uploads`;
+    fs.mkdirsSync(path);
+    cb(null, path);
+  },
+  filename: function (req, file, cb) {
+    let extArray = file.mimetype.split("/");
+    let extension = extArray[extArray.length - 1];
+    cb(null, Date.now() + "." + extension);
+  },
 });
 const upload = multer({ storage: storage }).array("images[]", 15);
 
