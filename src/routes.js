@@ -6,8 +6,10 @@ import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import DashboardApp from './pages/DashboardApp';
+import Home from './pages/Home';
 import Payment from './pages/Payment';
 import NotFound from './pages/Page404';
+import Admin from './pages/Admin';
 
 // ----------------------------------------------------------------------
 
@@ -24,6 +26,8 @@ export default function Router() {
         { path: 'payment', element: <Payment /> }
       ]
     },
+    { path: '/home', element: <Home /> },
+    { path: '/admin', element: <Admin /> },
     {
       path: '/',
       element: !isLoggedIn ? <LogoOnlyLayout /> : <Navigate to="/dashboard" />,

@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
@@ -20,11 +20,12 @@ import {
   Select,
   FormHelperText,
   Grid,
-  Alert
+  Alert,
+  Box
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { register } from '../../../actions/userActions';
-
+import Uploader from './Uploader';
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
@@ -35,6 +36,7 @@ export default function RegisterForm() {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { error, userInfo } = userLogin;
+  const [afiles, setAFiles] = useState([]);
 
   useEffect(() => {
     if (userInfo) {
@@ -52,6 +54,7 @@ export default function RegisterForm() {
       .max(50, 'Too Long!')
       .required('Arabic name is required'),
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
+    phone: Yup.string().required('Contact number is required'),
     password: Yup.string().required('Password is required'),
     type: Yup.string().required('Type is required'),
     location: Yup.string().required('Location is required'),
@@ -73,7 +76,9 @@ export default function RegisterForm() {
       name: '',
       nameAr: '',
       type: '',
+      notes: '',
       email: '',
+      phone: '',
       password: '',
       location: '',
       district: '',
@@ -88,8 +93,10 @@ export default function RegisterForm() {
       name,
       nameAr,
       email,
+      phone,
       password,
       type,
+      notes,
       location,
       district,
       districtAr,
@@ -97,21 +104,33 @@ export default function RegisterForm() {
       snapchat,
       twitter
     }) => {
-      dispatch(
-        register(
-          name,
-          nameAr,
-          email,
-          password,
-          type,
-          location,
-          district,
-          districtAr,
-          instagram,
-          snapchat,
-          twitter
-        )
-      );
+      const config = {
+        headers: {
+          'Content-Type': `multipart/form-data`
+        }
+      };
+      const formData = new FormData();
+
+      formData.append('name', name);
+      formData.append('nameAr', nameAr);
+      formData.append('email', email);
+      formData.append('phone', phone);
+      formData.append('password', password);
+      formData.append('type', type);
+      formData.append('notes', notes);
+      formData.append('location', location);
+      formData.append('district', district);
+      formData.append('districtAr', districtAr);
+      formData.append('instagram', instagram);
+      formData.append('snapchat', snapchat);
+      formData.append('twitter', twitter);
+      for (let i = 0; i < afiles.length; i += 1) {
+        formData.append('images[]', afiles[i]);
+      }
+
+      dispatch(register(formData));
+
+      // upload file
     }
   });
 
@@ -131,7 +150,7 @@ export default function RegisterForm() {
           </Alert>
         </Grid>
       )}
-      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+      <Form autoComplete="on" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <TextField
@@ -163,6 +182,15 @@ export default function RegisterForm() {
 
           <TextField
             fullWidth
+            type="number"
+            label="Contact Number"
+            {...getFieldProps('phone')}
+            error={Boolean(touched.phone && errors.phone)}
+            helperText={touched.phone && errors.phone}
+          />
+
+          <TextField
+            fullWidth
             autoComplete="current-password"
             type={showPassword ? 'text' : 'password'}
             label="Password"
@@ -179,9 +207,11 @@ export default function RegisterForm() {
             error={Boolean(touched.password && errors.password)}
             helperText={touched.password && errors.password}
           />
+
           <TextField
             fullWidth
             label="Location URL"
+            placeholder="https://www.google.com/maps/@6.5306624,3.3783808,12z"
             {...getFieldProps('location')}
             error={Boolean(touched.location && errors.location)}
             helperText={touched.location && errors.location}
@@ -196,6 +226,20 @@ export default function RegisterForm() {
             </Select>
             <FormHelperText>{touched.type && errors.type}</FormHelperText>
           </FormControl>
+
+          <TextField
+            fullWidth
+            label="Notes"
+            placeholder="Sea food"
+            {...getFieldProps('notes')}
+            error={Boolean(touched.notes && errors.notes)}
+            helperText={touched.notes && errors.notes}
+          />
+
+          <Box component="span" sx={{ p: 2, border: '1px dashed grey' }}>
+            <Uploader afiles={afiles} setAFiles={setAFiles} />
+          </Box>
+
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <TextField
               fullWidth

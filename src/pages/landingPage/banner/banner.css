@@ -1,0 +1,144 @@
+.banner {
+  margin-top: 30px;
+}
+
+.grid {
+  width: 75%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* flex-wrap: nowrap; */
+  flex-direction: row;
+}
+
+.banner input {
+  font-family: "PoppinsMedium";
+  width: 699px;
+  height: 61px;
+  background: #eaeaea;
+  border-radius: 6px;
+  border: none;
+  margin: 10px;
+  padding-left: 20px;
+  color: #969696;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 27px;
+}
+
+.banner input::placeholder {
+  color: #969696;
+}
+
+.inputDiv {
+  background-color: #fff;
+  width: 946px;
+  height: 81px;
+  margin: auto;
+  position: relative;
+  border-radius: 6px;
+}
+
+.banner .searchBtn {
+  font-family: "PoppinsSemiBold";
+  margin: 10px;
+  border: none;
+  padding: 17px 61px;
+  background: #ba0143;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 27px;
+  color: #ffffff;
+  position: absolute;
+}
+
+.grid div {
+  width: 300px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.buttons {
+  background: #ffffff;
+  border: 3.23864px solid #ebebeb;
+  box-sizing: border-box;
+  border-radius: 5.39773px;
+  width: 100%;
+  height: 95px;
+  font-weight: 700;
+  font-size: 21.5909px;
+  line-height: 32px;
+  color: #646464;
+  font-family: "PoppinsBold";
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.buttons:hover {
+  background: #ba0143;
+  color: #fff;
+}
+
+.buttons.active {
+  background: #ba0143;
+  color: #fff;
+}
+
+@media only screen and (max-width: 768px) {
+  .grid {
+    width: 85%;
+    overflow: auto;
+  }
+
+  .grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .inputDiv {
+    width: 328px;
+    height: 44px;
+  }
+
+  .banner input {
+    width: 55%;
+    font-size: 11.1331px;
+    line-height: 17px;
+    height: 38px;
+    margin: 3px;
+  }
+
+  .banner .searchBtn {
+    top: 0;
+    right: 0;
+    margin: 3px;
+    padding: 10px 37px;
+    font-size: 11.1331px;
+    line-height: 17px;
+  }
+
+  .buttons {
+    border: 1.17989px solid #ebebeb;
+    border-radius: 1.96648px;
+    width: 90px;
+    height: 34.61px;
+    font-size: 10px;
+    line-height: 15px;
+    margin-right: 10px;
+    margin-bottom: 44px;
+  }
+
+  .filter {
+    border: none;
+    width: 45px;
+    height: 44px;
+    background: #ba0143;
+    box-shadow: 0px 0px 8px rgb(186 1 67 / 32%);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 17px;
+  }
+}
