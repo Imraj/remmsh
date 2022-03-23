@@ -1,0 +1,28 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+@font-face {
+  font-family: PoppinsBold;
+  src: url(assets/fonts/Poppins\ Bold\ 700.ttf);
+}
+
+@font-face {
+  font-family: PoppinsMedium;
+  src: url(assets/fonts/Poppins\ Medium\ 500.ttf);
+}
+
+@font-face {
+  font-family: PoppinsSemiBold;
+  src: url(assets/fonts/Poppins\ SemiBold\ 600.ttf);
+}
+
+@font-face {
+  font-family: PoppinsRegular;
+  src: url(assets/fonts/Poppins\ Regular\ 400.ttf);
+}
+
+body {
+  background-color: #f5f5f5;
+}
