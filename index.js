@@ -62,23 +62,25 @@ mongoose
   })
   .catch((e) => console.log(e));
 
-if (process.env.ENV === "production") {
-  // serve the API with signed certificate on 443 (SSL/HTTPS) port
-  const httpsServer = https.createServer(
-    {
-      key: fs.readFileSync(
-        "/etc/letsencrypt/live/dashboard.zorroksa.com/privkey.pem"
-      ),
-      cert: fs.readFileSync(
-        "/etc/letsencrypt/live/dashboard.zorroksa.com/fullchain.pem"
-      ),
-    },
-    app
-  );
+app.listen(PORT, () => console.log(`App is listening on port: ${PORT}`));
 
-  httpsServer.listen(PORT, () => {
-    console.log(`HTTPS Server running on port ${PORT}`);
-  });
-} else {
-  app.listen(PORT, () => console.log(`App is listening on port: ${PORT}`));
-}
+// if (process.env.ENV === "production") {
+//   // serve the API with signed certificate on 443 (SSL/HTTPS) port
+//   const httpsServer = https.createServer(
+//     {
+//       key: fs.readFileSync(
+//         "/etc/letsencrypt/live/dashboard.zorroksa.com/privkey.pem"
+//       ),
+//       cert: fs.readFileSync(
+//         "/etc/letsencrypt/live/dashboard.zorroksa.com/fullchain.pem"
+//       ),
+//     },
+//     app
+//   );
+
+//   httpsServer.listen(PORT, () => {
+//     console.log(`HTTPS Server running on port ${PORT}`);
+//   });
+// } else {
+
+// }
