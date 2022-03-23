@@ -1,8 +1,17 @@
 const moment = require("moment");
+const fs = require('fs');
+const path = require('path');
 const User = require("../models/User");
 const Code = require("../models/Code");
 const Credit = require("../models/Credit");
 const generateToken = require("../utils/generateToken");
+const Plan = require("../models/Plan");
+const PublicFigure = require("../models/PublicFigure");
+const upload = require("../middleware/upload");
+
+const Image = require("../models/Image");
+
+const convertToSlug = require("../utils/convertToSlug");
 
 // @desc    Auth User
 // @route   POST /api/users/admin/login
@@ -45,8 +54,10 @@ const registerUser = async (req, res) => {
     name,
     nameAr,
     email,
+    phone,
     password,
     type,
+	notes,
     location,
     district,
     districtAr,
@@ -55,31 +66,73 @@ const registerUser = async (req, res) => {
     twitter,
   } = req.body;
 
+  
+  //const files = req.files
+  console.log("users:::req.body",req.body)
+
   try {
     const userExists = await User.findOne({ email });
 
     if (userExists)
       return res.status(400).json({ error: "User already exists" });
 
+      if (req.files.length <= 0) {
+        return res
+          .status(400)
+          .send({ message: "You must select at least 1 file." });
+      }
+
+      console.log("req.files::", req.files);
+	
+    let discountExpireAt = moment().add(24,"hours").toString()
     const user = new User({
       name,
       nameAr,
       email,
+      phone,
       password,
       type,
+	    notes,
       location,
       district,
       districtAr,
       instagram,
       snapchat,
       twitter,
+	  discount: 0,
+	  discountExpireAt: discountExpireAt,
     });
-
+	
+	const image = new Image({
+		user: user._id
+	})
+	
+	let images = []
+    req.files.forEach((image) => {
+       images.push(
+			image.filename
+	   );	
+	});
+	user.images = images
+    
     //Create credits record and attchet to the user
     const credit = new Credit({
       user: user._id,
     });
     user.credits = credit._id;
+	
+	const publicFigure = new PublicFigure({
+		user: user._id,
+		name: `${name}`,
+		isActive: false,
+		discount: 0,
+		discountExpireAt: discountExpireAt,
+		totalSeen: 0,
+		totalEngagement: 0,
+		totalActivation: 0
+	});
+
+	user.publicFigures = publicFigure._id;
 
     const token = generateToken(user._id);
     user.tokens = user.tokens.concat({ token });
@@ -87,6 +140,7 @@ const registerUser = async (req, res) => {
     //Save chnages
     await user.save();
     await credit.save();
+	await publicFigure.save();
 
     res.status(201).json({
       _id: user._id,
@@ -95,10 +149,17 @@ const registerUser = async (req, res) => {
       token,
     });
   } catch (error) {
+
     console.log(error);
+    if (error.code === "LIMIT_UNEXPECTED_FILE") {
+      return res.status(400).send({
+        message: "Too many files to upload.",
+      });
+    }
     res.status(500).json({ error: "Something went wrong" });
+
   }
-};
+}; 
 
 // @desc    Get user
 // @route   get /api/users/:id
@@ -118,6 +179,8 @@ const getUser = async (req, res) => {
     res.status(500).json({ error: "Something went wrong" });
   }
 };
+
+
 
 // @desc    Logout user
 // @route   POST /api/logout
@@ -153,13 +216,18 @@ const updateUser = async (req, res) => {
     user.email = req.body.email || user.email;
     user.phone = req.body.phone || user.phone;
     user.type = req.body.type || user.type;
+    user.district = req.body.district || user.district;
+    user.districtAr = req.body.districtAr || user.districtAr;
     user.isActive = req.body.isActive || user.isActive;
     user.location = req.body.location || user.location;
     user.discount = req.body.discount || user.discount;
     user.instagram = req.body.instagram || user.instagram;
     user.snapchat = req.body.snapchat || user.snapchat;
     user.twitter = req.body.twitter || user.twitter;
-    if (req.body.password) {
+	
+	user.notes = req.body.notes || user.notes;
+    
+	if (req.body.password) {
       user.password = req.body.password;
     }
 
@@ -178,6 +246,7 @@ const updateUser = async (req, res) => {
       instagram: updatedUser.instagram,
       snapchat: updatedUser.snapchat,
       twitter: updatedUser.twitter,
+	  notes: updatedUser.notes
     });
   } catch (error) {
     res.status(500).json({ error: "Something went wrong" });
@@ -198,21 +267,21 @@ const updateUserDiscount = async (req, res) => {
     if (parseInt(req.body.discount) <= 0 || parseInt(req.body.discount) > 100)
       return res.status(400).json({ error: "Incorrect discount value" });
 
-    if (
+    /*if (
       !moment(req.body.discountExpireAt).isSameOrAfter(
         moment().format("YYYY-MM-DDTHH:mm")
       )
     )
       return res
         .status(400)
-        .json({ error: "Date and time can not be greater then now" });
+        .json({ error: "Date and time can not be greater then now" });*/
 
     const user = await User.findById(req.params.id);
 
     if (!user) return res.status(404).json({ error: "User not found" });
 
     user.discount = req.body.discount;
-    user.discountExpireAt = req.body.discountExpireAt;
+    //user.discountExpireAt = req.body.discountExpireAt;
 
     const updatedUser = await user.save();
 

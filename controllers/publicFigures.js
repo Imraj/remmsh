@@ -2,6 +2,8 @@ const moment = require("moment");
 const PublicFigure = require("../models/PublicFigure");
 const convertToSlug = require("../utils/convertToSlug");
 
+const User = require("../models/User");
+
 // @desc    Create a new public figure
 // @route   POST /api/public-figures
 // @access  Private
@@ -10,7 +12,7 @@ const createPublicFigure = async (req, res) => {
 
   try {
     const publicFigureExist = await PublicFigure.findOne({
-      name: convertToSlug(`${req.user.name}-${name}`),
+      name: name,
     });
 
     if (publicFigureExist)
@@ -18,10 +20,15 @@ const createPublicFigure = async (req, res) => {
 
     const publicFigure = new PublicFigure({
       user: req.user.id,
-      name: convertToSlug(`${req.user.name}-${name}`),
+      name: name,
+	    discount: 0,
+	    discountExpireAt: moment().add(24,"hours").toString(),
+	    totalSeen: 0,
+	    totalEngagement: 0,
+	    totalActivation: 0
     });
 
-    //Save chnages
+    //Save changes
     await publicFigure.save();
 
     res.status(201).json(publicFigure);
@@ -35,6 +42,7 @@ const createPublicFigure = async (req, res) => {
 // @access  Private
 const getPublicFigures = async (req, res) => {
   try {
+	console.log("req.user.id::::", req.user.id);
     const publicFigures = await PublicFigure.find({ user: req.user.id });
 
     res.status(201).json(publicFigures);
@@ -91,17 +99,21 @@ const updatePublicFigure = async (req, res) => {
 // @access  Private
 const updatePublicFigureDiscount = async (req, res) => {
   try {
+	  
+	console.log("pubfigexp:::", req.params, req.body);  
+	  
     const publicFigure = await PublicFigure.findById(req.params.id).populate(
       "user"
     );
-
+	
+	
     if (!publicFigure)
       return res.status(404).json({ error: "Public figure not found" });
 
     if (publicFigure.user._id.toString() !== req.user._id.toString())
       return res.status(401).json({ error: "Not authorized" });
 
-    if (!req.body.discount || !req.body.discountExpireAt)
+    if (!req.body.discount)
       return res.status(400).json({ error: "Bad Request" });
 
     if (parseInt(req.body.discount) <= 0 || parseInt(req.body.discount) > 100)
@@ -181,6 +193,59 @@ const updatePublicFigureActive = async (req, res) => {
   }
 };
 
+// @desc    Update a public figure expiration date
+// @route   PATCH /api/public-figures/:id/expirationdate
+// @access  Private
+const updatePublicFigureExpirationDate = async (req, res) => {
+  try {
+	 
+	console.log("pubfigexp:::", req.params, req.body);
+    const publicFigure = await PublicFigure.findById(req.params.id).populate(
+      "user"
+    );
+
+    if (!publicFigure)
+      return res.status(404).json({ error: "Public figure not found" });
+
+    if (publicFigure.user._id.toString() !== req.user._id.toString())
+      return res.status(401).json({ error: "Not authorized" });
+
+    /*if (
+      !moment(req.body.discountExpireAt).isSameOrAfter(
+        moment().format("YYYY-MM-DDTHH:mm")
+      )
+    )*/
+	 return res
+        .status(400)
+        .json({ error: "Date and time can not be greater then now" });
+
+    publicFigure.discountExpireAt = req.body.discountExpireAt;
+
+    const updatedPublicFigure = await publicFigure.save();
+
+    res.status(200).json({
+      _id: updatedPublicFigure._id,
+      name: updatedPublicFigure.name,
+      isActive: updatedPublicFigure.isActive,
+      discount: updatedPublicFigure.discount,
+      discountExpireAt: updatedPublicFigure.discountExpireAt,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+};
+
+const deletePlan = async(req, res)=>{
+	try{
+		const plan = await PublicFigure.findById(req.params.id);
+		plan.delete();
+		res.status(200).json({msg: "successful"})
+	}catch(error){
+		res.status(500).json({ error: "Something went wrong" });
+	}
+}
+
 module.exports = {
   createPublicFigure,
   getPublicFigures,
@@ -188,4 +253,6 @@ module.exports = {
   updatePublicFigure,
   updatePublicFigureDiscount,
   updatePublicFigureActive,
+  updatePublicFigureExpirationDate,
+  deletePlan
 };

@@ -26,6 +26,9 @@ const userSchema = mongoose.Schema(
       required: true,
       unique: true,
     },
+    phone: {
+      type: String
+    },
     password: {
       type: String,
       required: true,
@@ -33,6 +36,9 @@ const userSchema = mongoose.Schema(
     location: {
       type: String,
       required: true,
+    },
+    images: {
+      type: [String],
     },
     district: {
       type: String,
@@ -76,6 +82,13 @@ const userSchema = mongoose.Schema(
     twitter: {
       type: String,
     },
+	approved: {
+	  type: Boolean,
+	  default: false,
+	},
+	notes: {
+		type: String
+	},
     tokens: [
       {
         token: {
