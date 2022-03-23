@@ -1,0 +1,22 @@
+.qualityDiv {
+  background: #ba0143;
+  width: 100%;
+  text-align: center;
+}
+
+.qualityDiv h1 {
+  padding: 81px 0;
+  font-weight: 700;
+  font-size: 45px;
+  line-height: 68px;
+  color: #ffffff;
+  font-family: "PoppinsBold";
+}
+
+@media only screen and (max-width: 768px) {
+  .qualityDiv h1 {
+    padding: 41px 75px;
+    font-size: 25px;
+    line-height: 35px;
+  }
+}

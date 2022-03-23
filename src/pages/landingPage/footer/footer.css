@@ -1,0 +1,116 @@
+footer {
+  background-color: rgba(186, 1, 67, 0.15);
+  padding: 152px 133px 141px;
+}
+
+footer h2 {
+  font-family: "PoppinsBold";
+  font-weight: 700;
+  font-size: 46px;
+  line-height: 69px;
+  color: #ba0143;
+  margin-bottom: 28px;
+  margin-top: 20px;
+}
+
+footer h3 {
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 48px;
+  color: #000000;
+  font-family: "PoppinsBold";
+  margin-bottom: 10px;
+}
+
+footer p {
+  font-weight: 400;
+  font-size: 18.6667px;
+  line-height: 180.5%;
+  color: #000000;
+  font-family: "PoppinsRegular";
+}
+
+.firstPara {
+  /* width: 381.33px; */
+  line-height: 28px;
+}
+
+ul {
+  list-style: none;
+}
+
+.company li p {
+  width: 80%;
+}
+
+.pages {
+  margin-left: 16px;
+}
+
+.pages li {
+  position: relative;
+  list-style-image: url(/src/assets/images/arrow.png);
+}
+
+.icons {
+  display: flex;
+}
+
+.icon {
+  width: 39.87px;
+  height: 39.87px;
+  background-color: #ba0143;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+}
+
+@media only screen and (max-width: 768px) {
+  footer {
+    padding: 52px 20px 53px 25px;
+  }
+
+  footer h2 {
+    font-size: 38.0891px;
+    line-height: 57px;
+    margin-bottom: 8px;
+    margin-top: 0px;
+  }
+
+  footer h3 {
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 48px;
+    color: #000000;
+    font-family: "PoppinsBold";
+    margin-bottom: 10px;
+  }
+
+  footer p {
+    font-size: 15.4565px;
+    line-height: 23px;
+  }
+
+  .icons {
+    flex-direction: column;
+    margin-left: 45px;
+    margin-top: 30px;
+  }
+
+  .icon {
+    width: 33.02px;
+    height: 33.02px;
+    margin-bottom: 9px;
+  }
+  /* 
+  .icon img {
+    width: 16px;
+    height: 16px;
+  } */
+
+  .company li p {
+    width: 237px;
+  }
+}
