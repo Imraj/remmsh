@@ -1,0 +1,29 @@
+header {
+  height: 78px;
+  background-color: #fff !important;
+}
+
+header div {
+  text-align: center;
+  /* border-bottom: 2px solid rgba(255, 255, 255, 0.34); */
+}
+
+header h6 {
+  font-family: "PoppinsBold";
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 51px;
+  color: #ba0143;
+  padding-top: 17px;
+}
+
+@media only screen and (max-width: 768px) {
+  header h6 {
+    font-size: 25px;
+    line-height: 38px;
+  }
+
+  header h6 span {
+    color: #ba0143;
+  }
+}
