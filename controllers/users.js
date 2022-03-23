@@ -41,7 +41,6 @@ const authUser = async (req, res) => {
       token,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: "Something went wrong" });
   }
 };
@@ -66,9 +65,6 @@ const registerUser = async (req, res) => {
     twitter,
   } = req.body;
 
-  
-  //const files = req.files
-  console.log("users:::req.body",req.body)
 
   try {
     const userExists = await User.findOne({ email });
@@ -81,8 +77,6 @@ const registerUser = async (req, res) => {
           .status(400)
           .send({ message: "You must select at least 1 file." });
       }
-
-      console.log("req.files::", req.files);
 	
     let discountExpireAt = moment().add(24,"hours").toString()
     const user = new User({
@@ -150,7 +144,6 @@ const registerUser = async (req, res) => {
     });
   } catch (error) {
 
-    console.log(error);
     if (error.code === "LIMIT_UNEXPECTED_FILE") {
       return res.status(400).send({
         message: "Too many files to upload.",

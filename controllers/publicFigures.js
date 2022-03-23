@@ -42,7 +42,6 @@ const createPublicFigure = async (req, res) => {
 // @access  Private
 const getPublicFigures = async (req, res) => {
   try {
-	console.log("req.user.id::::", req.user.id);
     const publicFigures = await PublicFigure.find({ user: req.user.id });
 
     res.status(201).json(publicFigures);
@@ -98,9 +97,7 @@ const updatePublicFigure = async (req, res) => {
 // @route   PATCH /api/public-figures/:id/discount
 // @access  Private
 const updatePublicFigureDiscount = async (req, res) => {
-  try {
-	  
-	console.log("pubfigexp:::", req.params, req.body);  
+  try {  
 	  
     const publicFigure = await PublicFigure.findById(req.params.id).populate(
       "user"
@@ -141,7 +138,6 @@ const updatePublicFigureDiscount = async (req, res) => {
       discountExpireAt: updatedPublicFigure.discountExpireAt,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: "Something went wrong" });
   }
 };
@@ -198,8 +194,7 @@ const updatePublicFigureActive = async (req, res) => {
 // @access  Private
 const updatePublicFigureExpirationDate = async (req, res) => {
   try {
-	 
-	console.log("pubfigexp:::", req.params, req.body);
+	
     const publicFigure = await PublicFigure.findById(req.params.id).populate(
       "user"
     );
@@ -231,7 +226,6 @@ const updatePublicFigureExpirationDate = async (req, res) => {
       discountExpireAt: updatedPublicFigure.discountExpireAt,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: "Something went wrong" });
   }
 };

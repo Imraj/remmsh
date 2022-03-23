@@ -10,7 +10,6 @@ var storage = new GridFsStorage({
     const match = ["image/png", "image/jpeg"];
     if (match.indexOf(file.mimetype) === -1) {
       const filename = `${Date.now()}-remmsh-${file.originalname}`;
-      console.log("filename:::filename::storage", filename);
       return filename;
     }
     return {

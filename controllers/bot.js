@@ -21,7 +21,6 @@
 
 //   const clientPhone = "966576808049";
 
-//   console.log(req.body.typeWebhook);
 //   try {
 //     if (
 //       req.body.typeWebhook === "incomingMessageReceived" ||
@@ -1122,7 +1121,6 @@
 //     }
 //     return res.send();
 //   } catch (error) {
-//     console.error(error);
 //   }
 // };
 
@@ -1152,7 +1150,6 @@
 
 //   const clientPhone = "966576808049";
 
-//   console.log(req.body);
 //   try {
 //     if (
 //       req.body.typeWebhook === "incomingMessageReceived" ||
@@ -1421,7 +1418,6 @@
 //     }
 //     return res.send();
 //   } catch (error) {
-//     console.error(error);
 //   }
 // };
 
@@ -1452,7 +1448,6 @@ const botWebhook = async (req, res) => {
 
   const clientPhone = "966576808049";
 
-  console.log(req.body);
   try {
     if (
       req.body.typeWebhook === "incomingMessageReceived" ||
@@ -1558,7 +1553,7 @@ const botWebhook = async (req, res) => {
     }
     return res.send();
   } catch (error) {
-    console.error(error);
+   
   }
 };
 

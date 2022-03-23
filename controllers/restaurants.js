@@ -7,11 +7,8 @@ const getAllRestaurants = async(req, res) => {
 	try{
 		
 		const restaurants = await User.find({isActive: true}).populate("publicFigures");
-		
-		//console.log("getttingAllRestaurants::::", restaurants)
 		res.status(201).json(restaurants);
 	}catch(error){
-		console.log("errors:::errors", error);
 		res.status(500).json({ error: "Something went wrong" });
 	}
     
@@ -23,10 +20,8 @@ const adminGetAllRestaurants = async(req, res) => {
 		
 		const restaurants = await User.find({}).populate("publicFigures");
 		
-		//console.log("getttingAllRestaurants::::", restaurants)
 		res.status(201).json(restaurants);
 	}catch(error){
-		console.log("errors:::errors", error);
 		res.status(500).json({ error: "Something went wrong" });
 	}
     
@@ -65,7 +60,6 @@ const editRestaurant = async(req,res) => {
 const updateRestaurant = async(req,res) => {
 	
 	var id = req.params.id;
-	console.log('restaurants:::updateRestaurant:::', req.params.id, req.body)
 	const {
 		name,
 		nameAr,
@@ -120,7 +114,6 @@ const updateRestaurant = async(req,res) => {
 
 const updateRestaurantStatus = async(req,res) => {
 	var id = req.params.id;
-	console.log("ID::req.params.id")
 	try{
 		const restaurant = await User.findById(req.params.id);
 		restaurant.isActive = !restaurant.isActive;
@@ -170,7 +163,6 @@ const deactivateRestaurant = async(req, res)=>{
 const fetchImageBins = async(req,res)=>{
 	
 	let images = req.body.images;
-	console.log("fetchImageBins::", images);
 	
 	
     try{

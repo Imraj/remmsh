@@ -11,8 +11,6 @@ const createUserPlan = async(req, res) => {
 
     try{
         const userExists = await Plan.findOne({ name });
-        console.log("userExists::", userExists)
-        console.log("req.body:::", req.body);
 
         if (userExists)
             return res.status(400).json({ error: "Plan already exists" });
@@ -30,7 +28,6 @@ const createUserPlan = async(req, res) => {
         });
 
     }catch(error){
-        console.log(error);
         res.status(500).json({ error: "Something went wrong" });
     }
 
